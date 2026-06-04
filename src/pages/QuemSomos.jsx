@@ -5,22 +5,23 @@ export default function QuemSomos() {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Header */}
-      <section className="bg-blue-800 text-white py-28 px-4 relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover opacity-60"
-          style={{
-            backgroundImage: "url('Inclusive Education_ Lesson Plans and Resources.jpg')",
-          }}
-        />
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-800/30 skew-x-12 transform translate-x-1/4" />
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="bg-gradient-to-br from-brand-primary-dark via-brand-primary to-slate-950 text-white py-28 px-4 relative overflow-hidden">
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        {/* Glow effects */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-brand-primary-light/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-72 bg-brand-secondary/5 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl"
+            className="space-y-6"
           >
-            <h1 className="text-5xl font-bold mb-6">Quem Somos</h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <h1 className="text-5xl font-bold tracking-tight">Quem Somos</h1>
+            <p className="text-xl text-blue-100/80 max-w-2xl mx-auto leading-relaxed">
               Uma associação sem fins lucrativos comprometida com o futuro das crianças moçambicanas, focada na inclusão e no direito à educação de qualidade para todos.
             </p>
           </motion.div>

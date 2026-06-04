@@ -6,10 +6,18 @@ export default function MeiosFinanciamento() {
   return (
     <div className="bg-slate-50 min-h-screen pb-24">
       {/* Header */}
-      <section className="bg-green-600 text-white py-28 px-4">
-        <div className="max-w-7xl mx-auto text-center space-y-6">
-          <h1 className="text-5xl font-bold">Como Ajudar</h1>
-          <p className="text-xl text-green-50 max-w-2xl mx-auto leading-relaxed">
+      <section className="bg-gradient-to-br from-brand-primary-dark via-brand-primary to-slate-950 text-white py-28 px-4 relative overflow-hidden">
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        {/* Glow effects */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-brand-primary-light/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-72 bg-brand-secondary/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
+          <h1 className="text-5xl font-bold tracking-tight">Como Ajudar</h1>
+          <p className="text-xl text-blue-100/80 max-w-2xl mx-auto leading-relaxed">
             A sua contribuição é o motor que nos permite continuar a apoiar centenas de crianças. Escolha o método mais conveniente para si.
           </p>
         </div>

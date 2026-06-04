@@ -3,4 +3,20 @@
 @theme {
   --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+  
+  /* Brand Institutional Palette */
+  --color-brand-primary: #2563eb;
+  --color-brand-primary-hover: #1d4ed8;
+  --color-brand-primary-dark: #1e40af;
+  --color-brand-primary-light: #eff6ff;
+  
+  --color-brand-secondary: #16a34a;
+  --color-brand-secondary-hover: #15803d;
+  --color-brand-secondary-dark: #166534;
+  --color-brand-secondary-light: #f0fdf4;
+  
+  --color-brand-accent: #facc15;
+  --color-brand-accent-hover: #eab308;
+  --color-brand-accent-dark: #ca8a04;
+  --color-brand-accent-light: #fef9c3;
 }

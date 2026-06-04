@@ -5,7 +5,7 @@ import { ArrowRight, Users, Heart, BookOpen, CheckCircle } from 'lucide-react';
 export default function Inicio() {
   return (
     <div className="overflow-hidden">
- 
+
       <section className="relative min-h-[90vh] flex items-center pt-16 px-4">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r " />
@@ -36,7 +36,7 @@ export default function Inicio() {
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Link
                 to="/projetos-sociais"
-                className="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-slate-950 px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-yellow-400/20 active:translate-y-0 active:scale-95 transition-all duration-300 shadow-lg"
+                className="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-slate-950 px-3 py-1 rounded-2xl font-bold flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-yellow-400/20 active:translate-y-0 active:scale-95 transition-all duration-300 shadow-lg"
               >
                 Ver Projetos <ArrowRight size={20} />
               </Link>
@@ -164,9 +164,8 @@ export default function Inicio() {
 
                 {/* Status badge */}
                 <div className="absolute top-5 left-5 z-10">
-                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm shadow-lg ${
-                    project.status === 'Em Curso' ? 'bg-green-500/90 text-white' : 'bg-amber-500/90 text-white'
-                  }`}>
+                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm shadow-lg ${project.status === 'Em Curso' ? 'bg-green-500/90 text-white' : 'bg-amber-500/90 text-white'
+                    }`}>
                     {project.status}
                   </span>
                 </div>
