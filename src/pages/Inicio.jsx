@@ -57,57 +57,99 @@ export default function Inicio() {
         </div>
       </section>
 
-      {/* Intro Section */}
+      {/* Sobre Nós Section */}
       <section className="py-32 px-4 bg-slate-50">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative"
+            transition={{ duration: 0.6 }}
+            className="space-y-12"
           >
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-green-100 rounded-full -z-10" />
-            <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-blue-100 rounded-full -z-10" />
-            <img
-              src="download.jpg"
-              alt="Sala de aula inclusiva"
-              className="rounded-3xl shadow-2xl w-full"
-              referrerPolicy="no-referrer"
-            />
-          </motion.div>
-
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-sm font-bold text-blue-600 uppercase tracking-[0.2em]">A Nossa Missão</h2>
-              <h3 className="text-4xl font-bold text-slate-900 leading-tight">
-                Assegurar a inclusão e qualidade de ensino das pessoas com necessidades especiais
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="text-sm font-bold text-blue-600 uppercase tracking-[0.2em]">Conhece-nos Melhor</h2>
+              <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+                Sobre Nós
               </h3>
             </div>
-            <p className="text-slate-600 leading-relaxed text-lg">
-              A ALEM nasceu da necessidade de criar um ambiente acolhedor que possa garantir a sua inserção laboral no mercado de trabalho, através de ações de proteção e intervenção social, e advocacia dos seus direitos.
-            </p>
-            <ul className="space-y-4">
-              {[
-                'Apoio psicopedagógico especializado',
-                'Formação de professores e educadores',
-                'Sensibilização das famílias e comunidade',
-                'Criação de materiais didáticos adaptados'
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
-                  <div className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center shrink-0">
-                    <CheckCircle size={14} />
+
+            {/* Transparent Box Container */}
+            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-12 shadow-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Missão */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                  className="space-y-4"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                      <Users size={20} className="text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900">Missão</h4>
                   </div>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link
-              to="/quem-somos"
-              className="inline-flex items-center gap-2 text-blue-600 font-bold hover:gap-4 transition-all"
-            >
-              Conheça a nossa história <ArrowRight size={18} />
-            </Link>
-          </div>
+                  <p className="text-slate-700 leading-relaxed">
+                    Promover a inclusão e qualidade de ensino das pessoas com necessidades especiais, garantindo a sua inserção laboral no mercado de trabalho através de ações de proteção, intervenção social e advocacia dos seus direitos.
+                  </p>
+                </motion.div>
+
+                {/* Visão */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="space-y-4"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                      <BookOpen size={20} className="text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900">Visão</h4>
+                  </div>
+                  <p className="text-slate-700 leading-relaxed">
+                    Uma Moçambique onde a educação é verdadeiramente inclusiva, e todas as pessoas com necessidades especiais têm oportunidades iguais de desenvolvimento pessoal, académico e profissional.
+                  </p>
+                </motion.div>
+
+                {/* Valores */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="space-y-4"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+                      <Heart size={20} className="text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900">Valores</h4>
+                  </div>
+                  <ul className="space-y-2">
+                    {['Inclusão', 'Dignidade', 'Justiça Social', 'Excelência'].map((value, i) => (
+                      <li key={i} className="flex items-center gap-2 text-slate-700">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                        {value}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </div>
+            </div>
+
+            <div className="text-center pt-8">
+              <Link
+                to="/quem-somos"
+                className="inline-flex items-center gap-2 text-blue-600 font-bold hover:gap-4 transition-all text-lg"
+              >
+                Conheça a nossa história completa <ArrowRight size={20} />
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
