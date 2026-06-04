@@ -33,8 +33,10 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4',
-        scrolled ? 'bg-white/80 backdrop-blur-lg shadow-lg shadow-slate-900/5 py-3 border-b border-slate-100/80' : 'bg-transparent'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4 border-b',
+        scrolled 
+          ? 'bg-slate-950/95 backdrop-blur-lg shadow-2xl py-3 border-slate-800/80' 
+          : 'bg-slate-950/80 backdrop-blur-md border-slate-900/50'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -43,18 +45,16 @@ export default function Navbar() {
             <img 
               src="IMG-20260323-WA0000.jpg" 
               alt="Logo ALEM" 
-              className="w-10 h-10 rounded-full object-cover border-2 border-white/20 group-hover:border-blue-600/50 group-hover:scale-105 transition-all duration-300 shadow-md"
+              className="w-10 h-10 rounded-full object-cover border-2 border-white/20 group-hover:border-brand-primary/50 group-hover:scale-105 transition-all duration-300 shadow-md"
             />
           </div>
           <div className="flex flex-col">
-            <span className={cn(
-              "font-black text-xl leading-none tracking-wider transition-colors duration-300",
-              scrolled ? "text-slate-900" : "text-white"
-            )}>ALEM</span>
-            <span className={cn(
-              "text-[9px] uppercase tracking-[0.2em] font-extrabold transition-colors duration-300 mt-0.5",
-              scrolled ? "text-yellow-600" : "text-yellow-400"
-            )}>Moçambique</span>
+            <span className="font-black text-xl leading-none tracking-wider text-white transition-colors duration-300">
+              ALEM
+            </span>
+            <span className="text-[9px] uppercase tracking-[0.2em] font-extrabold text-brand-accent transition-colors duration-300 mt-0.5">
+              Moçambique
+            </span>
           </div>
         </Link>
 
@@ -68,19 +68,14 @@ export default function Navbar() {
                 to={link.path}
                 className={cn(
                   'text-sm font-semibold transition-all relative py-2 px-1',
-                  scrolled
-                    ? isActive ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'
-                    : isActive ? 'text-yellow-400' : 'text-white/80 hover:text-white'
+                  isActive ? 'text-brand-accent' : 'text-slate-300 hover:text-white'
                 )}
               >
                 {link.name}
                 {isActive && (
                   <motion.span
                     layoutId="activeNavIndicator"
-                    className={cn(
-                      "absolute bottom-0 left-1 right-1 h-0.5 rounded-full",
-                      scrolled ? "bg-blue-600" : "bg-yellow-400"
-                    )}
+                    className="absolute bottom-0 left-1 right-1 h-0.5 rounded-full bg-brand-accent"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -89,12 +84,7 @@ export default function Navbar() {
           })}
           <Link
             to="/meios-financiamento"
-            className={cn(
-              "px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-300 shadow-md hover:shadow-lg active:scale-95",
-              scrolled
-                ? "bg-green-600 hover:bg-green-700 text-white hover:shadow-green-600/20"
-                : "bg-white hover:bg-slate-100 text-slate-900 hover:shadow-white/10"
-            )}
+            className="px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 bg-brand-secondary hover:bg-brand-secondary-hover text-white hover:shadow-brand-secondary/20"
           >
             Doar Agora
           </Link>
@@ -102,10 +92,7 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className={cn(
-            "md:hidden p-2 rounded-xl transition-all duration-200 active:scale-95",
-            scrolled ? "text-slate-700 hover:bg-slate-100" : "text-white hover:bg-white/10"
-          )}
+          className="md:hidden p-2 rounded-xl transition-all duration-200 active:scale-95 text-slate-300 hover:text-white hover:bg-white/10"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Menu"
         >
@@ -120,7 +107,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden bg-white/95 backdrop-blur-lg border border-slate-200/50 mt-3 overflow-hidden rounded-2xl shadow-2xl absolute left-4 right-4"
+            className="md:hidden bg-slate-950/95 backdrop-blur-lg border border-slate-800/80 mt-3 overflow-hidden rounded-2xl shadow-2xl absolute left-4 right-4"
           >
             <div className="flex flex-col p-4 gap-2">
               {navLinks.map((link) => (
@@ -129,7 +116,9 @@ export default function Navbar() {
                   to={link.path}
                   className={cn(
                     'text-base font-bold p-3 rounded-xl transition-all duration-200 flex items-center',
-                    location.pathname === link.path ? 'bg-blue-50 text-blue-600' : 'text-slate-600 hover:bg-slate-50'
+                    location.pathname === link.path 
+                      ? 'bg-slate-900 text-brand-accent' 
+                      : 'text-slate-300 hover:bg-slate-900/50'
                   )}
                 >
                   {link.name}
@@ -137,7 +126,7 @@ export default function Navbar() {
               ))}
               <Link
                 to="/meios-financiamento"
-                className="bg-green-600 text-white p-4 rounded-xl text-center font-bold shadow-lg shadow-green-600/20 active:scale-[0.98] transition-transform mt-2"
+                className="bg-brand-secondary text-white p-4 rounded-xl text-center font-bold shadow-lg shadow-brand-secondary/20 active:scale-[0.98] transition-transform mt-2"
               >
                 Doar Agora
               </Link>
