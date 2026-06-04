@@ -1,0 +1,7 @@
+{
+  "name": "ALEM - Associação Laços Especiais de Moçambique",
+  "description": "Plataforma da Associação Laços Especiais de Moçambique focada na inclusão de pessoas com dificuldades de aprendizagem como Dislexia e TDAH.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
