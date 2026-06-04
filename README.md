@@ -2,11 +2,10 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# ALEM - Associação Laços Especiais de Moçambique
 
-This contains everything you need to run your app locally.
+Plataforma da Associação Laços Especiais de Moçambique focada na inclusão de pessoas com dificuldades de aprendizagem como Dislexia e TDAH.
 
-View your app in AI Studio: https://ai.studio/apps/2491ff16-ffd0-4105-853d-3e414be93ff4
 
 ## Run Locally
 
