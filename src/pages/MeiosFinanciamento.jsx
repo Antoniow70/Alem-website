@@ -1,6 +1,5 @@
-import { motion } from 'motion/react';
 import PaymentMethod from '../components/PaymentMethod';
-import { CreditCard, Smartphone, QrCode, Heart } from 'lucide-react';
+import { CreditCard, Smartphone } from 'lucide-react';
 
 export default function MeiosFinanciamento() {
   return (
@@ -50,56 +49,6 @@ export default function MeiosFinanciamento() {
             icon={<CreditCard size={32} />}
             color="bg-blue-600"
           />
-        </div>
-      </section>
-
-      {/* QR Code Section */}
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl font-bold text-slate-900">Doação via QR Code</h2>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Para uma doação ainda mais rápida, utilize o seu aplicativo bancário ou de pagamentos para ler o nosso QR Code oficial.
-            </p>
-            <div className="space-y-4">
-              {[
-                'Abra o seu aplicativo de pagamentos',
-                'Selecione "Pagar via QR Code"',
-                'Aponte a câmara para o código ao lado',
-                'Confirme o valor e a transação'
-              ].map((step, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold shrink-0">
-                    {i + 1}
-                  </div>
-                  <p className="text-slate-700 font-medium">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <div className="bg-slate-50 p-12 rounded-[40px] border-2 border-dashed border-slate-200 relative">
-              <QrCode size={240} className="text-slate-900" />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-white p-2 rounded-xl shadow-lg">
-                  <Heart size={32} className="text-red-500" fill="currentColor" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Transparency Note */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto bg-blue-50 p-12 rounded-[40px] text-center space-y-6">
-          <h3 className="text-2xl font-bold text-blue-900">Compromisso com a Transparência</h3>
-          <p className="text-blue-800/80 leading-relaxed">
-            Todas as doações recebidas são auditadas e aplicadas diretamente nos nossos programas de apoio. Publicamos relatórios de contas anuais que podem ser consultados por qualquer doador.
-          </p>
-          <button className="text-blue-600 font-bold hover:underline">
-            Ver Relatórios de Impacto 2025
-          </button>
         </div>
       </section>
     </div>
