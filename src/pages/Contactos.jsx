@@ -28,7 +28,7 @@ const volunteerSchema = z.object({
   message: z.string().optional(),
 });
 
-export default function Contactos() {
+export default function Contactos({ isSection = false }) {
   const [activeTab, setActiveTab] = useState('contact');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -130,83 +130,87 @@ export default function Contactos() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
-      {/* Header */}
-      <section className="relative text-white py-28 px-4 overflow-hidden bg-slate-900">
-        {/* Background Image and Overlays */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="Imagem/contactos.jpg"
-            alt="Contactos"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/45 to-slate-950/20" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
-        </div>
+    <div className={isSection ? "" : "bg-slate-50 min-h-screen pb-24"}>
+      {!isSection && (
+        /* Header */
+        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+          {/* Background Image and Overlays */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="Imagem/contactos.jpg"
+              alt="Contactos"
+              className="w-full h-full object-cover opacity-60"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
+          </div>
 
-        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
-          <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Contactos</h1>
-          <p className="text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-            Estamos aqui para ouvir. Seja para pedir apoio, tornar-se parceiro ou simplesmente dizer ola.
-          </p>
-        </div>
-      </section>
+          <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
+            <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+              Fale Connosco
+            </span>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contactos</h1>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Estamos aqui para ouvir. Seja para pedir apoio, tornar-se parceiro ou simplesmente dizer ola.
+            </p>
+          </div>
+        </section>
+      )}
 
-      <section className="py-24 px-6 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16">
+      <section className="py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Info Column */}
-          <div className="space-y-12">
-            <div className="space-y-8">
-              <h2 className="text-3xl font-bold text-[#14213D]">Informacao de Contacto</h2>
-              <div className="space-y-6">
+          <div className="space-y-8">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+              <h2 className="text-xl font-bold text-slate-900">Informacoes</h2>
+              <div className="space-y-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0">
-                    <Phone size={24} />
+                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                    <Phone size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-[#14213D]">Telefone</p>
-                    <p className="text-slate-600">+258 84 000 0000</p>
-                    <p className="text-slate-600">+258 87 000 0000</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Telefone</p>
+                    <p className="text-slate-700 font-medium text-sm mt-0.5">+258 84 000 0000</p>
+                    <p className="text-slate-700 font-medium text-sm">+258 87 000 0000</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center shrink-0">
-                    <Mail size={24} />
+                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                    <Mail size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-[#14213D]">Email</p>
-                    <p className="text-slate-600">info@alem.mz</p>
-                    <p className="text-slate-600">apoio@alem.mz</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Email</p>
+                    <p className="text-slate-700 font-medium text-sm mt-0.5">info@alem.mz</p>
+                    <p className="text-slate-700 font-medium text-sm">apoio@alem.mz</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center shrink-0">
-                    <MapPin size={24} />
+                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                    <MapPin size={18} />
                   </div>
                   <div>
-                    <p className="font-bold text-[#14213D]">Sede</p>
-                    <p className="text-slate-600">Bairro de Macuti, Beira</p>
-                    <p className="text-slate-600">Mocambique</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sede</p>
+                    <p className="text-slate-700 font-medium text-sm mt-0.5">Bairro de Macuti, Beira</p>
+                    <p className="text-slate-550 text-xs mt-0.5">Mocambique</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-slate-900 text-white p-8 rounded-[32px] space-y-4">
-              <h3 className="text-xl font-bold">Horario de Atendimento</h3>
-              <div className="space-y-2 text-sm text-slate-400">
-                <div className="flex justify-between">
+            <div className="bg-slate-950 text-white p-8 rounded-2xl space-y-4">
+              <h3 className="text-base font-bold tracking-tight">Horario de Atendimento</h3>
+              <div className="space-y-2 text-xs text-slate-400">
+                <div className="flex justify-between border-b border-slate-900 pb-2">
                   <span>Segunda - Sexta</span>
-                  <span>08:00 - 17:00</span>
+                  <span className="font-semibold text-slate-200">08:00 - 17:00</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between border-b border-slate-900 pb-2">
                   <span>Sabado</span>
-                  <span>09:00 - 13:00</span>
+                  <span className="font-semibold text-slate-200">09:00 - 13:00</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Domingo</span>
-                  <span className="text-red-400">Fechado</span>
+                  <span className="text-rose-400 font-semibold">Fechado</span>
                 </div>
               </div>
             </div>
@@ -214,51 +218,57 @@ export default function Contactos() {
 
           {/* Form Column */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden">
-              <div className="flex border-b">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+              <div className="flex border-b border-slate-100 bg-slate-50/50 p-2 gap-2">
                 <button
                   onClick={() => setActiveTab('contact')}
-                  className={`flex-1 py-6 font-bold text-sm uppercase tracking-widest transition-all ${activeTab === 'contact' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-400 hover:text-slate-600'
-                    }`}
+                  className={`flex-1 py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all ${
+                    activeTab === 'contact'
+                      ? 'bg-white text-blue-600 shadow-sm border border-slate-200/50'
+                      : 'text-slate-400 hover:text-slate-600'
+                  }`}
                 >
                   Solicitar Apoio
                 </button>
                 <button
                   onClick={() => setActiveTab('volunteer')}
-                  className={`flex-1 py-6 font-bold text-sm uppercase tracking-widest transition-all ${activeTab === 'volunteer' ? 'text-green-600 border-b-2 border-green-600' : 'text-slate-400 hover:text-slate-600'
-                    }`}
+                  className={`flex-1 py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all ${
+                    activeTab === 'volunteer'
+                      ? 'bg-white text-green-600 shadow-sm border border-slate-200/50'
+                      : 'text-slate-400 hover:text-slate-600'
+                  }`}
                 >
                   Tornar-me Voluntario
                 </button>
               </div>
 
-              <div className="p-10">
+              <div className="p-8 md:p-10">
                 {submitted ? (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-12 space-y-6"
                   >
-                    <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
-                      <CheckCircle2 size={48} />
+                    <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto">
+                      <CheckCircle2 size={36} />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-[#14213D]">Mensagem Enviada!</h3>
-                      <p className="text-slate-500">Obrigado pelo seu contacto. Responderemos o mais breve possivel.</p>
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-slate-900">Mensagem Enviada!</h3>
+                      <p className="text-slate-500 text-sm">Obrigado pelo seu contacto. Responderemos o mais breve possivel.</p>
                     </div>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="text-blue-600 font-bold hover:underline"
+                      className="text-blue-600 text-sm font-bold hover:underline"
                     >
                       Enviar outra mensagem
                     </button>
                   </motion.div>
                 ) : activeTab === 'contact' ? (
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     {isConfigMissing && (
-                      <div className="bg-amber-50 border border-amber-100 p-6 rounded-3xl flex gap-4 items-start">
-                        <AlertCircle className="text-amber-600 shrink-0" size={24} />
-                        <div className="space-y-1">
+                      <div className="bg-amber-50 border border-amber-100 p-5 rounded-xl flex gap-3 items-start">
+                        <AlertCircle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+                        <div className="space-y-0.5">
                           <p className="text-amber-900 font-bold text-sm">Configuracao Necessaria</p>
                           <p className="text-amber-800 text-xs leading-relaxed">
                             O formulario de apoio requer a configuracao do Supabase para guardar os pedidos.
@@ -266,111 +276,116 @@ export default function Contactos() {
                         </div>
                       </div>
                     )}
-                    <form onSubmit={handleSubmit(onContactSubmit)} className={`space-y-6 ${isConfigMissing ? 'opacity-50 pointer-events-none' : ''}`}>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Nome Completo *</label>
+                    <form onSubmit={handleSubmit(onContactSubmit)} className={`space-y-4 ${isConfigMissing ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <div className="space-y-1">
+                        <label className="form-label">Nome Completo *</label>
                         <input
                           {...register('name')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                          className="form-input"
                           placeholder="Seu nome completo"
                         />
-                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                        {errors.name && <p className="text-red-500 text-[11px] mt-1">{errors.name.message}</p>}
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email *</label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="form-label">Email *</label>
                           <input
                             {...register('email')}
                             type="email"
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                            className="form-input"
                             placeholder="seu@email.com"
                           />
-                          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                          {errors.email && <p className="text-red-500 text-[11px] mt-1">{errors.email.message}</p>}
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Contacto (Telefone) *</label>
+                        <div className="space-y-1">
+                          <label className="form-label">Contacto (Telefone) *</label>
                           <input
                             {...register('phone')}
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                            className="form-input"
                             placeholder="Ex: +258 84 000 0000"
                           />
-                          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                          {errors.phone && <p className="text-red-500 text-[11px] mt-1">{errors.phone.message}</p>}
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Genero *</label>
-                          <select
-                            {...register('gender')}
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500 appearance-none"
-                          >
-                            <option value="">Selecionar...</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
-                            <option value="Outro">Outro</option>
-                          </select>
-                          {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="form-label">Genero *</label>
+                          <div className="relative">
+                            <select
+                              {...register('gender')}
+                              className="form-input appearance-none cursor-pointer pr-10"
+                            >
+                              <option value="">Selecionar...</option>
+                              <option value="Masculino">Masculino</option>
+                              <option value="Feminino">Feminino</option>
+                              <option value="Outro">Outro</option>
+                            </select>
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                          </div>
+                          {errors.gender && <p className="text-red-500 text-[11px] mt-1">{errors.gender.message}</p>}
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Data de Nascimento *</label>
+                        <div className="space-y-1">
+                          <label className="form-label">Data de Nascimento *</label>
                           <input
                             type="date"
                             {...register('birthDate')}
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                            className="form-input"
                           />
-                          {errors.birthDate && <p className="text-red-500 text-xs mt-1">{errors.birthDate.message}</p>}
+                          {errors.birthDate && <p className="text-red-500 text-[11px] mt-1">{errors.birthDate.message}</p>}
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Endereco Completo *</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Endereco Completo *</label>
                         <input
                           {...register('address')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                          className="form-input"
                           placeholder="Bairro, Rua, Numero..."
                         />
-                        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
+                        {errors.address && <p className="text-red-500 text-[11px] mt-1">{errors.address.message}</p>}
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Tipo de Necessidade / Apoio *</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Tipo de Necessidade / Apoio *</label>
                         <input
                           {...register('subject')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500"
+                          className="form-input"
                           placeholder="Ex: Apoio Alimentar, Material Escolar, Saude..."
                         />
-                        {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                        {errors.subject && <p className="text-red-500 text-[11px] mt-1">{errors.subject.message}</p>}
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Descricao do Pedido *</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Descricao do Pedido *</label>
                         <textarea
                           {...register('message')}
-                          rows={5}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-blue-500 resize-none"
+                          rows={4}
+                          className="form-input resize-none h-24"
                           placeholder="Descreva detalhadamente a sua situacao e o apoio de que necessita..."
                         />
-                        {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+                        {errors.message && <p className="text-red-500 text-[11px] mt-1">{errors.message.message}</p>}
                       </div>
 
                       <button
                         disabled={isSubmitting}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-xl disabled:opacity-50"
+                        className="btn-primary w-full text-sm py-3 mt-4 disabled:opacity-50"
                       >
-                        {isSubmitting ? <Loader2 className="animate-spin" /> : <Send size={20} />}
+                        {isSubmitting ? <Loader2 className="animate-spin" /> : <Send size={16} />}
                         Enviar Pedido de Apoio
                       </button>
                     </form>
                   </div>
 
                 ) : (
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     {isConfigMissing && (
-                      <div className="bg-amber-50 border border-amber-100 p-6 rounded-3xl flex gap-4 items-start">
-                        <AlertCircle className="text-amber-600 shrink-0" size={24} />
-                        <div className="space-y-1">
+                      <div className="bg-amber-50 border border-amber-100 p-5 rounded-xl flex gap-3 items-start">
+                        <AlertCircle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+                        <div className="space-y-0.5">
                           <p className="text-amber-900 font-bold text-sm">Configuracao Necessaria</p>
                           <p className="text-amber-800 text-xs leading-relaxed">
                             O formulario de voluntariado requer a configuracao do Supabase para guardar as candidaturas.
@@ -378,97 +393,107 @@ export default function Contactos() {
                         </div>
                       </div>
                     )}
-                    <form onSubmit={handleVol(onVolunteerSubmit)} className={`space-y-6 ${isConfigMissing ? 'opacity-50 pointer-events-none' : ''}`}>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Nome Completo</label>
+                    <form onSubmit={handleVol(onVolunteerSubmit)} className={`space-y-4 ${isConfigMissing ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <div className="space-y-1">
+                        <label className="form-label">Nome Completo *</label>
                         <input
                           {...regVol('fullName')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500"
+                          className="form-input"
                           placeholder="Seu nome completo"
                         />
-                        {errVol.fullName && <p className="text-red-500 text-xs mt-1">{errVol.fullName.message}</p>}
+                        {errVol.fullName && <p className="text-red-500 text-[11px] mt-1">{errVol.fullName.message}</p>}
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email</label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="form-label">Email *</label>
                           <input
                             {...regVol('email')}
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500"
+                            className="form-input"
                             placeholder="seu@email.com"
                           />
-                          {errVol.email && <p className="text-red-500 text-xs mt-1">{errVol.email.message}</p>}
+                          {errVol.email && <p className="text-red-500 text-[11px] mt-1">{errVol.email.message}</p>}
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Telefone</label>
+                        <div className="space-y-1">
+                          <label className="form-label">Telefone *</label>
                           <input
                             {...regVol('phone')}
-                            className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500"
+                            className="form-input"
                             placeholder="+258..."
                           />
-                          {errVol.phone && <p className="text-red-500 text-xs mt-1">{errVol.phone.message}</p>}
+                          {errVol.phone && <p className="text-red-500 text-[11px] mt-1">{errVol.phone.message}</p>}
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Genero</label>
-                        <select
-                          {...regVol('gender')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 appearance-none"
-                        >
-                          <option value="">Selecionar...</option>
-                          <option value="Masculino">Masculino</option>
-                          <option value="Feminino">Feminino</option>
-                          <option value="Outro">Outro</option>
-                        </select>
-                        {errVol.gender && <p className="text-red-500 text-xs mt-1">{errVol.gender.message}</p>}
+                      <div className="space-y-1">
+                        <label className="form-label">Genero *</label>
+                        <div className="relative">
+                          <select
+                            {...regVol('gender')}
+                            className="form-input appearance-none cursor-pointer pr-10"
+                          >
+                            <option value="">Selecionar...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>
+                          </select>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                          </div>
+                        </div>
+                        {errVol.gender && <p className="text-red-500 text-[11px] mt-1">{errVol.gender.message}</p>}
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Endereco Completo</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Endereco Completo *</label>
                         <input
                           {...regVol('address')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500"
+                          className="form-input"
                           placeholder="Sua morada completa..."
                         />
-                        {errVol.address && <p className="text-red-500 text-xs mt-1">{errVol.address.message}</p>}
+                        {errVol.address && <p className="text-red-500 text-[11px] mt-1">{errVol.address.message}</p>}
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Area de Interesse</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Area de Interesse *</label>
                         <input
                           {...regVol('interestArea')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500"
+                          className="form-input"
                           placeholder="Ex: Educacao, Saude, Apoio Social..."
                         />
-                        {errVol.interestArea && <p className="text-red-500 text-xs mt-1">{errVol.interestArea.message}</p>}
+                        {errVol.interestArea && <p className="text-red-500 text-[11px] mt-1">{errVol.interestArea.message}</p>}
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Projeto Social de Interesse</label>
-                        <select
-                          {...regVol('projectId')}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 appearance-none"
-                        >
-                          <option value="">Selecionar Projeto...</option>
-                          {projects.map(p => (
-                            <option key={p.id} value={p.id}>{p.name}</option>
-                          ))}
-                        </select>
-                        {errVol.projectId && <p className="text-red-500 text-xs mt-1">{errVol.projectId.message}</p>}
+                      <div className="space-y-1">
+                        <label className="form-label">Projeto Social de Interesse *</label>
+                        <div className="relative">
+                          <select
+                            {...regVol('projectId')}
+                            className="form-input appearance-none cursor-pointer pr-10"
+                          >
+                            <option value="">Selecionar Projeto...</option>
+                            {projects.map(p => (
+                              <option key={p.id} value={p.id}>{p.name}</option>
+                            ))}
+                          </select>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                          </div>
+                        </div>
+                        {errVol.projectId && <p className="text-red-500 text-[11px] mt-1">{errVol.projectId.message}</p>}
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Porque quer ser voluntario? (Opcional)</label>
+                      <div className="space-y-1">
+                        <label className="form-label">Porque quer ser voluntario? (Opcional)</label>
                         <textarea
                           {...regVol('message')}
                           rows={4}
-                          className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 resize-none"
+                          className="form-input resize-none h-24"
                           placeholder="Conte-nos um pouco sobre si..."
                         />
                       </div>
                       <button
                         disabled={isSubmitting}
-                        className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-xl disabled:opacity-50"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white px-5 py-3 text-[14px] font-semibold shadow-sm hover:shadow transition-all duration-200 w-full mt-4 disabled:opacity-50"
                       >
-                        {isSubmitting ? <Loader2 className="animate-spin" /> : <Heart size={20} />}
+                        {isSubmitting ? <Loader2 className="animate-spin" /> : <Heart size={16} />}
                         Candidatar-me a Voluntario
                       </button>
                     </form>

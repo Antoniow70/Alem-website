@@ -12,7 +12,7 @@ const getYouTubeId = (url) => {
   return (match && match[2].length === 11) ? match[2] : '';
 };
 
-export default function ProjetosSociais() {
+export default function ProjetosSociais({ isSection = false }) {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,29 +59,32 @@ export default function ProjetosSociais() {
   });
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
-      {/* Header */}
-      <section className="relative text-white py-28 px-4 overflow-hidden bg-slate-900">
-        {/* Background Image and Overlays */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="Imagem/projetos.jpg"
-            alt="Projetos Sociais"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/45 to-slate-950/20" />
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
-        </div>
+    <div className={isSection ? "" : "bg-slate-50 min-h-screen pb-24"}>
+      {!isSection && (
+        /* Header */
+        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+          {/* Background Image and Overlays */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="Imagem/projetos.jpg"
+              alt="Projetos Sociais"
+              className="w-full h-full object-cover opacity-60"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
+          </div>
 
-        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
-          <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Destaques</h1>
-          <p className="text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-            Conheca as nossas iniciativas em curso e o impacto que estamos a gerar nas comunidades.
-          </p>
-        </div>
-      </section>
+          <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
+            <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+              Iniciativas
+            </span>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Destaques</h1>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Conheca as nossas iniciativas em curso e o impacto que estamos a gerar nas comunidades.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Demo Mode Banner */}
       {isMock && (
@@ -104,40 +107,43 @@ export default function ProjetosSociais() {
       )}
 
       {/* Filters */}
-      <section className="py-6 px-4 bg-slate-50">
+      <section className="py-8 px-6 md:px-12 lg:px-16 bg-slate-50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-between">
-          <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-slate-200 w-full md:w-auto overflow-x-auto">
+          <div className="flex bg-white p-1 rounded-xl shadow-sm border border-slate-200/60 w-full md:w-auto overflow-x-auto">
             {['Todos', 'Planeamento', 'Em Curso', 'Concluido'].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${filter === f ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:text-[#14213D]'
-                  }`}
+                className={`px-5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+                  filter === f
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                }`}
               >
                 {f}
               </button>
             ))}
           </div>
 
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
               type="text"
               placeholder="Pesquisar projetos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 shadow-sm transition-all placeholder-slate-400"
             />
           </div>
         </div>
       </section>
 
       {/* Projects Grid */}
-      <section className="px-4 max-w-7xl mx-auto">
+      <section className="px-6 md:px-12 lg:px-16 max-w-7xl mx-auto">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <Loader2 className="animate-spin text-blue-600" size={48} />
-            <p className="text-slate-500 font-medium">A carregar projetos...</p>
+            <Loader2 className="animate-spin text-blue-600" size={36} />
+            <p className="text-slate-500 text-sm font-medium">A carregar projetos...</p>
           </div>
         ) : filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -151,17 +157,17 @@ export default function ProjetosSociais() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-32 space-y-6 bg-white rounded-[40px] border border-dashed border-slate-200">
-            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400">
-              <Filter size={32} />
+          <div className="text-center py-20 space-y-5 bg-white rounded-2xl border border-dashed border-slate-200 max-w-3xl mx-auto">
+            <div className="w-14 h-14 bg-slate-50 rounded-xl flex items-center justify-center mx-auto text-slate-400">
+              <Filter size={24} />
             </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold text-[#14213D]">Nenhum projeto encontrado</h3>
-              <p className="text-slate-500">Tente ajustar os filtros ou o termo de pesquisa.</p>
+            <div className="space-y-1">
+              <h3 className="text-lg font-bold text-slate-900">Nenhum projeto encontrado</h3>
+              <p className="text-slate-500 text-sm">Tente ajustar os filtros ou o termo de pesquisa.</p>
             </div>
             <button
               onClick={() => { setFilter('Todos'); setSearchTerm(''); }}
-              className="text-blue-600 font-bold hover:underline"
+              className="text-blue-600 text-sm font-bold hover:underline"
             >
               Limpar todos os filtros
             </button>

@@ -5,7 +5,7 @@ import TeamMemberCard from '../components/TeamMemberCard';
 
 import { supabase } from '../lib/supabase';
 
-export default function QuemSomos() {
+export default function QuemSomos({ isSection = false }) {
   const [team, setTeam] = useState([]);
   const [flippedId, setFlippedId] = useState(null);
 
@@ -24,47 +24,52 @@ export default function QuemSomos() {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className={isSection ? "" : "bg-slate-50 min-h-screen"}>
       {/* Header */}
-      <section className="relative text-white pt-28 pb-12 px-4 overflow-hidden bg-slate-900">
-        {/* Background Image and Overlays */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="Imagem/quem somos nos.jpg"
-            alt="Quem Somos"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/45 to-slate-950/20" />
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
-        </div>
+      {!isSection && (
+        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+          {/* Background Image and Overlays */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="Imagem/quem somos nos.jpg"
+              alt="Quem Somos"
+              className="w-full h-full object-cover opacity-60"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
+          </div>
 
-        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Quem Somos</h1>
-            <p className="text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-              Uma associacao sem fins lucrativos comprometida com o futuro das criancas mocambicanas, focada na inclusao e no direito a educacao de qualidade para todos.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+          <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+                Quem Somos
+              </span>
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
+                Nossa Historia e Valores
+              </h1>
+              <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Uma associacao sem fins lucrativos comprometida com o futuro das criancas mocambicanas, focada na inclusao e no direito a educacao de qualidade para todos.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Story */}
-      <section className="pt-8 pb-4 px-6 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-          <div className="space-y-8">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.25em] text-blue-600">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-6">
+            <span className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
               A Nossa Historia
             </span>
-            <h2 className="text-4xl font-bold text-[#14213D] leading-tight">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
               A Associacao Lacos Especiais de Mocambique (ALEM)
             </h2>
-            <div className="space-y-4 text-slate-600 leading-relaxed">
+            <div className="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base">
               <p>
                 E uma organizacao nao governamental, que surgiu em uma iniciativa de estudantes da Universidade Zambeze em Julho de 2021, com a finalidade de responder aos principais desafios dos estudantes com necessidades especiais da Faculdade de Ciencias Sociais e Humanidades (FCSH).
               </p>
@@ -77,7 +82,7 @@ export default function QuemSomos() {
             <img
               src="Imagem/nossa historia.jpg"
               alt="Equipa ALEM - A nossa historia"
-              className="rounded-[40px] shadow-2xl w-full aspect-[4/3] object-cover"
+              className="rounded-2xl shadow-md w-full aspect-[4/3] object-cover border border-slate-100"
               referrerPolicy="no-referrer"
             />
           </div>
@@ -85,38 +90,38 @@ export default function QuemSomos() {
       </section>
 
       {/* Mission/Vision */}
-      <section className="pt-4 pb-4 px-4 bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               title: 'Missao',
               desc: 'Assegurar a inclusao e qualidade de ensino das pessoas com necessidades especiais, assim como garantir a sua insercao laboral no mercado de trabalho, atraves de acoes de protecao e intervencao social, e advocacia dos seus direitos.',
-              icon: <Target className="text-blue-600" />,
-              color: 'bg-white border border-slate-200'
+              icon: <Target className="text-blue-600 w-8 h-8" />,
+              color: 'bg-blue-50/50 border border-slate-100'
             },
             {
               title: 'Visao',
               desc: 'Estabelecer uma plataforma funcional e de referencia nacional, especializada em servicos sociais de rastreio, inclusao escolar e laboral para as pessoas com necessidades especiais.',
-              icon: <Award className="text-green-600" />,
-              color: 'bg-white border border-slate-200'
+              icon: <Award className="text-emerald-600 w-8 h-8" />,
+              color: 'bg-emerald-50/30 border border-slate-100'
             },
             {
               title: 'Valores',
               desc: 'Unidade, Respeito pelos Direitos Humanos, Compaixao, Comprometimento, Responsabilidade, Honestidade, Justica Social, Solidariedade, Transparencia, Equidade e Universalidade.',
-              icon: <Users className="text-purple-600" />,
-              color: 'bg-white border border-slate-200'
+              icon: <Users className="text-indigo-600 w-8 h-8" />,
+              color: 'bg-indigo-50/30 border border-slate-100'
             }
           ].map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -10 }}
-              className={`${item.color} p-10 rounded-[32px] space-y-6 shadow-lg transition-all duration-300`}
+              whileHover={{ y: -4 }}
+              className={`${item.color} p-8 rounded-2xl space-y-5 shadow-sm transition-all duration-300 bg-white`}
             >
-              <div className="w-14 h-14 flex items-center justify-center">
+              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-50">
                 {item.icon}
               </div>
-              <h3 className="text-2xl font-bold text-[#14213D]">{item.title}</h3>
-              <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+              <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
+              <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -124,14 +129,14 @@ export default function QuemSomos() {
 
       {/* Team Section */}
       {team.length > 0 && (
-        <section className="pb-24 pt-8 px-4 bg-slate-50">
-          <div className="max-w-7xl mx-auto space-y-16">
-            <div className="text-left space-y-4">
-              <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.25em] text-blue-600">
+        <section className="py-20 px-6 md:px-12 lg:px-16 bg-slate-50">
+          <div className="max-w-7xl mx-auto space-y-12">
+            <div className="text-left space-y-3">
+              <span className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
                 A Nossa Equipa
               </span>
-              <h3 className="text-4xl font-bold text-[#14213D]">Membros</h3>
-              <p className="text-slate-500 text-base">Clique em saber mais para conhecer o membro.</p>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Membros</h3>
+              <p className="text-slate-500 text-sm">Clique em saber mais para conhecer o membro.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">

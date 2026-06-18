@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import ScrollToTop from './components/ScrollToTop';
+import Home from './pages/Home';
 import Inicio from './pages/Inicio';
 import QuemSomos from './pages/QuemSomos';
 import OQueFazemos from './pages/OQueFazemos';
@@ -24,15 +25,15 @@ function AppLayout() {
       {!isAdmin && <Navbar />}
       <main className={`flex-grow ${isAdmin ? '' : 'pt-16'}`}>
         <Routes>
-          <Route path="/" element={<Navigate to="/inicio" replace />} />
-          <Route path="/inicio" element={<Inicio />} />
-          <Route path="/quem-somos" element={<QuemSomos />} />
-          <Route path="/o-que-fazemos" element={<OQueFazemos />} />
-          <Route path="/projetos-sociais" element={<ProjetosSociais />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/inicio" element={<Navigate to="/" replace />} />
+          <Route path="/quem-somos" element={<Navigate to="/" replace />} />
+          <Route path="/o-que-fazemos" element={<Navigate to="/" replace />} />
+          <Route path="/projetos-sociais" element={<Navigate to="/" replace />} />
+          <Route path="/contactos" element={<Navigate to="/" replace />} />
+          <Route path="/localizacao" element={<Navigate to="/" replace />} />
           <Route path="/projetos-sociais/:id" element={<ProjetoDetalhes />} />
           <Route path="/doar" element={<Doar />} />
-          <Route path="/contactos" element={<Contactos />} />
-          <Route path="/localizacao" element={<Localizacao />} />
           <Route path="/historias-beneficiarios" element={<HistoriasBeneficiarios />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>

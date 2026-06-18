@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { supabase, resolveProjectMediaUrls } from '../lib/supabase';
 import { ArrowRight, Heart, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import TeamMemberCard from '../components/TeamMemberCard';
 
 export default function ProjetoDetalhes() {
   const { id } = useParams();
@@ -221,82 +222,33 @@ export default function ProjetoDetalhes() {
       </section>
 
       {/* Equipe Responsavel */}
-      <section className="pb-16 pt-6 px-6 md:px-12 lg:px-16">
+      <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto space-y-12">
-          <div className="text-center space-y-4">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.25em] text-blue-600">A Nossa Equipa</span>
-            <h3 className="text-3xl md:text-4xl font-bold text-[#14213D]">Equipa Responsavel</h3>
+          <div className="text-center space-y-3">
+            <span className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">A Nossa Equipa</span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Equipa Responsavel</h3>
           </div>
 
           {team.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
               {team.map((person, i) => (
-                <motion.div
+                <TeamMemberCard
                   key={person.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.6 }}
-                  className="group cursor-pointer perspective-[1000px] max-w-sm mx-auto w-full"
-                  onClick={() => setFlippedId(flippedId === person.id ? null : person.id)}
-                >
-                  <div className={`relative w-full aspect-[4/5] transition-transform duration-700 [transform-style:preserve-3d] ${flippedId === person.id ? '[transform:rotateY(180deg)]' : ''}`}>
-
-                    {/* Front of card */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] overflow-hidden rounded-3xl shadow-lg group-hover:shadow-2xl transition-all duration-500">
-                      <img
-                        src={person.photo_data || person.photo_url || 'https://via.placeholder.com/300?text=Foto'}
-                        alt={person.name}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent transition-all duration-500" />
-                      <div className="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col items-start">
-                        <h4 className="text-xl font-bold text-white drop-shadow-lg mb-1">{person.name}</h4>
-                        <p className="text-white/90 text-sm font-medium mb-3">{person.role}</p>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setFlippedId(person.id); }}
-                          className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1 shadow-md"
-                        >
-                          Saber Mais <ArrowRight size={14} />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Back of card */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-blue-900 rounded-3xl shadow-2xl p-6 text-white overflow-hidden flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-white/20 shrink-0">
-                        <img
-                          src={person.photo_data || person.photo_url || 'https://via.placeholder.com/300?text=Foto'}
-                          alt={person.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h4 className="text-lg font-bold mb-1 leading-tight">{person.name}</h4>
-                      <p className="text-blue-300 text-[10px] font-bold uppercase tracking-widest mb-3 pb-3 border-b border-white/10 w-full leading-tight">{person.role}</p>
-                      <div className="flex-grow w-full overflow-y-auto text-left text-xs text-slate-300 leading-relaxed whitespace-pre-wrap pr-1 custom-scrollbar">
-                        {person.bio || 'Sem informacoes adicionais.'}
-                      </div>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setFlippedId(null); }}
-                        className="mt-3 w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1"
-                      >
-                        <X size={14} /> Voltar
-                      </button>
-                    </div>
-
-                  </div>
-                </motion.div>
+                  person={person}
+                  index={i}
+                  isFlipped={flippedId === person.id}
+                  onToggle={() => setFlippedId(flippedId === person.id ? null : person.id)}
+                />
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-white rounded-3xl shadow-sm border border-slate-100">
-              <p className="text-slate-500 text-lg">Ainda nao foi atribuida nenhuma equipa a este projeto.</p>
-              <p className="text-slate-400 text-sm mt-2">Esta informacao pode ser adicionada pelo administrador no painel de gestao.</p>
+            <div className="text-center py-12 bg-white rounded-2xl border border-slate-100 max-w-2xl mx-auto">
+              <p className="text-slate-500 text-base font-semibold">Ainda nao foi atribuida nenhuma equipa a este projeto.</p>
+              <p className="text-slate-400 text-xs mt-1">Esta informacao pode ser adicionada pelo administrador no painel de gestao.</p>
             </div>
           )}
         </div>
-      </section >
+      </section>
     </div >
   );
 }

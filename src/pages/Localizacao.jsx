@@ -1,33 +1,35 @@
 import { motion } from 'motion/react';
 import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 
-export default function Localizacao() {
+export default function Localizacao({ isSection = false }) {
   const beiraCoords = { lat: -19.8333, lng: 34.85 }; // Approximate Beira coords
   const googleMapsUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119776.43823458695!2d34.8048698!3d-19.833333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1f2a3f7f7f7f7f7f%3A0x7f7f7f7f7f7f7f7f!2sBeira%2C%20Mo%C3%A7ambique!5e0!3m2!1spt-PT!2smz!4v1711880000000!5m2!1spt-PT!2smz`;
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
-      {/* Header */}
-      <section className="relative text-white py-28 px-4 overflow-hidden bg-slate-900">
-        {/* Background Image and Overlays */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="Imagem/localizacao.jpg"
-            alt="Localizacao"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/45 to-slate-950/20" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
-        </div>
+    <div className={isSection ? "" : "bg-slate-50 min-h-screen pb-24"}>
+      {!isSection && (
+        /* Header */
+        <section className="relative text-white py-28 px-4 overflow-hidden bg-slate-900">
+          {/* Background Image and Overlays */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="Imagem/localizacao.jpg"
+              alt="Localizacao"
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/45 to-slate-950/20" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
+          </div>
 
-        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
-          <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Onde Estamos</h1>
-          <p className="text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-            Visite-nos na cidade da Beira. Estamos de portas abertas para o receber.
-          </p>
-        </div>
-      </section>
+          <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
+            <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Onde Estamos</h1>
+            <p className="text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+              Visite-nos na cidade da Beira. Estamos de portas abertas para o receber.
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className="py-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
