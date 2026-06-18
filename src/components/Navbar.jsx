@@ -11,6 +11,7 @@ const navLinks = [
   { name: 'Destaques', path: '/#destaques', targetId: 'destaques' },
   { name: 'Contactos', path: '/#contactos', targetId: 'contactos' },
   { name: 'Localizacao', path: '/#localizacao', targetId: 'localizacao' },
+  { name: 'Doar', path: '/doar', targetId: '' },
 ];
 
 export default function Navbar() {
@@ -60,7 +61,13 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, [location.pathname]);
 
-  const handleNavLinkClick = (e, targetId) => {
+  const handleNavLinkClick = (e, targetId, path) => {
+    if (!targetId) {
+      e.preventDefault();
+      navigate(path);
+      setIsOpen(false);
+      return;
+    }
     if (location.pathname === '/' || location.pathname === '/inicio') {
       e.preventDefault();
       const element = document.getElementById(targetId);
@@ -106,12 +113,14 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 mx-auto">
           {navLinks.map((link) => {
-            const isActive = location.pathname === '/' && activeSection === link.targetId;
+            const isActive = link.targetId
+              ? (location.pathname === '/' && activeSection === link.targetId)
+              : (location.pathname === link.path);
             return (
               <a
-                key={link.targetId}
+                key={link.name}
                 href={link.path}
-                onClick={(e) => handleNavLinkClick(e, link.targetId)}
+                onClick={(e) => handleNavLinkClick(e, link.targetId, link.path)}
                 className={cn(
                   'text-sm font-medium transition-all relative py-2 px-1 cursor-pointer',
                   isActive ? 'text-blue-400' : 'text-white/80 hover:text-white'
@@ -159,12 +168,14 @@ export default function Navbar() {
           >
             <div className="flex flex-col p-4 gap-2">
               {navLinks.map((link) => {
-                const isActive = location.pathname === '/' && activeSection === link.targetId;
+                const isActive = link.targetId
+                  ? (location.pathname === '/' && activeSection === link.targetId)
+                  : (location.pathname === link.path);
                 return (
                   <a
-                    key={link.targetId}
+                    key={link.name}
                     href={link.path}
-                    onClick={(e) => handleNavLinkClick(e, link.targetId)}
+                    onClick={(e) => handleNavLinkClick(e, link.targetId, link.path)}
                     className={cn(
                       'text-sm font-semibold p-3 rounded-lg transition-all duration-200 flex items-center cursor-pointer',
                       isActive
