@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALEM - Teste de Conexao Base de Dados</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      text-align: center;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    input {
+      width: 100%;
+      background-color: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    button {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      background-color: var(--border);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.95rem;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .message.success {
+      display: block;
+      background-color: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--success);
+      color: #34d399;
+    }
+
+    .message.error {
+      display: block;
+      background-color: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--error);
+      color: #f87171;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Teste de Conexao</h1>
+    <p class="subtitle">Insira dados para testar a insercao no Banco de Dados</p>
+
+    <form id="test-form">
+      <div class="form-group">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" required placeholder="Ex: Antonio Silva">
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" required placeholder="Ex: antonio@exemplo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" required placeholder="Ex: +258 84 123 4567">
+      </div>
+
+      <button type="submit" id="submit-btn">Salvar</button>
+    </form>
+
+    <div id="feedback-msg" class="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('test-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const feedback = document.getElementById('feedback-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+
+      // Reset feedback
+      feedback.className = 'message';
+      feedback.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'A salvar...';
+
+      try {
+        const response = await fetch('/api/teste', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nome, email, telefone }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          feedback.classList.add('success');
+          feedback.innerText = result.message || 'Dados gravados com sucesso!';
+          form.reset();
+        } else {
+          feedback.classList.add('error');
+          feedback.innerText = result.error || 'Ocorreu um erro no servidor.';
+        }
+      } catch (err) {
+        console.error(err);
+        feedback.classList.add('error');
+        feedback.innerText = 'Falha na comunicacao com o servidor: ' + err.message;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Salvar';
+      }
+    });
+  </script>
+</body>
+</html>

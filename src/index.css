@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Brand Institutional Palette */
+  --color-brand-primary: #2563eb;
+  --color-brand-primary-hover: #1d4ed8;
+  --color-brand-primary-dark: #1e40af;
+  --color-brand-primary-light: #eff6ff;
+  
+  --color-brand-secondary: #16a34a;
+  --color-brand-secondary-hover: #15803d;
+  --color-brand-secondary-dark: #166534;
+  --color-brand-secondary-light: #f0fdf4;
+  
+  --color-brand-accent: #facc15;
+  --color-brand-accent-hover: #eab308;
+  --color-brand-accent-dark: #ca8a04;
+  --color-brand-accent-light: #fef9c3;
+}
+
+@layer base {
+  body {
+    min-height: 100vh;
+    background: var(--color-brand-primary-light);
+    color: #0f172a;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-primary text-white px-6 py-3 text-[15px] font-semibold shadow-lg shadow-brand-primary/20 transition-all duration-200 hover:bg-brand-primary-hover active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white/90 text-slate-900 px-5 py-2.5 text-[14px] font-semibold transition-all duration-200 hover:bg-slate-100 active:scale-[0.98];
+  }
+
+  .section-lg {
+    @apply py-16 px-6 md:px-12 lg:px-16;
+  }
+
+  .section-base {
+    @apply py-12 px-6 md:px-12 lg:px-16;
+  }
+
+  .card-surface {
+    @apply rounded-3xl bg-white shadow-lg;
+  }
+}
