@@ -79,7 +79,7 @@ export default function OQueFazemos({ isSection = false }) {
 
       {/* Programs Grid */}
       <section className="py-20 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth scrollbar-none pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:pb-0">
           {programs.map((prog, i) => (
             <motion.div
               key={i}
@@ -87,7 +87,7 @@ export default function OQueFazemos({ isSection = false }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow transition-all group"
+              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow transition-all group w-[85%] sm:w-[45%] md:w-full shrink-0 snap-center"
             >
               <div className={`${prog.color} w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform`}>
                 {prog.icon}

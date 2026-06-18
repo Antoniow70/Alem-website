@@ -146,9 +146,9 @@ export default function ProjetosSociais({ isSection = false }) {
             <p className="text-slate-500 text-sm font-medium">A carregar projetos...</p>
           </div>
         ) : filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth scrollbar-none pb-6 md:grid md:grid-cols-4 md:gap-6 md:pb-0">
             {filteredProjects.map((project) => (
-              <div key={project.id}>
+              <div key={project.id} className="w-[85%] sm:w-[45%] md:w-full shrink-0 snap-center">
                 <ProjectCard
                   project={project}
                   onClick={() => navigate('/projetos-sociais/' + project.id)}

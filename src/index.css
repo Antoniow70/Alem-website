@@ -63,3 +63,11 @@
     @apply rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300;
   }
 }
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

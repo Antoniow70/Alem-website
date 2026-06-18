@@ -91,7 +91,7 @@ export default function QuemSomos({ isSection = false }) {
 
       {/* Mission/Vision */}
       <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth scrollbar-none pb-6 md:grid md:grid-cols-3 md:gap-8 md:pb-0">
           {[
             {
               title: 'Missao',
@@ -115,7 +115,7 @@ export default function QuemSomos({ isSection = false }) {
             <motion.div
               key={i}
               whileHover={{ y: -4 }}
-              className={`${item.color} p-8 rounded-2xl space-y-5 shadow-sm transition-all duration-300 bg-white`}
+              className={`${item.color} p-8 rounded-2xl space-y-5 shadow-sm transition-all duration-300 bg-white w-[85%] sm:w-[45%] md:w-full shrink-0 snap-center`}
             >
               <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-50">
                 {item.icon}
@@ -139,15 +139,16 @@ export default function QuemSomos({ isSection = false }) {
               <p className="text-slate-500 text-sm">Clique em saber mais para conhecer o membro.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth scrollbar-none pb-6 md:grid md:grid-cols-4 md:gap-8 md:pb-0">
               {team.map((person, i) => (
-                <TeamMemberCard 
-                  key={person.id}
-                  person={person}
-                  index={i}
-                  isFlipped={flippedId === person.id}
-                  onToggle={() => setFlippedId(flippedId === person.id ? null : person.id)}
-                />
+                <div key={person.id} className="w-[85%] sm:w-[45%] md:w-full shrink-0 snap-center">
+                  <TeamMemberCard 
+                    person={person}
+                    index={i}
+                    isFlipped={flippedId === person.id}
+                    onToggle={() => setFlippedId(flippedId === person.id ? null : person.id)}
+                  />
+                </div>
               ))}
             </div>
           </div>
