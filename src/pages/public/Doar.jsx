@@ -89,6 +89,12 @@ export default function Doar() {
     e.preventDefault();
     if (validate()) {
       try {
+        const paymentMap = {
+          'mpesa': 'M-Pesa',
+          'transferencia': 'Transferencia Bancaria',
+          'cartao': 'Cartao'
+        };
+        
         const { error } = await supabase.from('donations').insert([{
           nome: formData.nome,
           email: formData.email,
@@ -96,7 +102,7 @@ export default function Doar() {
           causa: formData.causa,
           valor: parseFloat(formData.valor),
           mensagem: formData.mensagem,
-          metodo_pagamento: formData.metodoPagamento,
+          metodo_pagamento: paymentMap[formData.metodoPagamento] || formData.metodoPagamento,
           status: 'Pendente',
         }]);
         
@@ -115,7 +121,6 @@ export default function Doar() {
 
   return (
     <div className="bg-slate-50 min-h-screen pb-24">
-      {/* Header */}
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img

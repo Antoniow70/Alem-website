@@ -12,11 +12,13 @@ export default function DonationsTab({
   setDonationFilterEnd,
   getFilteredDonations,
   fetchData,
-  exportDonationsPDF
+  exportDonationsPDF,
+  statusSelectClasses,
+  updateDonationStatus
 }) {
   const filtered = getFilteredDonations();
   const total = filtered.reduce((s, d) => s + (parseFloat(d.valor) || 0), 0);
-  const byMethod = { mpesa: 0, transferencia: 0, cartao: 0 };
+  const byMethod = { 'M-Pesa': 0, 'Transferencia Bancaria': 0, 'Cartao': 0 };
   filtered.forEach(d => {
     if (byMethod[d.metodo_pagamento] !== undefined) byMethod[d.metodo_pagamento]++;
   });
@@ -99,7 +101,7 @@ export default function DonationsTab({
         <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Via M-Pesa</p>
-            <p className="text-2xl font-bold text-rose-600 mt-1">{byMethod.mpesa}</p>
+            <p className="text-2xl font-bold text-rose-600 mt-1">{byMethod['M-Pesa']}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
             <Heart size={18} />
@@ -108,7 +110,7 @@ export default function DonationsTab({
         <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Transferencia</p>
-            <p className="text-2xl font-bold text-green-600 mt-1">{byMethod.transferencia}</p>
+            <p className="text-2xl font-bold text-green-600 mt-1">{byMethod['Transferencia Bancaria']}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
             <Handshake size={18} />
@@ -143,6 +145,7 @@ export default function DonationsTab({
                   <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Causa</th>
                   <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Valor</th>
                   <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Pagamento</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Estado</th>
                   <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Data & Hora</th>
                   <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Mensagem</th>
                 </tr>
@@ -167,12 +170,24 @@ export default function DonationsTab({
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-2 py-0.5 text-[10px] font-semibold rounded whitespace-nowrap ${
-                          d.metodo_pagamento === 'mpesa' ? 'bg-rose-50 text-rose-700 border border-rose-100' :
-                          d.metodo_pagamento === 'transferencia' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
+                          d.metodo_pagamento === 'M-Pesa' ? 'bg-rose-50 text-rose-700 border border-rose-100' :
+                          d.metodo_pagamento === 'Transferencia Bancaria' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
                           'bg-slate-50 text-slate-600 border border-slate-200'
                         }`}>
-                          {d.metodo_pagamento === 'mpesa' ? 'M-Pesa' : d.metodo_pagamento === 'transferencia' ? 'Transferencia' : 'Cartao'}
+                          {d.metodo_pagamento}
                         </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <select
+                          value={d.status || 'Pendente'}
+                          onChange={(e) => updateDonationStatus(d.id, e.target.value)}
+                          className={statusSelectClasses(d.status || 'Pendente')}
+                        >
+                          <option value="Pendente">Pendente</option>
+                          <option value="Em Analise">Em Analise</option>
+                          <option value="Recebido">Recebido</option>
+                          <option value="Nao Recebido">Nao Recebido</option>
+                        </select>
                       </td>
                       <td className="px-6 py-4">
                         {isValidDate ? (

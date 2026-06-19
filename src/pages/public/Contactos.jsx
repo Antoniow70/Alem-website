@@ -24,7 +24,7 @@ const volunteerSchema = z.object({
   gender: z.string().min(1, 'Genero obrigatorio'),
   address: z.string().min(5, 'Endereco muito curto'),
   interestArea: z.string().min(3, 'Area de interesse obrigatoria'),
-  projectId: z.string().min(1, 'Selecione um projeto social'),
+  activityId: z.string().min(1, 'Selecione uma atividade de interesse'),
   message: z.string().optional(),
 });
 
@@ -33,7 +33,7 @@ export default function Contactos({ isSection = false }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isConfigMissing, setIsConfigMissing] = useState(false);
-  const [projects, setProjects] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: zodResolver(contactSchema)
@@ -45,20 +45,20 @@ export default function Contactos({ isSection = false }) {
 
   useEffect(() => {
     checkConfig();
-    fetchProjects();
+    fetchActivities();
   }, []);
 
-  async function fetchProjects() {
+  async function fetchActivities() {
     try {
       const { data, error } = await supabase
-        .from('projects')
+        .from('activities')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('name', { ascending: true });
 
       if (error) throw error;
-      setProjects(data || []);
+      setActivities(data || []);
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      console.error('Error fetching activities:', error);
     }
   }
 
@@ -112,7 +112,7 @@ export default function Contactos({ isSection = false }) {
         genero: data.gender,
         endereco: data.address,
         area_interesse: data.interestArea,
-        project_id: data.projectId,
+        activity_id: data.activityId,
         message: data.message
       }]);
       if (error) throw error;
@@ -463,22 +463,22 @@ export default function Contactos({ isSection = false }) {
                         {errVol.interestArea && <p className="text-red-500 text-[11px] mt-1">{errVol.interestArea.message}</p>}
                       </div>
                       <div className="space-y-1">
-                        <label className="form-label">Projeto Social de Interesse *</label>
+                        <label className="form-label">Atividade de Interesse *</label>
                         <div className="relative">
                           <select
-                            {...regVol('projectId')}
+                            {...regVol('activityId')}
                             className="form-input appearance-none cursor-pointer pr-10"
                           >
-                            <option value="">Selecionar Projeto...</option>
-                            {projects.map(p => (
-                              <option key={p.id} value={p.id}>{p.name}</option>
+                            <option value="">Selecionar Atividade...</option>
+                            {activities.map(act => (
+                              <option key={act.id} value={act.id}>{act.name}</option>
                             ))}
                           </select>
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                           </div>
                         </div>
-                        {errVol.projectId && <p className="text-red-500 text-[11px] mt-1">{errVol.projectId.message}</p>}
+                        {errVol.activityId && <p className="text-red-500 text-[11px] mt-1">{errVol.activityId.message}</p>}
                       </div>
                       <div className="space-y-1">
                         <label className="form-label">Porque quer ser voluntario? (Opcional)</label>

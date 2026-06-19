@@ -41,7 +41,8 @@ import {
   bulkUpdateMessageStatus as bulkUpdateMessageStatusService,
   saveBeneficiary as saveBeneficiaryService,
   deleteBeneficiary as deleteBeneficiaryService,
-  uploadFileToStorage
+  uploadFileToStorage,
+  updateDonationStatus as updateDonationStatusService
 } from '../../services/adminService';
 
 // Components
@@ -107,9 +108,19 @@ const statusSelectClasses = (status) => {
 };
 
 export default function Admin() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return window.localStorage.getItem('alem_admin_logged_in') === 'true';
+  });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      window.localStorage.setItem('alem_admin_logged_in', 'true');
+    } else {
+      window.localStorage.removeItem('alem_admin_logged_in');
+    }
+  }, [isLoggedIn]);
   
   const [projects, setProjects] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
@@ -674,6 +685,22 @@ export default function Admin() {
     exportDonationsPDF(filtered, { filterStart: donationFilterStart, filterEnd: donationFilterEnd });
   };
 
+  const handleUpdateDonationStatus = async (id, newStatus) => {
+    try {
+      if (newStatus === 'Nao Recebido' || newStatus === 'Recusado') {
+        if (confirm('Tem a certeza? Ao marcar como Nao Recebido, o registo de doacao sera eliminado permanentemente.')) {
+          await updateDonationStatusService(id, newStatus);
+          fetchData();
+        }
+        return;
+      }
+      await updateDonationStatusService(id, newStatus);
+      fetchData();
+    } catch (error) {
+      console.error('Error updating donation status:', error);
+    }
+  };
+
   if (!isLoggedIn) {
     return (
       <AdminLogin
@@ -846,6 +873,8 @@ export default function Admin() {
             getFilteredDonations={getFilteredDonations}
             fetchData={fetchData}
             exportDonationsPDF={handleExportDonationsPDF}
+            statusSelectClasses={statusSelectClasses}
+            updateDonationStatus={handleUpdateDonationStatus}
           />
         ) : activeTab === 'beneficiaries' ? (
           <BeneficiariesTab

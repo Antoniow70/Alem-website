@@ -59,9 +59,15 @@ export default function VolunteerModal({
         {/* Application Details */}
         <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Candidatura</h3>
-          <div>
-            <span className="form-label mb-1">Area de Interesse</span>
-            <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.area_interesse || 'N/A'}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span className="form-label mb-1">Area de Interesse</span>
+              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.area_interesse || 'N/A'}</p>
+            </div>
+            <div>
+              <span className="form-label mb-1">Atividade de Interesse</span>
+              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.activities?.name || 'Nenhuma'}</p>
+            </div>
           </div>
           <div>
             <span className="form-label mb-1">Mensagem/Observacoes do Voluntario</span>

@@ -49,7 +49,7 @@ export function exportDonationsPDF(filteredDonations, { filterStart, filterEnd }
       d.telefone || '',
       d.causa || '',
       `MT ${parseFloat(d.valor || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`,
-      d.metodo_pagamento === 'mpesa' ? 'M-Pesa' : d.metodo_pagamento === 'transferencia' ? 'Transferencia' : 'Cartao',
+      d.metodo_pagamento || '',
       dateStr,
       d.mensagem || '—',
     ];

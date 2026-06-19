@@ -6,7 +6,7 @@ import { supabase, resolveProjectMediaUrls, resolveMediaUrl } from '../lib/supab
  */
 export async function fetchAllAdminData() {
   const { data: projData, error: projError } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-  const { data: volData, error: volError } = await supabase.from('volunteers').select('*').order('created_at', { ascending: false });
+  const { data: volData, error: volError } = await supabase.from('volunteers').select('*, activities(name)').order('created_at', { ascending: false });
   const { data: msgData, error: msgError } = await supabase.from('messages').select('*').order('created_at', { ascending: false });
   const { data: benData, error: benError } = await supabase.from('beneficiary_stories').select('*').order('created_at', { ascending: false });
   const { data: teamData, error: teamError } = await supabase.from('team').select('*').order('created_at', { ascending: false });
@@ -211,4 +211,21 @@ export async function uploadFileToStorage(file, folder = 'projects') {
     .getPublicUrl(filePath);
 
   return { error: null, filePath, publicUrl: urlData.publicUrl };
+}
+
+// ─── Donations ─────────────────────────────────────────────────────────────────
+
+export async function updateDonationStatus(id, newStatus) {
+  if (newStatus === 'Nao Recebido' || newStatus === 'Recusado') {
+    const { error } = await supabase.from('donations').delete().eq('id', id);
+    if (error) throw error;
+    return;
+  }
+  const { error } = await supabase.from('donations').update({ status: newStatus }).eq('id', id);
+  if (error) throw error;
+}
+
+export async function deleteDonation(id) {
+  const { error } = await supabase.from('donations').delete().eq('id', id);
+  if (error) throw error;
 }

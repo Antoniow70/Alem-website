@@ -79,7 +79,7 @@ export default function VolunteersTab({
               <tr>
                 <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider w-16">Leitura</th>
                 <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Nome / Info</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Projeto de Interesse</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Atividade de Interesse</th>
                 <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Estado (Aprovacao)</th>
                 <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Data</th>
                 <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider text-right pr-8">Acoes</th>
@@ -102,7 +102,7 @@ export default function VolunteersTab({
                     <div className="text-xs text-slate-500 mt-0.5">{vol.email} • {vol.phone}</div>
                   </td>
                   <td className="px-6 py-4 text-slate-600 text-sm font-medium">
-                    {projects.find(p => p.id === vol.project_id)?.name || 'Nenhum'}
+                    {vol.activities?.name || 'Nenhuma'}
                   </td>
                   <td className="px-6 py-4">
                     <select
