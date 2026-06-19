@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -17,6 +18,40 @@ import PoliticaPrivacidade from './pages/public/PoliticaPrivacidade';
 import TermosUso from './pages/public/TermosUso';
 import HistoriasBeneficiarios from './pages/public/HistoriasBeneficiarios';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { supabase } from './lib/supabaseClient';
+
+function ProtectedRoute({ children }) {
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return children;
+}
 
 function AppLayout() {
   const location = useLocation();
@@ -39,7 +74,13 @@ function AppLayout() {
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosUso />} />
           <Route path="/historias-beneficiarios" element={<HistoriasBeneficiarios />} />
+          
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/*" element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
       {!isAdmin && <Footer />}
@@ -58,3 +99,4 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+

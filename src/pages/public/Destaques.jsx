@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { supabase, isMock, resolveProjectMediaUrls } from '../../lib/supabase';
 import ProjectCard from '../../components/cards/ProjectCard';
-import { Search, Filter, Loader2, AlertCircle, X, Play, Calendar, Tag } from 'lucide-react';
+import { Search, Filter, Loader2, X, Tag } from 'lucide-react';
+import { getAllActivities, getProjects } from '../../services/adminService';
 
 const getYouTubeId = (url) => {
   if (!url) return '';
@@ -15,47 +15,47 @@ const getYouTubeId = (url) => {
 export default function ProjetosSociais({ isSection = false }) {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('Todos');
+  const [filter, setFilter] = useState('Todos'); // 'Todos' or activityId
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    fetchProjects();
-
-    const handleStorageChange = (e) => {
-      if (e.key === 'alem_projects_db') {
-        fetchProjects();
+    async function loadActivities() {
+      try {
+        const data = await getAllActivities();
+        setActivities(data || []);
+      } catch (err) {
+        console.error('Error fetching activities:', err);
       }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    }
+    loadActivities();
   }, []);
 
-  async function fetchProjects() {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      // Resolve idb:// URLs to blob:// URLs for uploaded media
-      const resolved = await resolveProjectMediaUrls(data || []);
-      setProjects(resolved);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true);
+        const params = {};
+        if (filter !== 'Todos') {
+          params.activityId = filter;
+        }
+        const data = await getProjects(params);
+        setProjects(data || []);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
+    fetchProjects();
+  }, [filter]);
 
   const filteredProjects = projects.filter(p => {
-    const matchesFilter = filter === 'Todos' || p.status === filter;
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (p.objetivos_especificos || '').toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
+    return matchesSearch;
   });
 
   return (
@@ -86,41 +86,31 @@ export default function ProjetosSociais({ isSection = false }) {
         </section>
       )}
 
-      {/* Demo Mode Banner */}
-      {isMock && (
-        <div className="bg-amber-50 border-b border-amber-200 py-3 px-6 md:px-12 lg:px-16">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 text-amber-800 text-sm font-medium">
-              <AlertCircle size={18} className="shrink-0" />
-              <p>
-                <span className="font-bold">Modo de Demonstracao:</span> O Supabase nao esta configurado. Os dados abaixo sao ficticios.
-              </p>
-            </div>
-            <a
-              href="/admin"
-              className="text-amber-900 text-xs font-bold underline hover:no-underline"
-            >
-              Configurar Agora
-            </a>
-          </div>
-        </div>
-      )}
-
       {/* Filters */}
       <section className="py-8 px-6 md:px-12 lg:px-16 bg-slate-50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-between">
           <div className="flex bg-white p-1 rounded-xl shadow-sm border border-slate-200/60 w-full md:w-auto overflow-x-auto">
-            {['Todos', 'Planeamento', 'Em Curso', 'Concluido'].map((f) => (
+            <button
+              onClick={() => setFilter('Todos')}
+              className={`px-5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+                filter === 'Todos'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              Todos
+            </button>
+            {activities.map((act) => (
               <button
-                key={f}
-                onClick={() => setFilter(f)}
+                key={act.id}
+                onClick={() => setFilter(act.id)}
                 className={`px-5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
-                  filter === f
+                  filter === act.id
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
-                {f}
+                {act.name}
               </button>
             ))}
           </div>

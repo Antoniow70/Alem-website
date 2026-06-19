@@ -2,13 +2,14 @@ import { motion } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Users, Heart, BookOpen, CheckCircle, Target, Award, GraduationCap, Lightbulb, ShieldCheck, UserCircle, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { supabase, resolveProjectMediaUrls } from '../../lib/supabase';
+import { getPillars, getTeam, getProjects } from '../../services/adminService';
 import ProjectCard from '../../components/cards/ProjectCard';
 import TeamMemberCard from '../../components/cards/TeamMemberCard';
 import Partners from '../../components/common/Partners';
 
 export default function Inicio({ isSection = false }) {
   const navigate = useNavigate();
+  const [pillars, setPillars] = useState([]);
   const [team, setTeam] = useState([]);
   const [projects, setProjects] = useState([]);
   const [flippedId, setFlippedId] = useState(null);
@@ -26,34 +27,25 @@ export default function Inicio({ isSection = false }) {
   };
 
   useEffect(() => {
-    const loadTeam = async () => {
+    async function loadData() {
       try {
-        const { data, error } = await supabase.from('team').select('*').order('created_at', { ascending: false });
-        if (!error && data) {
-          setTeam(data);
-        }
+        const [pillarsData, teamData, projectsData] = await Promise.all([
+          getPillars(),
+          getTeam(),
+          getProjects()
+        ]);
+        setPillars(pillarsData || []);
+        setTeam(teamData || []);
+        
+        const filteredProjects = (projectsData || [])
+          .filter(p => p.status === 'Em Curso' || p.status === 'Concluido')
+          .slice(0, 4); // Shows up to 4 projects
+        setProjects(filteredProjects);
       } catch (err) {
-        console.error('Error fetching team:', err);
+        console.error('Error loading home data:', err);
       }
-    };
-    loadTeam();
-
-    const fetchRecentProjects = async () => {
-      try {
-        const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).limit(3);
-        const resolved = await resolveProjectMediaUrls(data || []);
-        setProjects(resolved);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchRecentProjects();
-
-    const handleStorageChange = (e) => {
-      if (e.key === 'alem_projects_db') fetchRecentProjects();
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    }
+    loadData();
   }, []);
 
   return (
@@ -224,59 +216,30 @@ export default function Inicio({ isSection = false }) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[
-                  {
-                    title: 'Apoio Psicopedagogico',
-                    desc: 'Sessoes individuais e em grupo focadas no desenvolvimento de estrategias de aprendizagem para criancas com dislexia e TDAH.',
-                    icon: <GraduationCap size={24} />,
-                    color: 'bg-blue-50 text-blue-600'
-                  },
-                  {
-                    title: 'Formacao de Professores',
-                    desc: 'Capacitacao de educadores para identificar sinais precoces e implementar metodologias inclusivas na sala de aula regular.',
-                    icon: <BookOpen size={24} />,
-                    color: 'bg-emerald-50 text-emerald-600'
-                  },
-                  {
-                    title: 'Aconselhamento Familiar',
-                    desc: 'Grupos de apoio e orientacao para pais e cuidadores, helping-os a compreender e apoiar melhor os seus filhos.',
-                    icon: <Users size={24} />,
-                    color: 'bg-amber-50 text-amber-600'
-                  },
-                  {
-                    title: 'Rastreio e Diagnostico',
-                    desc: 'Parcerias com especialistas para facilitar o acesso a avaliacoes diagnosticas precisas e acessiveis.',
-                    icon: <ShieldCheck size={24} />,
-                    color: 'bg-indigo-50 text-indigo-600'
-                  },
-                  {
-                    title: 'Advocacia e Direitos',
-                    desc: 'Trabalho junto de instituicoes governamentais para promover politicas publicas de educacao inclusiva em Mocambique.',
-                    icon: <Lightbulb size={24} />,
-                    color: 'bg-rose-50 text-rose-600'
-                  },
-                  {
-                    title: 'Atividades Ludicas',
-                    desc: 'Programas de ferias e oficinas criativas que estimulam a autoestima e as competencias sociais atraves da arte e do desporto.',
-                    icon: <Heart size={24} />,
-                    color: 'bg-sky-50 text-sky-600'
-                  }
-                ].map((prog, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow transition-all group"
-                  >
-                    <div className={`${prog.color} w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform`}>
-                      {prog.icon}
-                    </div>
-                    <h4 className="text-lg font-bold text-slate-900 mb-3">{prog.title}</h4>
-                    <p className="text-slate-500 leading-relaxed text-sm">{prog.desc}</p>
-                  </motion.div>
-                ))}
+                {pillars.map((pillar, i) => {
+                  const icons = [<GraduationCap size={24} />, <BookOpen size={24} />, <Users size={24} />];
+                  const colors = [
+                    'bg-blue-50 text-blue-600',
+                    'bg-emerald-50 text-emerald-600',
+                    'bg-amber-50 text-amber-600'
+                  ];
+                  return (
+                    <motion.div
+                      key={pillar.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.05 }}
+                      className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow transition-all group"
+                    >
+                      <div className={`${colors[i % colors.length]} w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform`}>
+                        {pillar.icon_url ? <img src={pillar.icon_url} alt="" className="w-6 h-6 object-contain" /> : icons[i % icons.length]}
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-900 mb-3">{pillar.name}</h4>
+                      <p className="text-slate-500 leading-relaxed text-sm">{pillar.description}</p>
+                    </motion.div>
+                  );
+                })}
               </div>
 
               <div className="text-center pt-4">

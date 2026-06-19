@@ -8,7 +8,7 @@ export default function AdminSidebar({
   menuItems, 
   activeTab, 
   setActiveTab, 
-  setIsLoggedIn, 
+  handleLogout, 
   isMobileMenuOpen, 
   setIsMobileMenuOpen 
 }) {
@@ -182,8 +182,8 @@ export default function AdminSidebar({
       <DialogConfirm
         isOpen={isLogoutConfirmOpen}
         onClose={() => setIsLogoutConfirmOpen(false)}
-        onConfirm={() => {
-          setIsLoggedIn(false);
+        onConfirm={async () => {
+          await handleLogout();
           navigate('/');
         }}
       />

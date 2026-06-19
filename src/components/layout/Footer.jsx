@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { getPartners } from '../../services/adminService';
 
 function PartnerLogosStrip() {
   const [partners, setPartners] = useState([]);
@@ -9,10 +9,8 @@ function PartnerLogosStrip() {
   useEffect(() => {
     async function fetchPartners() {
       try {
-        const { data, error } = await supabase.from('partners').select('*').order('created_at', { ascending: false });
-        if (!error && data) {
-          setPartners(data);
-        }
+        const data = await getPartners();
+        setPartners(data || []);
       } catch (err) {
         console.error('Error fetching partners:', err);
       }

@@ -1,186 +1,394 @@
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 /**
- * Export donations data as a PDF report.
- * Extracted from Admin.jsx exportDonationsPDF().
+ * ============================================================
+ * ALEM — Sistema Coeso de Exportação de PDF Minimalista
+ * ============================================================
  */
-export function exportDonationsPDF(filteredDonations, { filterStart, filterEnd }) {
-  const filtered = filteredDonations;
-  const doc = new jsPDF({ orientation: 'landscape' });
 
-  // Header
-  doc.setFillColor(20, 33, 61);
-  doc.rect(0, 0, 297, 38, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20);
+// ── Cores da Paleta Minimalista (Slate Neutrals) ────────────
+const COLORS = {
+  slate900:  [15, 23, 42],      // #0F172A
+  slate800:  [30, 41, 59],      // #1E293B
+  slate700:  [51, 65, 85],      // #334155
+  slate500:  [100, 116, 139],    // #64748B
+  
+  slate200:  [226, 232, 240],    // #E2E8F0
+  slate100:  [241, 245, 249],    // #F1F5F9
+  slate50:   [248, 250, 252],    // #F8FAFC
+  white:     [255, 255, 255],
+
+  amber:     [180, 83, 9],      // Pendente (#B45309)
+  sky:       [3, 105, 161],     // Em Análise (#0369A1)
+  emerald:   [4, 120, 87],      // Aceito / Aprovado (#047857)
+  rose:      [190, 18, 60],     // Recusado (#BE123C)
+};
+
+const STATUS_TEXT_COLORS = {
+  'Pendente':   COLORS.amber,
+  'Em Analise': COLORS.sky,
+  'Aceito':     COLORS.emerald,
+  'Aprovado':   COLORS.emerald,
+  'Aceitado':   COLORS.emerald,
+  'Recusado':   COLORS.rose,
+};
+
+// ── Helpers de Formatação Compartilhados ────────────────────
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return '—';
+  return d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function formatDateTime(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return '—';
+  return `${d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })} ${d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+/**
+ * Exporta dados de doadores e causas.
+ */
+export function exportDonationsPDF(filteredDonations, { filterStart = '', filterEnd = '' } = {}) {
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  // 1. Cabeçalho
+  doc.setTextColor(...COLORS.slate900);
+  doc.setFontSize(18);
   doc.setFont('helvetica', 'bold');
-  doc.text('Relatorio de Doadores – ALEM', 14, 18);
-  doc.setFontSize(10);
+  doc.text('Relatório de Doações e Contribuições', 14, 20);
+
+  doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
-  const periodText = filterStart || filterEnd
-    ? `Periodo: ${filterStart ? new Date(filterStart + 'T00:00:00').toLocaleDateString('pt-PT') : 'Inicio'} – ${filterEnd ? new Date(filterEnd + 'T00:00:00').toLocaleDateString('pt-PT') : 'Hoje'}`
-    : 'Todos os registos';
-  doc.text(periodText, 14, 27);
-  doc.text(`Gerado em: ${new Date().toLocaleString('pt-PT')}`, 14, 33);
+  doc.setTextColor(...COLORS.slate500);
+  doc.text('ALEM — Associação de Luta e Esperança de Moçambique', 14, 25.5);
 
-  // Stats summary
-  const totalAmount = filtered.reduce((sum, d) => sum + (parseFloat(d.valor) || 0), 0);
-  doc.setTextColor(20, 33, 61);
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.text(
-    `Total de Doacoes: ${filtered.length}     |     Valor Total: MT ${totalAmount.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`,
-    14, 50
-  );
+  doc.setDrawColor(...COLORS.slate200);
+  doc.setLineWidth(0.3);
+  doc.line(14, 29.5, pageWidth - 14, 29.5);
 
-  // Table with date+time and message
-  const tableColumn = ['#', 'Nome Completo', 'Email', 'Telefone', 'Causa', 'Valor (MZN)', 'Pagamento', 'Data & Hora', 'Mensagem'];
-  const tableRows = filtered.map((d, idx) => {
-    const donDate = d.created_at ? new Date(d.created_at) : null;
-    const isValidDate = donDate && !isNaN(donDate.getTime());
-    const dateStr = isValidDate
-      ? `${donDate.toLocaleDateString('pt-PT')} ${donDate.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}`
-      : 'N/D';
-    return [
-      String(filtered.length - idx),
-      d.nome || '',
-      d.email || '',
-      d.telefone || '',
-      d.causa || '',
-      `MT ${parseFloat(d.valor || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`,
-      d.metodo_pagamento || '',
-      dateStr,
-      d.mensagem || '—',
-    ];
+  // 2. Metadados dos Filtros
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.slate500);
+
+  const filterParts = [];
+  if (filterStart || filterEnd) {
+    const from = filterStart ? formatDate(filterStart + 'T00:00:00') : 'Início';
+    const to = filterEnd ? formatDate(filterEnd + 'T00:00:00') : 'Hoje';
+    filterParts.push(`Período: ${from} a ${to}`);
+  }
+  const filtersText = filterParts.length > 0 ? filterParts.join('  |  ') : 'Sem filtros aplicados (todos os registos)';
+  
+  doc.text(`Filtros: ${filtersText}`, 14, 36);
+
+  const generatedText = `Exportado em: ${new Date().toLocaleString('pt-PT')}`;
+  doc.text(generatedText, pageWidth - 14, 36, { align: 'right' });
+
+  doc.setDrawColor(...COLORS.slate100);
+  doc.setLineWidth(0.15);
+  doc.line(14, 40, pageWidth - 14, 40);
+
+  // 3. Resumo Estatístico (2 Painéis)
+  const totalAmount = filteredDonations.reduce((sum, d) => sum + (parseFloat(d.valor) || 0), 0);
+  const cardWidth = (pageWidth - 28 - 6) / 2;
+  const cardHeight = 15;
+  const yStats = 44;
+
+  const stats = [
+    { label: 'NÚMERO TOTAL DE DOAÇÕES', value: String(filteredDonations.length) },
+    { label: 'VALOR TOTAL ANGARIADO', value: `MT ${totalAmount.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}` },
+  ];
+
+  stats.forEach((card, i) => {
+    const x = 14 + i * (cardWidth + 6);
+    doc.setDrawColor(...COLORS.slate200);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(x, yStats, cardWidth, cardHeight, 1.2, 1.2, 'S');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...COLORS.slate500);
+    doc.text(card.label, x + 5, yStats + 5.5);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(...COLORS.slate800);
+    doc.text(card.value, x + 5, yStats + 11.5);
   });
 
+  // 4. Tabela de Registos
+  const columns = [
+    { header: '#',               dataKey: 'idx' },
+    { header: 'Doador',          dataKey: 'nome' },
+    { header: 'Contacto',        dataKey: 'contacto' },
+    { header: 'Causa / Projeto', dataKey: 'causa' },
+    { header: 'Valor',           dataKey: 'valor' },
+    { header: 'Método',          dataKey: 'metodo' },
+    { header: 'Data & Hora',     dataKey: 'data' },
+    { header: 'Mensagem',        dataKey: 'mensagem' },
+  ];
+
+  const rows = filteredDonations.map((d, idx) => ({
+    idx:      String(filteredDonations.length - idx),
+    nome:     d.nome || 'Doador Anónimo',
+    contacto: [d.telefone, d.email].filter(Boolean).join('\n') || '—',
+    causa:    d.causa || 'Geral / Onde necessário',
+    valor:    `MT ${parseFloat(d.valor || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2 })}`,
+    metodo:   d.metodo_pagamento || '—',
+    data:     formatDateTime(d.created_at),
+    mensagem: d.mensagem || '—',
+  }));
+
   autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 56,
-    styles: { fontSize: 7.5, cellPadding: 3, overflow: 'linebreak' },
-    headStyles: { fillColor: [37, 99, 235], textColor: 255, fontStyle: 'bold' },
-    alternateRowStyles: { fillColor: [248, 250, 252] },
+    columns,
+    body: rows,
+    startY: yStats + cardHeight + 7,
+    theme: 'row',
+    styles: {
+      fontSize: 7,
+      cellPadding: { top: 4, right: 3, bottom: 4, left: 3 },
+      overflow: 'linebreak',
+      lineColor: COLORS.slate200,
+      lineWidth: 0.1,
+      textColor: COLORS.slate700,
+      font: 'helvetica',
+    },
+    headStyles: {
+      fillColor: COLORS.slate50,
+      textColor: COLORS.slate900,
+      fontStyle: 'bold',
+      fontSize: 7.2,
+      halign: 'left',
+      cellPadding: { top: 4.5, right: 3, bottom: 4.5, left: 3 },
+    },
     columnStyles: {
-      0: { halign: 'center', cellWidth: 8 },
-      5: { halign: 'right', fontStyle: 'bold', cellWidth: 28 },
-      6: { cellWidth: 22 },
-      7: { cellWidth: 30 },
-      8: { cellWidth: 40 },
+      idx:      { halign: 'center', cellWidth: 8, fontStyle: 'bold' },
+      nome:     { cellWidth: 35, fontStyle: 'bold', textColor: COLORS.slate900 },
+      contacto: { cellWidth: 35 },
+      causa:    { cellWidth: 35 },
+      valor:    { halign: 'right', fontStyle: 'bold', cellWidth: 28, textColor: COLORS.slate900 },
+      metodo:   { cellWidth: 24, halign: 'center' },
+      data:     { cellWidth: 26, halign: 'center' },
+      mensagem: { cellWidth: 60 },
     },
   });
 
-  // Footer with page numbers
+  // 5. Rodapé
   const pageCount = doc.internal.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(150);
+    doc.setDrawColor(...COLORS.slate200);
+    doc.setLineWidth(0.1);
+    doc.line(14, pageHeight - 14, pageWidth - 14, pageHeight - 14);
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...COLORS.slate500);
     doc.text(
-      `ALEM – Alem das Barreiras  |  Pagina ${i} de ${pageCount}`,
+      'ALEM — Associação de Luta e Esperança de Moçambique  |  Documento Financeiro Interno',
       14,
-      doc.internal.pageSize.height - 10
+      pageHeight - 9
+    );
+
+    doc.text(
+      `Página ${i} de ${pageCount}`,
+      pageWidth - 14,
+      pageHeight - 9,
+      { align: 'right' }
     );
   }
 
   const suffix = (filterStart || filterEnd)
     ? `_${filterStart || 'inicio'}_a_${filterEnd || 'hoje'}`
     : '_todos';
-  doc.save(`doadores${suffix}.pdf`);
+  doc.save(`doacoes_${new Date().toISOString().split('T')[0]}${suffix}.pdf`);
 }
 
 /**
- * Export volunteers data as a PDF report.
- * Extracted from Admin.jsx exportVolunteersPDF().
+ * Exporta dados de candidaturas de voluntários.
  */
-export function exportVolunteersPDF(filteredVolunteers, { readFilter, search }) {
-  const doc = new jsPDF({ orientation: 'landscape' });
-  const tableColumn = ["Nome", "Genero", "Telefone", "Email", "Endereco", "Interesse", "Data", "Estado"];
-  const tableRows = [];
+export function exportVolunteersPDF(filteredVolunteers, { readFilter = 'Todos', search = '' } = {}) {
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
 
-  filteredVolunteers.forEach(vol => {
-    const volunteerData = [
-      vol.full_name || '',
-      vol.genero || '',
-      vol.phone || '',
-      vol.email || '',
-      vol.endereco || '',
-      vol.area_interesse || '',
-      vol.created_at ? new Date(vol.created_at).toLocaleDateString('pt-PT') : '',
-      vol.status || ''
-    ];
-    tableRows.push(volunteerData);
+  // 1. Cabeçalho
+  doc.setTextColor(...COLORS.slate900);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Relatório de Candidaturas a Voluntariado', 14, 20);
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.slate500);
+  doc.text('ALEM — Associação de Luta e Esperança de Moçambique', 14, 25.5);
+
+  doc.setDrawColor(...COLORS.slate200);
+  doc.setLineWidth(0.3);
+  doc.line(14, 29.5, pageWidth - 14, 29.5);
+
+  // 2. Metadados dos Filtros
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.slate500);
+
+  const filterParts = [];
+  if (readFilter && readFilter !== 'Todos') {
+    filterParts.push(`Estado: ${readFilter}`);
+  }
+  if (search) {
+    filterParts.push(`Busca: "${search}"`);
+  }
+  const filtersText = filterParts.length > 0 ? filterParts.join('  |  ') : 'Sem filtros aplicados (todos os registos)';
+  
+  doc.text(`Filtros: ${filtersText}`, 14, 36);
+
+  const generatedText = `Exportado em: ${new Date().toLocaleString('pt-PT')}`;
+  doc.text(generatedText, pageWidth - 14, 36, { align: 'right' });
+
+  doc.setDrawColor(...COLORS.slate100);
+  doc.setLineWidth(0.15);
+  doc.line(14, 40, pageWidth - 14, 40);
+
+  // 3. Resumo Estatístico (3 Painéis)
+  const total = filteredVolunteers.length;
+  const pending = filteredVolunteers.filter(v => v.status === 'Pendente').length;
+  const approved = filteredVolunteers.filter(v => v.status === 'Aprovado' || v.status === 'Aceito').length;
+
+  const cardWidth = (pageWidth - 28 - 12) / 3;
+  const cardHeight = 15;
+  const yStats = 44;
+
+  const stats = [
+    { label: 'CANDIDATURAS SUBMETIDAS', value: String(total) },
+    { label: 'PENDENTES DE REVISÃO', value: String(pending) },
+    { label: 'VOLUNTÁRIOS APROVADOS', value: String(approved) },
+  ];
+
+  stats.forEach((card, i) => {
+    const x = 14 + i * (cardWidth + 6);
+    doc.setDrawColor(...COLORS.slate200);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(x, yStats, cardWidth, cardHeight, 1.2, 1.2, 'S');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...COLORS.slate500);
+    doc.text(card.label, x + 5, yStats + 5.5);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(...COLORS.slate800);
+    doc.text(card.value, x + 5, yStats + 11.5);
   });
 
-  doc.setFillColor(20, 33, 61);
-  doc.rect(0, 0, 297, 38, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20);
-  doc.setFont('helvetica', 'bold');
-  doc.text("Relatorio de Voluntarios - ALEM", 14, 18);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Filtros: ${readFilter} | ${search ? 'Pesquisa: ' + search : ''}`, 14, 27);
-  doc.text(`Gerado em: ${new Date().toLocaleString('pt-PT')}`, 14, 33);
+  // 4. Tabela de Registos
+  const columns = [
+    { header: '#',                 dataKey: 'idx' },
+    { header: 'Nome Completo',     dataKey: 'nome' },
+    { header: 'Género',            dataKey: 'genero' },
+    { header: 'Contacto',          dataKey: 'contacto' },
+    { header: 'Endereço',          dataKey: 'endereco' },
+    { header: 'Área de Interesse',  dataKey: 'interesse' },
+    { header: 'Data de Submissão', dataKey: 'data' },
+    { header: 'Estado',            dataKey: 'status' },
+  ];
+
+  const rows = filteredVolunteers.map((vol, idx) => ({
+    idx:       String(filteredVolunteers.length - idx),
+    nome:      vol.full_name || '—',
+    genero:    vol.genero || '—',
+    contacto:  [vol.phone, vol.email].filter(Boolean).join('\n') || '—',
+    endereco:  vol.endereco || '—',
+    interesse: vol.area_interesse || '—',
+    data:      vol.created_at ? formatDate(vol.created_at) : '—',
+    status:    vol.status || '—',
+  }));
 
   autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 45,
-    styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak' },
-    headStyles: { fillColor: [37, 99, 235] },
-    columnStyles: { 5: { cellWidth: 30 } }
+    columns,
+    body: rows,
+    startY: yStats + cardHeight + 7,
+    theme: 'row',
+    styles: {
+      fontSize: 7,
+      cellPadding: { top: 4, right: 3, bottom: 4, left: 3 },
+      overflow: 'linebreak',
+      lineColor: COLORS.slate200,
+      lineWidth: 0.1,
+      textColor: COLORS.slate700,
+      font: 'helvetica',
+    },
+    headStyles: {
+      fillColor: COLORS.slate50,
+      textColor: COLORS.slate900,
+      fontStyle: 'bold',
+      fontSize: 7.2,
+      halign: 'left',
+      cellPadding: { top: 4.5, right: 3, bottom: 4.5, left: 3 },
+    },
+    columnStyles: {
+      idx:       { halign: 'center', cellWidth: 8, fontStyle: 'bold' },
+      nome:      { cellWidth: 42, fontStyle: 'bold', textColor: COLORS.slate900 },
+      genero:    { cellWidth: 15, halign: 'center' },
+      contacto:  { cellWidth: 45 },
+      endereco:  { cellWidth: 42 },
+      interesse: { cellWidth: 42 },
+      data:      { cellWidth: 26, halign: 'center' },
+      status:    { cellWidth: 22, halign: 'center', fontStyle: 'bold' },
+    },
+    didParseCell: (hookData) => {
+      if (hookData.section === 'body' && hookData.column.dataKey === 'status') {
+        let rawStatus = hookData.cell.raw;
+
+        if (rawStatus === 'Em Analise') {
+          hookData.cell.text = ['Em Análise'];
+        } else if (rawStatus === 'Aceitado' || rawStatus === 'Aprovado') {
+          hookData.cell.text = ['Aprovado'];
+          rawStatus = 'Aprovado';
+        }
+
+        const color = STATUS_TEXT_COLORS[rawStatus];
+        if (color) {
+          hookData.cell.styles.textColor = color;
+        }
+      }
+    },
   });
+
+  // 5. Rodapé
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(...COLORS.slate200);
+    doc.setLineWidth(0.1);
+    doc.line(14, pageHeight - 14, pageWidth - 14, pageHeight - 14);
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...COLORS.slate500);
+    doc.text(
+      'ALEM — Associação de Luta e Esperança de Moçambique  |  Documento de Recursos Humanos Interno',
+      14,
+      pageHeight - 9
+    );
+
+    doc.text(
+      `Página ${i} de ${pageCount}`,
+      pageWidth - 14,
+      pageHeight - 9,
+      { align: 'right' }
+    );
+  }
 
   doc.save(`voluntarios_${new Date().toISOString().split('T')[0]}.pdf`);
 }
 
-/**
- * Export support messages data as a PDF report.
- * Extracted from Admin.jsx exportSupportPDF().
- */
-export function exportSupportPDF(filteredMessages, { readFilter, search }) {
-  const doc = new jsPDF({ orientation: 'landscape' });
-  const tableColumn = ["Nome", "Genero", "Nascimento", "Contacto", "Email", "Endereco", "Apoio/Necessidade", "Data", "Estado"];
-  const tableRows = [];
-
-  filteredMessages.forEach(msg => {
-    const messageData = [
-      msg.name || '',
-      msg.genero || '',
-      msg.data_nascimento ? new Date(msg.data_nascimento).toLocaleDateString('pt-PT') : '',
-      msg.phone || '',
-      msg.email || '',
-      msg.endereco || '',
-      msg.subject || '',
-      msg.created_at ? new Date(msg.created_at).toLocaleDateString('pt-PT') : '',
-      msg.status || ''
-    ];
-    tableRows.push(messageData);
-  });
-
-  doc.setFillColor(20, 33, 61);
-  doc.rect(0, 0, 297, 38, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20);
-  doc.setFont('helvetica', 'bold');
-  doc.text("Relatorio de Pedidos de Apoio - ALEM", 14, 18);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Filtros: ${readFilter} | ${search ? 'Pesquisa: ' + search : ''}`, 14, 27);
-  doc.text(`Gerado em: ${new Date().toLocaleString('pt-PT')}`, 14, 33);
-
-  autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 45,
-    styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak' },
-    headStyles: { fillColor: [37, 99, 235] },
-    columnStyles: { 5: { cellWidth: 30 }, 6: { cellWidth: 30 } }
-  });
-
-  doc.save(`pedidos_apoio_${new Date().toISOString().split('T')[0]}.pdf`);
-}
+// Re-exporta o template de Pedidos de Apoio já minimalista
+export { exportSupportPDF } from './templates/supportPdfTemplate';

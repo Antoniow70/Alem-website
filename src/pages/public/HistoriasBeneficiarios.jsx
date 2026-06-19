@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase, isMock, resolveMediaUrl } from '../../lib/supabase';
 import { Search, Heart, Loader2, AlertCircle, X, ArrowRight, BookOpen } from 'lucide-react';
+import { getBeneficiaryStories, getProjects } from '../../services/adminService';
+
+const isMock = false;
 
 export default function HistoriasBeneficiarios() {
   const [stories, setStories] = useState([]);
@@ -25,30 +27,12 @@ export default function HistoriasBeneficiarios() {
   async function fetchData() {
     try {
       setLoading(true);
-      
-      // Fetch projects to map project name
-      const { data: projData, error: projError } = await supabase
-        .from('projects')
-        .select('id, name');
-      
-      if (projError) throw projError;
+      const [storyData, projData] = await Promise.all([
+        getBeneficiaryStories(),
+        getProjects()
+      ]);
+      setStories(storyData || []);
       setProjects(projData || []);
-
-      // Fetch stories
-      const { data: storyData, error: storyError } = await supabase
-        .from('beneficiary_stories')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (storyError) throw storyError;
-
-      // Resolve media URLs (IndexedDB blob URLs or standard urls)
-      const resolvedStories = await Promise.all((storyData || []).map(async (story) => ({
-        ...story,
-        image_url: await resolveMediaUrl(story.image_url)
-      })));
-
-      setStories(resolvedStories);
     } catch (error) {
       console.error('Error fetching beneficiary stories:', error);
     } finally {
@@ -56,8 +40,9 @@ export default function HistoriasBeneficiarios() {
     }
   }
 
-  const getProjectName = (projectId) => {
-    const proj = projects.find(p => p.id === projectId);
+  const getProjectName = (story) => {
+    if (story.projects && story.projects.name) return story.projects.name;
+    const proj = projects.find(p => p.id === story.project_id);
     return proj ? proj.name : 'Projeto Geral';
   };
 
@@ -65,7 +50,7 @@ export default function HistoriasBeneficiarios() {
     const matchesSearch = 
       story.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       story.story.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      getProjectName(story.project_id).toLowerCase().includes(searchTerm.toLowerCase());
+      getProjectName(story).toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
@@ -158,7 +143,7 @@ export default function HistoriasBeneficiarios() {
                   
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-10 text-white">
                     <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 bg-blue-600 rounded-full mb-2 inline-block">
-                      {getProjectName(story.project_id)}
+                      {getProjectName(story)}
                     </span>
                     <h3 className="text-xl font-bold line-clamp-1">{story.full_name}</h3>
                   </div>
@@ -223,7 +208,7 @@ export default function HistoriasBeneficiarios() {
                   <div>
                     <h2 className="text-xl font-bold text-[#14213D]">{selectedStory.full_name}</h2>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      {getProjectName(selectedStory.project_id)}
+                      {getProjectName(selectedStory)}
                     </span>
                   </div>
                 </div>
@@ -254,7 +239,7 @@ export default function HistoriasBeneficiarios() {
                     
                     <div className="space-y-2">
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Projeto Relacionado</p>
-                      <p className="font-semibold text-blue-600">{getProjectName(selectedStory.project_id)}</p>
+                      <p className="font-semibold text-blue-600">{getProjectName(selectedStory)}</p>
                     </div>
 
                     <div className="space-y-2">

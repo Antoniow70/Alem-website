@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { supabase, resolveProjectMediaUrls } from '../../lib/supabase';
+import { getProjectById, getTeam } from '../../services/adminService';
 import { ArrowRight, Heart, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import TeamMemberCard from '../../components/cards/TeamMemberCard';
 
@@ -38,26 +38,19 @@ export default function ProjetoDetalhes() {
   async function fetchProjectAndTeam() {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('id', id);
-
-      if (error) throw error;
-      if (!data || data.length === 0) {
+      const proj = await getProjectById(id);
+      
+      if (!proj) {
         navigate('/projetos-sociais');
         return;
       }
-
-      const resolved = await resolveProjectMediaUrls(data);
-      const proj = resolved[0];
       setProject(proj);
 
       // Fetch team
-      const { data: teamData, error: teamError } = await supabase.from('team').select('*');
-      if (!teamError && teamData) {
+      const teamData = await getTeam();
+      if (teamData) {
         if (proj.equipa_responsavel && Array.isArray(proj.equipa_responsavel)) {
-          setTeam(teamData.filter(member => proj.equipa_responsavel.includes(member.id)));
+          setTeam(teamData.filter(member => proj.equipa_responsavel.includes(member.id) || proj.equipa_responsavel.includes(member.name)));
         } else {
           setTeam([]);
         }
@@ -66,6 +59,7 @@ export default function ProjetoDetalhes() {
       }
     } catch (err) {
       console.error('Error fetching project:', err);
+      navigate('/projetos-sociais');
     } finally {
       setLoading(false);
     }

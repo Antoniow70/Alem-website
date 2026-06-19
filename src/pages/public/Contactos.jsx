@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Send, MessageSquare, Loader2, CheckCircle2, Heart,
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { supabase } from '../../lib/supabase';
+import { getAllActivities, submitMessage, submitVolunteer } from '../../services/adminService';
 
 const contactSchema = z.object({
   name: z.string().min(3, 'Nome completo obrigatorio'),
@@ -44,59 +44,38 @@ export default function Contactos({ isSection = false }) {
   });
 
   useEffect(() => {
-    checkConfig();
     fetchActivities();
   }, []);
 
   async function fetchActivities() {
     try {
-      const { data, error } = await supabase
-        .from('activities')
-        .select('*')
-        .order('name', { ascending: true });
-
-      if (error) throw error;
+      const data = await getAllActivities();
       setActivities(data || []);
     } catch (error) {
       console.error('Error fetching activities:', error);
     }
   }
 
-  async function checkConfig() {
-    try {
-      // Just a dummy call to check if supabase is configured
-      await supabase.from('volunteers').select('id').limit(1);
-      setIsConfigMissing(false);
-    } catch (error) {
-      if (error.message?.includes('Configuracao do Supabase') || error.message?.includes('Configuracao')) {
-        setIsConfigMissing(true);
-      }
-    }
-  }
-
   const onContactSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from('messages').insert([{
+      await submitMessage({
         name: data.name,
         email: data.email,
         phone: data.phone,
         genero: data.gender,
         data_nascimento: data.birthDate,
         endereco: data.address,
+        tipo_necessidade: data.subject, // note: maps to tipo_necessidade in database
         subject: data.subject,
-        message: data.message,
-        status: 'Pendente'
-      }]);
-      if (error) throw error;
+        message: data.message
+      });
       setSubmitted(true);
       reset();
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      if (error.message?.includes('Configuracao do Supabase') || error.message?.includes('Configuracao')) {
-        setIsConfigMissing(true);
-      }
+      alert('Erro ao submeter pedido de apoio. Tenta novamente mais tarde.');
     } finally {
       setIsSubmitting(false);
     }
@@ -105,7 +84,7 @@ export default function Contactos({ isSection = false }) {
   const onVolunteerSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from('volunteers').insert([{
+      await submitVolunteer({
         full_name: data.fullName,
         email: data.email,
         phone: data.phone,
@@ -114,16 +93,13 @@ export default function Contactos({ isSection = false }) {
         area_interesse: data.interestArea,
         activity_id: data.activityId,
         message: data.message
-      }]);
-      if (error) throw error;
+      });
       setSubmitted(true);
       resetVol();
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error('Error submitting volunteer form:', error);
-      if (error.message?.includes('Configuracao do Supabase') || error.message?.includes('Configuracao')) {
-        setIsConfigMissing(true);
-      }
+      alert('Erro ao submeter candidatura. Tenta novamente mais tarde.');
     } finally {
       setIsSubmitting(false);
     }

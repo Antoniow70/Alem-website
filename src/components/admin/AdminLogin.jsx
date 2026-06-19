@@ -1,10 +1,10 @@
 import { motion } from 'motion/react';
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, Loader2 } from 'lucide-react';
 
 /**
- * Admin login screen. Extracted from Admin.jsx lines 968–1013.
+ * Admin login screen with Supabase auth integration.
  */
-export default function AdminLogin({ email, setEmail, password, setPassword, handleLogin }) {
+export default function AdminLogin({ email, setEmail, password, setPassword, handleLogin, loginError, loginLoading }) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 p-4">
       <motion.div
@@ -20,6 +20,16 @@ export default function AdminLogin({ email, setEmail, password, setPassword, han
           <p className="text-sm text-slate-500">Acesso restrito a equipa de gestao</p>
         </div>
 
+        {loginError && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-rose-50 border border-rose-200 text-rose-700 text-sm px-4 py-3 rounded-xl"
+          >
+            {loginError}
+          </motion.div>
+        )}
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1">
             <label className="form-label">Email</label>
@@ -30,6 +40,7 @@ export default function AdminLogin({ email, setEmail, password, setPassword, han
               className="form-input"
               placeholder="admin@alem.mz"
               required
+              disabled={loginLoading}
             />
           </div>
           <div className="space-y-1">
@@ -41,10 +52,21 @@ export default function AdminLogin({ email, setEmail, password, setPassword, han
               className="form-input"
               placeholder="••••••••"
               required
+              disabled={loginLoading}
             />
           </div>
-          <button className="w-full btn-primary py-3 mt-2">
-            Entrar no Painel
+          <button
+            className="w-full btn-primary py-3 mt-2 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            disabled={loginLoading}
+          >
+            {loginLoading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                A autenticar...
+              </>
+            ) : (
+              'Entrar no Painel'
+            )}
           </button>
         </form>
       </motion.div>

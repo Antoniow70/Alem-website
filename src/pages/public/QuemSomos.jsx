@@ -1,26 +1,28 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { History, Target, Users, Award, UserCircle, X, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Target, Users, Award, ChevronLeft } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import TeamMemberCard from '../../components/cards/TeamMemberCard';
-
-import { supabase } from '../../lib/supabase';
+import { getTeam, getPartners } from '../../services/adminService';
 
 export default function QuemSomos({ isSection = false }) {
   const [team, setTeam] = useState([]);
+  const [partners, setPartners] = useState([]);
   const [flippedId, setFlippedId] = useState(null);
 
   useEffect(() => {
-    async function fetchTeam() {
+    async function loadData() {
       try {
-        const { data, error } = await supabase.from('team').select('*').order('created_at', { ascending: false });
-        if (!error && data) {
-          setTeam(data);
-        }
+        const [teamData, partnersData] = await Promise.all([
+          getTeam(),
+          getPartners()
+        ]);
+        setTeam(teamData || []);
+        setPartners(partnersData || []);
       } catch (err) {
-        console.error('Error fetching team:', err);
+        console.error('Error fetching QuemSomos data:', err);
       }
     }
-    fetchTeam();
+    loadData();
   }, []);
 
   return (
@@ -147,6 +149,36 @@ export default function QuemSomos({ isSection = false }) {
                     index={i}
                     isFlipped={flippedId === person.id}
                     onToggle={() => setFlippedId(flippedId === person.id ? null : person.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Partners Section */}
+      {!isSection && partners.length > 0 && (
+        <section className="py-16 px-6 md:px-12 lg:px-16 bg-slate-950">
+          <div className="max-w-7xl mx-auto text-center space-y-8">
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-blue-500 uppercase tracking-[0.3em] block">
+                Parcerias de Confianca
+              </span>
+              <h3 className="text-xl font-bold text-white tracking-tight">
+                Instituicoes que Apoiam a Nossa Causa
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 items-center justify-items-center pt-4">
+              {partners.map((partner) => (
+                <div
+                  key={partner.id}
+                  className="w-full max-w-[170px] bg-slate-900/40 border border-slate-800/50 rounded-2xl p-4 flex items-center justify-center transition-all duration-300"
+                >
+                  <img
+                    src={partner.logo_url || partner.logo_data || 'https://via.placeholder.com/150'}
+                    alt={partner.name}
+                    className="max-h-12 max-w-full object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                   />
                 </div>
               ))}

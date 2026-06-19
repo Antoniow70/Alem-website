@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CreditCard, Smartphone, Building2, CheckCircle, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase } from '../../lib/supabase';
+import { getProjects, submitDonation } from '../../services/adminService';
 
 export default function Doar() {
   const [formData, setFormData] = useState({
@@ -38,28 +38,20 @@ export default function Doar() {
     }
   };
 
-  const [causas, setCausas] = useState(['Geral / Onde for mais necessario']);
+  const [causas, setCausas] = useState(['Geral']);
 
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const { data, error } = await supabase.from('projects').select('name').order('created_at', { ascending: false });
+        const data = await getProjects();
         if (data) {
-          setCausas([...data.map(p => p.name), 'Geral / Onde for mais necessario']);
+          setCausas(['Geral', ...data.map(p => p.name)]);
         }
       } catch (err) {
         console.error('Error fetching projects:', err);
       }
     }
     fetchProjects();
-
-    const handleStorageChange = (e) => {
-      if (e.key === 'alem_projects_db') {
-        fetchProjects();
-      }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const handleChange = (e) => {
@@ -95,21 +87,15 @@ export default function Doar() {
           'cartao': 'Cartao'
         };
         
-        const { error } = await supabase.from('donations').insert([{
+        await submitDonation({
           nome: formData.nome,
           email: formData.email,
           telefone: formData.telefone,
           causa: formData.causa,
           valor: parseFloat(formData.valor),
           mensagem: formData.mensagem,
-          metodo_pagamento: paymentMap[formData.metodoPagamento] || formData.metodoPagamento,
-          status: 'Pendente',
-        }]);
-        
-        if (error) throw error;
-        
-        // Dispatch storage event to update the UI on other tabs if using mock mode
-        window.dispatchEvent(new Event('storage'));
+          metodo_pagamento: paymentMap[formData.metodoPagamento] || formData.metodoPagamento
+        });
         
         setIsSubmitted(true);
       } catch (err) {

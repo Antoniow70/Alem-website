@@ -15,7 +15,7 @@ import {
   Heart
 } from 'lucide-react';
 
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabaseClient';
 
 // Utilities
 import { compressImage } from '../../utils/imageUtils';
@@ -24,6 +24,8 @@ import { exportDonationsPDF, exportVolunteersPDF, exportSupportPDF } from '../..
 // Services
 import {
   fetchAllAdminData,
+  loginAdmin,
+  logoutAdmin,
   addPartner as addPartnerService,
   deletePartner as deletePartnerService,
   addOrUpdateTeamMember as addOrUpdateTeamMemberService,
@@ -108,19 +110,27 @@ const statusSelectClasses = (status) => {
 };
 
 export default function Admin() {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return window.localStorage.getItem('alem_admin_logged_in') === 'true';
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
 
+  // Check Supabase auth session on mount and listen for changes
   useEffect(() => {
-    if (isLoggedIn) {
-      window.localStorage.setItem('alem_admin_logged_in', 'true');
-    } else {
-      window.localStorage.removeItem('alem_admin_logged_in');
-    }
-  }, [isLoggedIn]);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+      setAuthChecked(true);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
+      setAuthChecked(true);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   
   const [projects, setProjects] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
@@ -206,14 +216,6 @@ export default function Admin() {
   useEffect(() => {
     if (isLoggedIn) {
       fetchData();
-
-      const handleStorageChange = (e) => {
-        if (e.key === 'alem_donations_db' || e.key === null) {
-          fetchData();
-        }
-      };
-      window.addEventListener('storage', handleStorageChange);
-      return () => window.removeEventListener('storage', handleStorageChange);
     }
   }, [isLoggedIn]);
 
@@ -242,12 +244,26 @@ export default function Admin() {
     }
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (email === 'admin@alem.mz' && password === 'admin123') {
-      setIsLoggedIn(true);
-    } else {
-      alert('Credenciais invalidas');
+    setLoginError('');
+    setLoginLoading(true);
+    try {
+      await loginAdmin(email, password);
+      // onAuthStateChange will set isLoggedIn to true
+    } catch (error) {
+      setLoginError(error.message || 'Credenciais invalidas. Tente novamente.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutAdmin();
+      // onAuthStateChange will set isLoggedIn to false
+    } catch (error) {
+      console.error('Logout error:', error);
     }
   };
 
@@ -621,7 +637,7 @@ export default function Admin() {
 
   const handleExportSupportPDF = async () => {
     const filtered = getFilteredMessages();
-    exportSupportPDF(filtered, { readFilter: supportReadFilter, search: supportSearch });
+    exportSupportPDF(filtered, { readFilter: supportReadFilter, search: supportSearch, filterStart: supportFilterStart, filterEnd: supportFilterEnd });
 
     const pendingIds = filtered.filter(m => m.status === 'Pendente').map(m => m.id);
     if (pendingIds.length > 0) {
@@ -701,6 +717,14 @@ export default function Admin() {
     }
   };
 
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <Loader2 className="animate-spin text-blue-600" size={48} />
+      </div>
+    );
+  }
+
   if (!isLoggedIn) {
     return (
       <AdminLogin
@@ -709,6 +733,8 @@ export default function Admin() {
         password={password}
         setPassword={setPassword}
         handleLogin={handleLogin}
+        loginError={loginError}
+        loginLoading={loginLoading}
       />
     );
   }
@@ -729,7 +755,7 @@ export default function Admin() {
         menuItems={menuItems}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        setIsLoggedIn={setIsLoggedIn}
+        handleLogout={handleLogout}
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
@@ -832,6 +858,7 @@ export default function Admin() {
             updateVolunteerReadStatus={handleUpdateVolunteerReadStatus}
             openVolunteerEdit={openVolunteerEdit}
             deleteVolunteer={handleDeleteVolunteer}
+            exportVolunteersPDF={handleExportVolunteersPDF}
           />
         ) : activeTab === 'support' ? (
           <SupportTab

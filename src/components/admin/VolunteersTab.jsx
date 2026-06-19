@@ -1,4 +1,4 @@
-import { Eye, Trash2, Mail } from 'lucide-react';
+import { Eye, Trash2, Mail, Download } from 'lucide-react';
 
 /**
  * Volunteers table tab with filters. Extracted from Admin.jsx lines 1259–1390.
@@ -10,7 +10,7 @@ export default function VolunteersTab({
   volunteerFilterStart, setVolunteerFilterStart,
   volunteerFilterEnd, setVolunteerFilterEnd,
   getFilteredVolunteers, updateVolunteerStatus, updateVolunteerReadStatus,
-  openVolunteerEdit, deleteVolunteer
+  openVolunteerEdit, deleteVolunteer, exportVolunteersPDF
 }) {
   return (
     <div className="space-y-6">
@@ -64,6 +64,14 @@ export default function VolunteersTab({
               Limpar
             </button>
           )}
+          <div className="flex gap-2 ml-auto">
+            <button
+              onClick={exportVolunteersPDF}
+              className="btn-primary py-2.5 px-4 text-xs"
+            >
+              <Download size={16} /> Exportar PDF
+            </button>
+          </div>
         </div>
       </div>
 

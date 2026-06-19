@@ -1,45 +1,78 @@
-import { motion } from 'motion/react';
-import { BookOpen, Users, Lightbulb, Heart, ShieldCheck, GraduationCap } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { BookOpen, Users, Lightbulb, Heart, ShieldCheck, GraduationCap, ChevronRight, Loader2 } from 'lucide-react';
+import { getPillars, getActivities, getProjects } from '../../services/adminService';
+import ProjectCard from '../../components/cards/ProjectCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function OQueFazemos({ isSection = false }) {
-  const programs = [
-    {
-      title: 'Apoio Psicopedagogico',
-      desc: 'Sessoes individuais e em grupo focadas no desenvolvimento de estrategias de aprendizagem para criancas com dislexia e TDAH.',
-      icon: <GraduationCap size={28} />,
-      color: 'bg-blue-50 text-blue-600'
-    },
-    {
-      title: 'Formacao de Professores',
-      desc: 'Capacitacao de educadores para identificar sinais precoces e implementar metodologias inclusivas na sala de aula regular.',
-      icon: <BookOpen size={28} />,
-      color: 'bg-emerald-50 text-emerald-600'
-    },
-    {
-      title: 'Aconselhamento Familiar',
-      desc: 'Grupos de apoio e orientacao para pais e cuidadores, ajudando-os a compreender e apoiar melhor os seus filhos.',
-      icon: <Users size={28} />,
-      color: 'bg-amber-50 text-amber-600'
-    },
-    {
-      title: 'Rastreio e Diagnostico',
-      desc: 'Parcerias com especialistas para facilitar o acesso a avaliacoes diagnosticas precisas e acessiveis.',
-      icon: <ShieldCheck size={28} />,
-      color: 'bg-indigo-50 text-indigo-600'
-    },
-    {
-      title: 'Advocacia e Direitos',
-      desc: 'Trabalho junto de instituicoes governamentais para promover politicas publicas de educacao inclusiva em Mocambique.',
-      icon: <Lightbulb size={28} />,
-      color: 'bg-rose-50 text-rose-600'
-    },
-    {
-      title: 'Atividades Ludicas',
-      desc: 'Programas de ferias e oficinas criativas que estimulam a autoestima e as competencias sociais atraves da arte e do desporto.',
-      icon: <Heart size={28} />,
-      color: 'bg-sky-50 text-sky-600'
+  const navigate = useNavigate();
+  const [pillars, setPillars] = useState([]);
+  const [activePillar, setActivePillar] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [activeActivity, setActiveActivity] = useState(null);
+  const [projects, setProjects] = useState([]);
+  
+  const [loadingPillars, setLoadingPillars] = useState(true);
+  const [loadingActivities, setLoadingActivities] = useState(false);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+
+  useEffect(() => {
+    async function loadPillars() {
+      try {
+        setLoadingPillars(true);
+        const data = await getPillars();
+        setPillars(data || []);
+        if (data && data.length > 0) {
+          setActivePillar(data[0]);
+        }
+      } catch (err) {
+        console.error('Error loading pillars:', err);
+      } finally {
+        setLoadingPillars(false);
+      }
     }
-  ];
+    loadPillars();
+  }, []);
+
+  useEffect(() => {
+    if (!activePillar) return;
+    async function loadActivities() {
+      try {
+        setLoadingActivities(true);
+        setActivities([]);
+        setActiveActivity(null);
+        setProjects([]);
+        const data = await getActivities(activePillar.id);
+        setActivities(data || []);
+        if (data && data.length > 0) {
+          setActiveActivity(data[0]);
+        }
+      } catch (err) {
+        console.error('Error loading activities:', err);
+      } finally {
+        setLoadingActivities(false);
+      }
+    }
+    loadActivities();
+  }, [activePillar]);
+
+  useEffect(() => {
+    if (!activeActivity) return;
+    async function loadProjects() {
+      try {
+        setLoadingProjects(true);
+        setProjects([]);
+        const data = await getProjects({ activityId: activeActivity.id });
+        setProjects(data || []);
+      } catch (err) {
+        console.error('Error loading projects:', err);
+      } finally {
+        setLoadingProjects(false);
+      }
+    }
+    loadProjects();
+  }, [activeActivity]);
 
   return (
     <div className={isSection ? "" : "bg-slate-50 min-h-screen"}>
@@ -77,27 +110,111 @@ export default function OQueFazemos({ isSection = false }) {
         </section>
       )}
 
-      {/* Programs Grid */}
+      {/* Dynamic Pillars, Activities, and Projects Section */}
       <section className="py-20 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth scrollbar-none pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:pb-0">
-          {programs.map((prog, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow transition-all group w-[85%] sm:w-[45%] md:w-full shrink-0 snap-center"
-            >
-              <div className={`${prog.color} w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform`}>
-                {prog.icon}
+        <div className="max-w-7xl mx-auto space-y-12">
+          {loadingPillars ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="animate-spin text-blue-600" size={36} />
+              <p className="text-slate-500 text-sm mt-3">A carregar os pilares estrategicos...</p>
+            </div>
+          ) : (
+            <>
+              {/* Pillars Tabs */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {pillars.map((pillar, i) => {
+                  const icons = [<GraduationCap size={24} />, <BookOpen size={24} />, <Users size={24} />];
+                  const isActive = activePillar?.id === pillar.id;
+                  return (
+                    <motion.button
+                      key={pillar.id}
+                      onClick={() => setActivePillar(pillar)}
+                      whileHover={{ y: -2 }}
+                      className={`p-6 rounded-2xl border text-left transition-all relative ${
+                        isActive
+                          ? 'border-blue-600 bg-blue-50/20 shadow-md shadow-blue-500/5'
+                          : 'border-slate-100 bg-white hover:border-slate-200 shadow-sm'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-50 text-slate-600'}`}>
+                          {icons[i % icons.length]}
+                        </div>
+                        <div>
+                          <h4 className="font-extrabold text-slate-900 text-base">{pillar.name}</h4>
+                        </div>
+                      </div>
+                      <p className="text-slate-500 text-xs mt-4 leading-relaxed line-clamp-2">{pillar.description}</p>
+                    </motion.button>
+                  );
+                })}
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">{prog.title}</h3>
-              <p className="text-slate-500 leading-relaxed text-sm">
-                {prog.desc}
-              </p>
-            </motion.div>
-          ))}
+
+              {/* Activities Bar under selected Pilar */}
+              <div className="pt-6 border-t border-slate-100">
+                <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+                  Areas de Atividade de "{activePillar?.name}"
+                </h4>
+                {loadingActivities ? (
+                  <div className="flex items-center gap-2 py-4">
+                    <Loader2 className="animate-spin text-blue-600" size={16} />
+                    <span className="text-slate-500 text-xs">A carregar atividades...</span>
+                  </div>
+                ) : activities.length > 0 ? (
+                  <div className="flex flex-wrap gap-2.5">
+                    {activities.map((act) => {
+                      const isActive = activeActivity?.id === act.id;
+                      return (
+                        <button
+                          key={act.id}
+                          onClick={() => setActiveActivity(act)}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                            isActive
+                              ? 'bg-blue-600 text-white shadow-sm'
+                              : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-100'
+                          }`}
+                        >
+                          {act.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-slate-400 text-xs">Sem atividades registadas para este pilar.</p>
+                )}
+              </div>
+
+              {/* Projects Grid for selected Activity */}
+              <div className="pt-6 border-t border-slate-100">
+                <div className="flex items-center justify-between mb-6">
+                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                    Projetos em "{activeActivity?.name || 'Selecione uma atividade'}"
+                  </h4>
+                </div>
+                {loadingProjects ? (
+                  <div className="flex flex-col items-center justify-center py-20">
+                    <Loader2 className="animate-spin text-blue-600" size={32} />
+                    <p className="text-slate-500 text-xs mt-2">A carregar iniciativas...</p>
+                  </div>
+                ) : projects.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    {projects.map((project) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        onClick={() => navigate('/projetos-sociais/' + project.id)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-16 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+                    <p className="text-slate-500 text-sm font-semibold">Sem projetos associados de momento</p>
+                    <p className="text-slate-400 text-xs mt-1">Brevemente teremos novas iniciativas a decorrer nesta area.</p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
