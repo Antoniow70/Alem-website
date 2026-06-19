@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Send, MessageSquare, Loader2, CheckCircle2, Heart,
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 const contactSchema = z.object({
   name: z.string().min(3, 'Nome completo obrigatorio'),

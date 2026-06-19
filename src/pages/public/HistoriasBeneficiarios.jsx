@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase, isMock, resolveMediaUrl } from '../lib/supabase';
+import { supabase, isMock, resolveMediaUrl } from '../../lib/supabase';
 import { Search, Heart, Loader2, AlertCircle, X, ArrowRight, BookOpen } from 'lucide-react';
 
 export default function HistoriasBeneficiarios() {

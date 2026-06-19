@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { History, Target, Users, Award, UserCircle, X, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import TeamMemberCard from '../components/TeamMemberCard';
+import TeamMemberCard from '../../components/cards/TeamMemberCard';
 
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 export default function QuemSomos({ isSection = false }) {
   const [team, setTeam] = useState([]);

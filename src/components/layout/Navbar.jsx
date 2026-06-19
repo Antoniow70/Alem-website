@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 const navLinks = [
   { name: 'Inicio', path: '/', targetId: 'inicio' },
@@ -139,10 +139,19 @@ export default function Navbar() {
           })}
         </div>
 
+        {/* Admin Login (different style) */}
+        <Link
+          to="/admin"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold border border-white/10 hover:border-white/30 text-white/90 hover:text-white rounded-xl hover:bg-white/5 transition-all duration-200 ml-6 hidden md:inline-flex"
+        >
+          <LogIn size={13} />
+          Painel Admin
+        </Link>
+
         {/* CTA (kept at the right) */}
         <Link
           to="/doar"
-          className="btn-primary text-xs !py-2.5 !px-4 ml-6 hidden md:inline-flex"
+          className="btn-primary text-xs !py-2.5 !px-4 ml-4 hidden md:inline-flex"
         >
           Doar Agora
         </Link>
@@ -187,6 +196,13 @@ export default function Navbar() {
                   </a>
                 );
               })}
+              <Link
+                to="/admin"
+                className="border border-white/10 hover:border-white/30 text-white/90 hover:text-white hover:bg-white/5 text-sm p-3 rounded-lg text-center font-semibold active:scale-[0.98] transition-transform mt-2 flex items-center justify-center gap-2"
+              >
+                <LogIn size={15} />
+                Painel Admin
+              </Link>
               <Link
                 to="/doar"
                 className="btn-primary text-sm p-3 rounded-lg text-center font-bold active:scale-[0.98] transition-transform mt-2"

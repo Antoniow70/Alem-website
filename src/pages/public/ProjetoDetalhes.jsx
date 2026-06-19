@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { supabase, resolveProjectMediaUrls } from '../lib/supabase';
+import { supabase, resolveProjectMediaUrls } from '../../lib/supabase';
 import { ArrowRight, Heart, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
-import TeamMemberCard from '../components/TeamMemberCard';
+import TeamMemberCard from '../../components/cards/TeamMemberCard';
 
 export default function ProjetoDetalhes() {
   const { id } = useParams();

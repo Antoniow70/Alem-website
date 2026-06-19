@@ -1,20 +1,22 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import WhatsAppButton from './components/WhatsAppButton';
-import ScrollToTop from './components/ScrollToTop';
-import Home from './pages/Home';
-import Inicio from './pages/Inicio';
-import QuemSomos from './pages/QuemSomos';
-import OQueFazemos from './pages/OQueFazemos';
-import ProjetosSociais from './pages/Destaques';
-import ProjetoDetalhes from './pages/ProjetoDetalhes';
-import Doar from './pages/Doar';
-import Contactos from './pages/Contactos';
-import Localizacao from './pages/Localizacao';
-import Admin from './pages/Admin';
-import HistoriasBeneficiarios from './pages/HistoriasBeneficiarios';
-import ErrorBoundary from './components/ErrorBoundary';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import WhatsAppButton from './components/common/WhatsAppButton';
+import ScrollToTop from './components/layout/ScrollToTop';
+import Home from './pages/public/Home';
+import Inicio from './pages/public/Inicio';
+import QuemSomos from './pages/public/QuemSomos';
+import OQueFazemos from './pages/public/OQueFazemos';
+import ProjetosSociais from './pages/public/Destaques';
+import ProjetoDetalhes from './pages/public/ProjetoDetalhes';
+import Doar from './pages/public/Doar';
+import Contactos from './pages/public/Contactos';
+import Localizacao from './pages/public/Localizacao';
+import Admin from './pages/admin/Admin';
+import PoliticaPrivacidade from './pages/public/PoliticaPrivacidade';
+import TermosUso from './pages/public/TermosUso';
+import HistoriasBeneficiarios from './pages/public/HistoriasBeneficiarios';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 function AppLayout() {
   const location = useLocation();
@@ -34,6 +36,8 @@ function AppLayout() {
           <Route path="/localizacao" element={<Navigate to="/" replace />} />
           <Route path="/projetos-sociais/:id" element={<ProjetoDetalhes />} />
           <Route path="/doar" element={<Doar />} />
+          <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
+          <Route path="/termos-de-uso" element={<TermosUso />} />
           <Route path="/historias-beneficiarios" element={<HistoriasBeneficiarios />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>

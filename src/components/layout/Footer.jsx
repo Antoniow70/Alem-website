@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 function PartnerLogosStrip() {
   const [partners, setPartners] = useState([]);
@@ -159,8 +159,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
         <p>© 2026 ALEM - Associacao Lacos Especiais de Mocambique. Todos os direitos reservados.</p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-white transition-colors">Politica de Privacidade</a>
-          <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
+          <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">Politica de Privacidade</Link>
+          <Link to="/termos-de-uso" className="hover:text-white transition-colors">Termos de Uso</Link>
         </div>
       </div>
     </footer>

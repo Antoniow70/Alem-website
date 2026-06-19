@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CreditCard, Smartphone, Building2, CheckCircle, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 export default function Doar() {
   const [formData, setFormData] = useState({

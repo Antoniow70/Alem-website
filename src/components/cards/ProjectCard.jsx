@@ -1,12 +1,5 @@
 import { motion } from 'motion/react';
-import { Play, Image as ImageIcon, ExternalLink } from 'lucide-react';
-
-const getYouTubeId = (url) => {
-  if (!url) return '';
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[2].length === 11) ? match[2] : '';
-};
+import { Image as ImageIcon, ExternalLink } from 'lucide-react';
 
 export default function ProjectCard({ project, onClick }) {
   const statusColors = {
@@ -63,4 +56,3 @@ export default function ProjectCard({ project, onClick }) {
     </motion.div>
   );
 }
-

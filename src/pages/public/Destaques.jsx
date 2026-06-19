@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { supabase, isMock, resolveProjectMediaUrls } from '../lib/supabase';
-import ProjectCard from '../components/ProjectCard';
+import { supabase, isMock, resolveProjectMediaUrls } from '../../lib/supabase';
+import ProjectCard from '../../components/cards/ProjectCard';
 import { Search, Filter, Loader2, AlertCircle, X, Play, Calendar, Tag } from 'lucide-react';
 
 const getYouTubeId = (url) => {

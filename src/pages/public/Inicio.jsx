@@ -2,10 +2,10 @@ import { motion } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Users, Heart, BookOpen, CheckCircle, Target, Award, GraduationCap, Lightbulb, ShieldCheck, UserCircle, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { supabase, resolveProjectMediaUrls } from '../lib/supabase';
-import ProjectCard from '../components/ProjectCard';
-import TeamMemberCard from '../components/TeamMemberCard';
-import Partners from '../components/Partners';
+import { supabase, resolveProjectMediaUrls } from '../../lib/supabase';
+import ProjectCard from '../../components/cards/ProjectCard';
+import TeamMemberCard from '../../components/cards/TeamMemberCard';
+import Partners from '../../components/common/Partners';
 
 export default function Inicio({ isSection = false }) {
   const navigate = useNavigate();
