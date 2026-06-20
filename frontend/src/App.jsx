@@ -1,0 +1,102 @@
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import Navbar from './shared/layout/Navbar';
+import Footer from './shared/layout/Footer';
+import WhatsAppButton from './shared/common/WhatsAppButton';
+import ScrollToTop from './shared/layout/ScrollToTop';
+import Home from './pages/Home';
+import Inicio from './pages/Inicio';
+import QuemSomos from './domains/equipa/pages/QuemSomos';
+import OQueFazemos from './domains/projetos/pages/OQueFazemos';
+import ProjetosSociais from './domains/projetos/pages/Destaques';
+import ProjetoDetalhes from './domains/projetos/pages/ProjetoDetalhes';
+import Doar from './domains/doacoes/pages/Doar';
+import Contactos from './pages/Contactos';
+import Localizacao from './pages/Localizacao';
+import { Admin } from './domains/admin';
+import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
+import TermosUso from './pages/TermosUso';
+import HistoriasBeneficiarios from './domains/beneficiarios/pages/HistoriasBeneficiarios';
+import ErrorBoundary from './shared/common/ErrorBoundary';
+import { supabase } from './shared/lib/supabaseClient';
+
+function ProtectedRoute({ children }) {
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return children;
+}
+
+function AppLayout() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white font-sans text-[#14213D]">
+      {!isAdmin && <Navbar />}
+      <main className={`flex-grow ${isAdmin ? '' : 'pt-16'}`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/inicio" element={<Navigate to="/" replace />} />
+          <Route path="/quem-somos" element={<Navigate to="/" replace />} />
+          <Route path="/o-que-fazemos" element={<Navigate to="/" replace />} />
+          <Route path="/projetos-sociais" element={<Navigate to="/" replace />} />
+          <Route path="/contactos" element={<Navigate to="/" replace />} />
+          <Route path="/localizacao" element={<Navigate to="/" replace />} />
+          <Route path="/projetos-sociais/:id" element={<ProjetoDetalhes />} />
+          <Route path="/doar" element={<Doar />} />
+          <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
+          <Route path="/termos-de-uso" element={<TermosUso />} />
+          <Route path="/historias-beneficiarios" element={<HistoriasBeneficiarios />} />
+          
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/*" element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </main>
+      {!isAdmin && <Footer />}
+      {!isAdmin && <WhatsAppButton />}
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <Router>
+        <ScrollToTop />
+        <AppLayout />
+      </Router>
+    </ErrorBoundary>
+  );
+}
+
