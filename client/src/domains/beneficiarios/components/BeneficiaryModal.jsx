@@ -74,21 +74,21 @@ export default function BeneficiaryModal({
             className="form-input"
             placeholder="Nome completo do beneficiario"
           />
-          {errors.full_name && <p className="text-red-500 text-xs mt-1">{errors.full_name.message}</p>}
+          {errors.full_name && <p className="text-feedback-error text-xs mt-1">{errors.full_name.message}</p>}
         </div>
 
         <div className="space-y-1">
           <label className="form-label">Projeto de Intervencao *</label>
           <select
             {...register('project_id')}
-            className="form-input cursor-pointer font-semibold text-slate-900"
+            className="form-input cursor-pointer font-semibold text-brand-bigStone dark:text-dark-text"
           >
             <option value="">Selecione um projeto...</option>
             {projects.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
           </select>
-          {errors.project_id && <p className="text-red-500 text-xs mt-1">{errors.project_id.message}</p>}
+          {errors.project_id && <p className="text-feedback-error text-xs mt-1">{errors.project_id.message}</p>}
         </div>
 
         <div className="space-y-1">
@@ -99,13 +99,13 @@ export default function BeneficiaryModal({
             className="form-input resize-y min-h-[120px] leading-relaxed"
             placeholder="Descreva a historia do beneficiario, o apoio recebido e o impacto gerado..."
           />
-          {errors.story && <p className="text-red-500 text-xs mt-1">{errors.story.message}</p>}
+          {errors.story && <p className="text-feedback-error text-xs mt-1">{errors.story.message}</p>}
         </div>
 
         <div className="space-y-2">
           <label className="form-label">Imagem Ilustrativa</label>
-          <div className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-xl border border-slate-200/60">
-            <div className="w-16 h-16 rounded-xl border border-slate-200 overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
+          <div className="flex items-center gap-4 bg-brand-poloBlue/50 p-4 rounded-xl border border-slate-200/60">
+            <div className="w-16 h-16 rounded-xl border border-slate-200 overflow-hidden bg-brand-poloBlue/20 shrink-0 flex items-center justify-center">
               {(imageData || imageUrl) ? (
                 <img src={imageData || imageUrl} alt="Preview" className="w-full h-full object-cover" />
               ) : (
@@ -124,7 +124,7 @@ export default function BeneficiaryModal({
                 />
                 <div className="bg-white border border-slate-200 rounded-xl px-4 py-2 flex items-center gap-2 group-hover:border-brand-primary transition-all">
                   <Upload size={14} className="text-slate-400 group-hover:text-brand-primary shrink-0" />
-                  <span className="text-xs text-slate-500 font-semibold">
+                  <span className="text-xs text-brand-eastBay dark:text-dark-muted font-semibold">
                     {imageData ? '✓ Imagem carregada' : 'Carregar do Computador'}
                   </span>
                 </div>
@@ -146,7 +146,7 @@ export default function BeneficiaryModal({
         </div>
 
         {/* Footer Buttons */}
-        <div className="pt-4 border-t border-slate-100 flex gap-3">
+        <div className="pt-4 border-t border-brand-poloBlue/20 flex gap-3">
           {footer}
         </div>
       </form>

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, RotateCcw } from 'lucide-react';
 
 export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
   return (
@@ -14,20 +14,20 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
       <div className={`relative w-full aspect-[4/5] transition-transform duration-700 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}>
 
         {/* Front of card */}
-        <div className="absolute inset-0 [backface-visibility:hidden] overflow-hidden rounded-3xl shadow-lg group-hover:shadow-2xl transition-all duration-500">
+        <div className="absolute inset-0 [backface-visibility:hidden] overflow-hidden rounded-3xl shadow-lg border border-brand-poloBlue/15 dark:border-dark-muted/10 group-hover:shadow-2xl transition-all duration-500 bg-brand-bigStone">
           <img
             src={person.photo_data || person.photo_url || 'https://via.placeholder.com/300?text=Foto'}
             alt={person.name}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent transition-all duration-500" />
-          <div className="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col items-start">
-            <h4 className="text-xl font-bold text-white drop-shadow-lg mb-1">{person.name}</h4>
-            <p className="text-white/90 text-sm font-medium mb-3">{person.role}</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-bigStone/95 via-brand-bigStone/30 to-transparent transition-all duration-500" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-10 flex flex-col items-start">
+            <h4 className="text-xl font-bold text-white drop-shadow-md mb-1">{person.name}</h4>
+            <p className="text-brand-poloBlue text-sm font-semibold mb-4">{person.role}</p>
             <button
               onClick={(e) => { e.stopPropagation(); onToggle(); }}
-              className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1 shadow-md"
+              className="px-4 py-2 bg-brand-horizon hover:bg-brand-eastBay text-white text-xs font-bold rounded-full transition-all flex items-center gap-1 shadow-md active:scale-95"
             >
               Saber Mais <ArrowRight size={14} />
             </button>
@@ -35,11 +35,11 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
         </div>
 
         {/* Back of card */}
-        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-3xl shadow-2xl p-6 text-white overflow-hidden flex flex-col text-left">
+        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-white dark:bg-dark-surface border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-3xl shadow-xl p-6 overflow-hidden flex flex-col text-left transition-all duration-300">
           
           {/* Header row with profile pic, name and role */}
-          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-white/10 w-full shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 shrink-0 shadow-md">
+          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-brand-poloBlue/10 dark:border-dark-muted/10 w-full shrink-0">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-poloBlue/20 dark:border-dark-muted/20 shrink-0 shadow-sm">
               <img
                 src={person.photo_data || person.photo_url || 'https://via.placeholder.com/300?text=Foto'}
                 alt={person.name}
@@ -48,14 +48,21 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-[15px] font-bold leading-tight text-white mb-0.5 truncate">{person.name}</h4>
-              <p className="text-blue-300 text-[10px] font-bold uppercase tracking-wider truncate">{person.role}</p>
+              <h4 className="text-[15px] font-extrabold leading-tight text-brand-bigStone dark:text-white mb-0.5 truncate">{person.name}</h4>
+              <p className="text-brand-horizon dark:text-brand-poloBlue text-[10px] font-bold uppercase tracking-wider truncate">{person.role}</p>
             </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggle(); }}
+              className="p-1.5 rounded-full bg-brand-poloBlue/10 dark:bg-dark-bg/40 text-brand-horizon dark:text-brand-poloBlue hover:bg-brand-horizon hover:text-white dark:hover:bg-brand-horizon dark:hover:text-white transition-all shrink-0 active:scale-90"
+              title="Voltar"
+            >
+              <RotateCcw size={14} />
+            </button>
           </div>
 
           {/* Bio */}
-          <div className="flex-grow w-full overflow-y-auto text-[13px] text-slate-300 leading-relaxed whitespace-pre-wrap pr-2 custom-scrollbar">
-            {person.bio || 'Sem informacoes adicionais.'}
+          <div className="flex-grow w-full overflow-y-auto text-[13px] text-brand-eastBay dark:text-dark-muted leading-relaxed whitespace-pre-wrap pr-2 custom-scrollbar scrollbar-thin">
+            {person.bio || 'Sem informações adicionais.'}
           </div>
           
         </div>

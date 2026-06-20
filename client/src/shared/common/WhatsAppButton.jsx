@@ -1,127 +1,29 @@
-import { useEffect } from 'react';
-
-// Inject keyframe styles once
-const STYLE_ID = 'whatsapp-btn-styles';
-
-function injectStyles() {
-  if (document.getElementById(STYLE_ID)) return;
-  const style = document.createElement('style');
-  style.id = STYLE_ID;
-  style.textContent = `
-    @keyframes wa-pulse-ring {
-      0%   { transform: scale(1);   opacity: 0.6; }
-      70%  { transform: scale(1.9); opacity: 0;   }
-      100% { transform: scale(1.9); opacity: 0;   }
-    }
-    @keyframes wa-pulse-ring2 {
-      0%   { transform: scale(1);   opacity: 0.4; }
-      70%  { transform: scale(2.4); opacity: 0;   }
-      100% { transform: scale(2.4); opacity: 0;   }
-    }
-    @keyframes wa-float {
-      0%, 100% { transform: translateY(0px);   }
-      50%       { transform: translateY(-6px);  }
-    }
-    .wa-btn-wrapper {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .wa-ring {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: #22c55e;
-      animation: wa-pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    .wa-ring2 {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: #22c55e;
-      animation: wa-pulse-ring2 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.4s;
-    }
-    .wa-btn {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-      color: #fff;
-      box-shadow: 0 8px 32px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.15);
-      animation: wa-float 3s ease-in-out infinite;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .wa-btn:hover {
-      transform: scale(1.12) translateY(-3px);
-      box-shadow: 0 16px 48px rgba(37,211,102,0.55), 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .wa-tooltip {
-      position: absolute;
-      right: 72px;
-      background: #1f2937;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 10px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(6px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    }
-    .wa-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: -6px;
-      transform: translateY(-50%);
-      border: 6px solid transparent;
-      border-left-color: #1f2937;
-      border-right: none;
-    }
-    .wa-btn-wrapper:hover .wa-tooltip {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  `;
-  document.head.appendChild(style);
-}
+import { Link } from 'react-router-dom';
 
 export default function WhatsAppButton() {
-  useEffect(() => { injectStyles(); }, []);
-
-  const phoneNumber = '258840000000'; // Replace with real number
+  const phoneNumber = '258840000000'; // Real WhatsApp number
   const message = encodeURIComponent('Ola ALEM! Gostaria de saber mais sobre os vossos projetos.');
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
-    <div className="wa-btn-wrapper">
+    <div className="fixed bottom-7 right-7 z-50 flex items-center justify-center group">
       {/* Pulse rings */}
-      <span className="wa-ring" aria-hidden="true" />
-      <span className="wa-ring2" aria-hidden="true" />
+      <span className="absolute inset-0 rounded-full bg-brand-poloBlue/40 animate-wa-ring" aria-hidden="true" />
+      <span className="absolute inset-0 rounded-full bg-brand-poloBlue/30 animate-wa-ring2" aria-hidden="true" />
 
       {/* Tooltip */}
-      <span className="wa-tooltip">Fale connosco 💬</span>
+      <span className="absolute right-[72px] bg-brand-bigStone text-white text-xs font-semibold px-3 py-2 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-200 shadow-md whitespace-nowrap dark:bg-dark-surface dark:text-dark-text">
+        Fale connosco 💬
+        {/* Tooltip Arrow */}
+        <span className="absolute right-[-3px] top-1/2 -translate-y-1/2 w-2 h-2 rotate-45 bg-brand-bigStone dark:bg-dark-surface" />
+      </span>
 
       {/* Main button */}
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="wa-btn"
+        className="relative z-10 flex items-center justify-center w-[60px] h-[60px] rounded-full bg-gradient-to-br from-whatsapp-primary to-whatsapp-dark text-white shadow-lg animate-wa-float transition-all duration-200 hover:scale-110"
         aria-label="Contactar via WhatsApp"
       >
         {/* Official WhatsApp SVG icon */}

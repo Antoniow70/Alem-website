@@ -74,17 +74,17 @@ export default function ProjetoDetalhes() {
 
   if (loading || !project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-brand-poloBlue/15">
         <div className="animate-pulse flex flex-col items-center">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-slate-500 font-bold">A carregar projeto...</p>
+          <div className="w-16 h-16 border-4 border-brand-horizon border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-brand-eastBay dark:text-dark-muted font-bold">A carregar projeto...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden bg-slate-50 min-h-screen pb-24">
+    <div className="overflow-hidden bg-brand-poloBlue/15 min-h-screen pb-24">
       {/* Hero Section */}
       <section className="relative min-h-[75vh] flex items-center justify-center pt-16 px-6 md:px-12 lg:px-16">
         <div className="absolute top-4 left-4 md:left-8 z-30">
@@ -95,7 +95,7 @@ export default function ProjetoDetalhes() {
             <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Voltar
           </button>
         </div>
-        <div className="absolute inset-0 z-0 bg-slate-900">
+        <div className="absolute inset-0 z-0 bg-brand-bigStone dark:text-dark-text">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-slate-950/20 z-10" />
           <img
             src={project.capa_url || 'https://via.placeholder.com/1920x1080?text=Sem+Capa'}
@@ -112,7 +112,7 @@ export default function ProjetoDetalhes() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <span className="inline-flex items-center px-4 py-1 bg-blue-50/90 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest text-blue-600 shadow-lg">
+            <span className="inline-flex items-center px-4 py-1 bg-brand-poloBlue/90 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest text-brand-horizon shadow-lg">
               Projeto {project.status === 'Em Curso' ? 'em Curso' : project.status}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-xl">
@@ -141,7 +141,7 @@ export default function ProjetoDetalhes() {
             className="bg-white rounded-[40px] shadow-2xl border border-white/50 p-8 md:p-12 overflow-hidden relative"
           >
             {/* Decorative circles */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-horizon/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -152,7 +152,7 @@ export default function ProjetoDetalhes() {
               </div>
 
               {/* Media side */}
-              <div className="rounded-[32px] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-100 relative group">
+              <div className="rounded-[32px] overflow-hidden shadow-2xl aspect-[4/3] bg-brand-poloBlue/20 relative group">
                 {(() => {
                   const mediaItems = [];
                   if (project.gallery && project.gallery.length > 0) {
@@ -187,13 +187,13 @@ export default function ProjetoDetalhes() {
                         <>
                           <button
                             onClick={() => scroll('left')}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-blue-600 p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-horizon p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
                           >
                             <ChevronLeft size={24} />
                           </button>
                           <button
                             onClick={() => scroll('right')}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-blue-600 p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-horizon p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
                           >
                             <ChevronRight size={24} />
                           </button>
@@ -216,11 +216,11 @@ export default function ProjetoDetalhes() {
       </section>
 
       {/* Equipe Responsavel */}
-      <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-t border-slate-100">
+      <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-t border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">A Nossa Equipa</span>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Equipa Responsavel</h3>
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">A Nossa Equipa</span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Equipa Responsavel</h3>
           </div>
 
           {team.length > 0 ? (
@@ -236,8 +236,8 @@ export default function ProjetoDetalhes() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-white rounded-2xl border border-slate-100 max-w-2xl mx-auto">
-              <p className="text-slate-500 text-base font-semibold">Ainda nao foi atribuida nenhuma equipa a este projeto.</p>
+            <div className="text-center py-12 bg-white rounded-2xl border border-brand-poloBlue/20 max-w-2xl mx-auto">
+              <p className="text-brand-eastBay dark:text-dark-muted text-base font-semibold">Ainda nao foi atribuida nenhuma equipa a este projeto.</p>
               <p className="text-slate-400 text-xs mt-1">Esta informacao pode ser adicionada pelo administrador no painel de gestao.</p>
             </div>
           )}

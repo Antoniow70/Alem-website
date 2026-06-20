@@ -6,6 +6,7 @@ import OQueFazemos from '../domains/projetos/pages/OQueFazemos';
 import ProjetosSociais from '../domains/projetos/pages/Destaques';
 import Contactos from './Contactos';
 import Localizacao from './Localizacao';
+import Partners from '../domains/parceiros/components/Partners';
 
 export default function Home() {
   const location = useLocation();
@@ -32,7 +33,7 @@ export default function Home() {
   }, [location]);
 
   return (
-    <div className="bg-slate-50 space-y-0">
+    <div className="bg-transparent space-y-0">
       <div id="inicio">
         <Inicio isSection={true} />
       </div>
@@ -50,6 +51,13 @@ export default function Home() {
       </div>
       <div id="localizacao">
         <Localizacao isSection={true} />
+      </div>
+      <div id="parceiros">
+        <section className="py-16 px-6 md:px-12 lg:px-16 bg-transparent border-t border-brand-poloBlue/20 dark:border-dark-muted/10">
+          <div className="max-w-7xl mx-auto">
+            <Partners />
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -6,25 +6,25 @@ import { LayoutDashboard, Loader2 } from 'lucide-react';
  */
 export default function AdminLogin({ email, setEmail, password, setPassword, handleLogin, loginError, loginLoading }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-brand-poloBlue/15 via-brand-poloBlue/20 to-slate-200 dark:from-dark-bg dark:via-dark-surface dark:to-dark-bg p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-xl shadow-slate-200/30 w-full max-w-md space-y-6"
+        className="bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md p-8 rounded-2xl border border-slate-200/80 dark:border-dark-muted/15 shadow-xl shadow-slate-200/30 dark:shadow-black/20 w-full max-w-md space-y-6"
       >
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+          <div className="w-12 h-12 bg-brand-poloBlue/15 dark:bg-dark-bg/60 text-brand-horizon dark:text-brand-poloBlue rounded-xl flex items-center justify-center mx-auto mb-4 border border-brand-poloBlue/20 dark:border-dark-muted/10">
             <LayoutDashboard size={24} />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Admin ALEM</h1>
-          <p className="text-sm text-slate-500">Acesso restrito a equipa de gestao</p>
+          <h1 className="text-2xl font-bold text-brand-bigStone dark:text-white tracking-tight">Admin ALEM</h1>
+          <p className="text-sm text-brand-eastBay dark:text-dark-muted">Acesso restrito a equipa de gestao</p>
         </div>
 
         {loginError && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-rose-50 border border-rose-200 text-rose-700 text-sm px-4 py-3 rounded-xl"
+            className="bg-feedback-errorLight dark:bg-feedback-error/10 border border-feedback-errorBorder dark:border-feedback-error/25 text-feedback-error text-sm px-4 py-3 rounded-xl"
           >
             {loginError}
           </motion.div>

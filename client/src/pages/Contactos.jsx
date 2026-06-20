@@ -108,10 +108,10 @@ export default function Contactos({ isSection = false }) {
   };
 
   return (
-    <div className={isSection ? "" : "bg-slate-50 min-h-screen pb-24"}>
+    <div className={isSection ? "" : "bg-transparent min-h-screen pb-24"}>
       {!isSection && (
         /* Header */
-        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
           {/* Background Image and Overlays */}
           <div className="absolute inset-0 z-0">
             <img
@@ -124,7 +124,7 @@ export default function Contactos({ isSection = false }) {
           </div>
 
           <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
-            <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+            <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               Fale Connosco
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contactos</h1>
@@ -139,56 +139,56 @@ export default function Contactos({ isSection = false }) {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Info Column */}
           <div className="space-y-8">
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-              <h2 className="text-xl font-bold text-slate-900">Informacoes</h2>
+            <div className="bg-white dark:bg-dark-surface p-8 rounded-2xl border border-brand-poloBlue/20 dark:border-dark-muted/10 shadow-sm space-y-6">
+              <h2 className="text-xl font-bold text-brand-bigStone dark:text-dark-text">Informacoes</h2>
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                  <div className="w-10 h-10 bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-text rounded-xl flex items-center justify-center shrink-0 border border-brand-poloBlue/20 dark:border-dark-muted/10">
                     <Phone size={18} />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Telefone</p>
-                    <p className="text-slate-700 font-medium text-sm mt-0.5">+258 84 000 0000</p>
-                    <p className="text-slate-700 font-medium text-sm">+258 87 000 0000</p>
+                    <p className="text-xs font-semibold text-brand-eastBay/50 dark:text-dark-muted uppercase tracking-wider">Telefone</p>
+                    <p className="text-brand-eastBay dark:text-dark-text font-medium text-sm mt-0.5">+258 84 000 0000</p>
+                    <p className="text-brand-eastBay dark:text-dark-text font-medium text-sm">+258 87 000 0000</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                  <div className="w-10 h-10 bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-text rounded-xl flex items-center justify-center shrink-0 border border-brand-poloBlue/20 dark:border-dark-muted/10">
                     <Mail size={18} />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Email</p>
-                    <p className="text-slate-700 font-medium text-sm mt-0.5">info@alem.mz</p>
-                    <p className="text-slate-700 font-medium text-sm">apoio@alem.mz</p>
+                    <p className="text-xs font-semibold text-brand-eastBay/50 dark:text-dark-muted uppercase tracking-wider">Email</p>
+                    <p className="text-brand-eastBay dark:text-dark-text font-medium text-sm mt-0.5">info@alem.mz</p>
+                    <p className="text-brand-eastBay dark:text-dark-text font-medium text-sm">apoio@alem.mz</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-slate-50 text-slate-700 rounded-xl flex items-center justify-center shrink-0 border border-slate-100">
+                  <div className="w-10 h-10 bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-text rounded-xl flex items-center justify-center shrink-0 border border-brand-poloBlue/20 dark:border-dark-muted/10">
                     <MapPin size={18} />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sede</p>
-                    <p className="text-slate-700 font-medium text-sm mt-0.5">Bairro de Macuti, Beira</p>
-                    <p className="text-slate-550 text-xs mt-0.5">Mocambique</p>
+                    <p className="text-xs font-semibold text-brand-eastBay/50 dark:text-dark-muted uppercase tracking-wider">Sede</p>
+                    <p className="text-brand-eastBay dark:text-dark-text font-medium text-sm mt-0.5">Bairro de Macuti, Beira</p>
+                    <p className="text-brand-eastBay/70 dark:text-dark-muted text-xs mt-0.5">Mocambique</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-slate-950 text-white p-8 rounded-2xl space-y-4">
+            <div className="bg-brand-bigStone dark:bg-dark-surface text-white p-8 rounded-2xl space-y-4">
               <h3 className="text-base font-bold tracking-tight">Horario de Atendimento</h3>
-              <div className="space-y-2 text-xs text-slate-400">
-                <div className="flex justify-between border-b border-slate-900 pb-2">
+              <div className="space-y-2 text-xs text-slate-300 dark:text-dark-muted">
+                <div className="flex justify-between border-b border-brand-eastBay dark:border-dark-muted/10 pb-2">
                   <span>Segunda - Sexta</span>
-                  <span className="font-semibold text-slate-200">08:00 - 17:00</span>
+                  <span className="font-semibold text-white dark:text-dark-text">08:00 - 17:00</span>
                 </div>
-                <div className="flex justify-between border-b border-slate-900 pb-2">
+                <div className="flex justify-between border-b border-brand-eastBay dark:border-dark-muted/10 pb-2">
                   <span>Sabado</span>
-                  <span className="font-semibold text-slate-200">09:00 - 13:00</span>
+                  <span className="font-semibold text-white dark:text-dark-text">09:00 - 13:00</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Domingo</span>
-                  <span className="text-rose-400 font-semibold">Fechado</span>
+                  <span className="text-feedback-error font-semibold">Fechado</span>
                 </div>
               </div>
             </div>
@@ -196,14 +196,14 @@ export default function Contactos({ isSection = false }) {
 
           {/* Form Column */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-              <div className="flex border-b border-slate-100 bg-slate-50/50 p-2 gap-2">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl shadow-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 overflow-hidden">
+              <div className="flex border-b border-brand-poloBlue/20 dark:border-dark-muted/10 bg-brand-poloBlue/10 dark:bg-dark-bg/40 p-2 gap-2">
                 <button
                   onClick={() => setActiveTab('contact')}
                   className={`flex-1 py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all ${
                     activeTab === 'contact'
-                      ? 'bg-white text-blue-600 shadow-sm border border-slate-200/50'
-                      : 'text-slate-400 hover:text-slate-600'
+                      ? 'bg-white dark:bg-dark-surface text-brand-horizon dark:text-brand-poloBlue shadow-sm border border-brand-poloBlue/15 dark:border-dark-muted/20'
+                      : 'text-brand-eastBay/50 hover:text-brand-eastBay dark:text-dark-muted dark:hover:text-dark-text'
                   }`}
                 >
                   Solicitar Apoio
@@ -212,8 +212,8 @@ export default function Contactos({ isSection = false }) {
                   onClick={() => setActiveTab('volunteer')}
                   className={`flex-1 py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all ${
                     activeTab === 'volunteer'
-                      ? 'bg-white text-green-600 shadow-sm border border-slate-200/50'
-                      : 'text-slate-400 hover:text-slate-600'
+                      ? 'bg-white dark:bg-dark-surface text-feedback-success shadow-sm border border-brand-poloBlue/15 dark:border-dark-muted/20'
+                      : 'text-brand-eastBay/50 hover:text-brand-eastBay dark:text-dark-muted dark:hover:text-dark-text'
                   }`}
                 >
                   Tornar-me Voluntario
@@ -227,16 +227,16 @@ export default function Contactos({ isSection = false }) {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-12 space-y-6"
                   >
-                    <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto">
+                    <div className="w-16 h-16 bg-feedback-successLight text-feedback-success rounded-full flex items-center justify-center mx-auto">
                       <CheckCircle2 size={36} />
                     </div>
                     <div className="space-y-1">
-                      <h3 className="text-xl font-bold text-slate-900">Mensagem Enviada!</h3>
-                      <p className="text-slate-500 text-sm">Obrigado pelo seu contacto. Responderemos o mais breve possivel.</p>
+                      <h3 className="text-xl font-bold text-brand-bigStone dark:text-dark-text">Mensagem Enviada!</h3>
+                      <p className="text-brand-eastBay dark:text-dark-muted text-sm">Obrigado pelo seu contacto. Responderemos o mais breve possivel.</p>
                     </div>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="text-blue-600 text-sm font-bold hover:underline"
+                      className="text-brand-horizon text-sm font-bold hover:underline"
                     >
                       Enviar outra mensagem
                     </button>
@@ -244,11 +244,11 @@ export default function Contactos({ isSection = false }) {
                 ) : activeTab === 'contact' ? (
                   <div className="space-y-6">
                     {isConfigMissing && (
-                      <div className="bg-amber-50 border border-amber-100 p-5 rounded-xl flex gap-3 items-start">
-                        <AlertCircle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+                      <div className="bg-feedback-warningLight border border-feedback-warningBorder p-5 rounded-xl flex gap-3 items-start">
+                        <AlertCircle className="text-feedback-warning shrink-0 mt-0.5" size={20} />
                         <div className="space-y-0.5">
-                          <p className="text-amber-900 font-bold text-sm">Configuracao Necessaria</p>
-                          <p className="text-amber-800 text-xs leading-relaxed">
+                          <p className="text-feedback-warningMuted font-bold text-sm">Configuracao Necessaria</p>
+                          <p className="text-feedback-warningText text-xs leading-relaxed">
                             O formulario de apoio requer a configuracao do Supabase para guardar os pedidos.
                           </p>
                         </div>
@@ -262,7 +262,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Seu nome completo"
                         />
-                        {errors.name && <p className="text-red-500 text-[11px] mt-1">{errors.name.message}</p>}
+                        {errors.name && <p className="text-feedback-error text-[11px] mt-1">{errors.name.message}</p>}
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -274,7 +274,7 @@ export default function Contactos({ isSection = false }) {
                             className="form-input"
                             placeholder="seu@email.com"
                           />
-                          {errors.email && <p className="text-red-500 text-[11px] mt-1">{errors.email.message}</p>}
+                          {errors.email && <p className="text-feedback-error text-[11px] mt-1">{errors.email.message}</p>}
                         </div>
                         <div className="space-y-1">
                           <label className="form-label">Contacto (Telefone) *</label>
@@ -283,7 +283,7 @@ export default function Contactos({ isSection = false }) {
                             className="form-input"
                             placeholder="Ex: +258 84 000 0000"
                           />
-                          {errors.phone && <p className="text-red-500 text-[11px] mt-1">{errors.phone.message}</p>}
+                          {errors.phone && <p className="text-feedback-error text-[11px] mt-1">{errors.phone.message}</p>}
                         </div>
                       </div>
 
@@ -304,7 +304,7 @@ export default function Contactos({ isSection = false }) {
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
                           </div>
-                          {errors.gender && <p className="text-red-500 text-[11px] mt-1">{errors.gender.message}</p>}
+                          {errors.gender && <p className="text-feedback-error text-[11px] mt-1">{errors.gender.message}</p>}
                         </div>
                         <div className="space-y-1">
                           <label className="form-label">Data de Nascimento *</label>
@@ -313,7 +313,7 @@ export default function Contactos({ isSection = false }) {
                             {...register('birthDate')}
                             className="form-input"
                           />
-                          {errors.birthDate && <p className="text-red-500 text-[11px] mt-1">{errors.birthDate.message}</p>}
+                          {errors.birthDate && <p className="text-feedback-error text-[11px] mt-1">{errors.birthDate.message}</p>}
                         </div>
                       </div>
 
@@ -324,7 +324,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Bairro, Rua, Numero..."
                         />
-                        {errors.address && <p className="text-red-500 text-[11px] mt-1">{errors.address.message}</p>}
+                        {errors.address && <p className="text-feedback-error text-[11px] mt-1">{errors.address.message}</p>}
                       </div>
 
                       <div className="space-y-1">
@@ -334,7 +334,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Ex: Apoio Alimentar, Material Escolar, Saude..."
                         />
-                        {errors.subject && <p className="text-red-500 text-[11px] mt-1">{errors.subject.message}</p>}
+                        {errors.subject && <p className="text-feedback-error text-[11px] mt-1">{errors.subject.message}</p>}
                       </div>
 
                       <div className="space-y-1">
@@ -345,7 +345,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input resize-none h-24"
                           placeholder="Descreva detalhadamente a sua situacao e o apoio de que necessita..."
                         />
-                        {errors.message && <p className="text-red-500 text-[11px] mt-1">{errors.message.message}</p>}
+                        {errors.message && <p className="text-feedback-error text-[11px] mt-1">{errors.message.message}</p>}
                       </div>
 
                       <button
@@ -361,11 +361,11 @@ export default function Contactos({ isSection = false }) {
                 ) : (
                   <div className="space-y-6">
                     {isConfigMissing && (
-                      <div className="bg-amber-50 border border-amber-100 p-5 rounded-xl flex gap-3 items-start">
-                        <AlertCircle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+                      <div className="bg-feedback-warningLight border border-feedback-warningBorder p-5 rounded-xl flex gap-3 items-start">
+                        <AlertCircle className="text-feedback-warning shrink-0 mt-0.5" size={20} />
                         <div className="space-y-0.5">
-                          <p className="text-amber-900 font-bold text-sm">Configuracao Necessaria</p>
-                          <p className="text-amber-800 text-xs leading-relaxed">
+                          <p className="text-feedback-warningMuted font-bold text-sm">Configuracao Necessaria</p>
+                          <p className="text-feedback-warningText text-xs leading-relaxed">
                             O formulario de voluntariado requer a configuracao do Supabase para guardar as candidaturas.
                           </p>
                         </div>
@@ -379,7 +379,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Seu nome completo"
                         />
-                        {errVol.fullName && <p className="text-red-500 text-[11px] mt-1">{errVol.fullName.message}</p>}
+                        {errVol.fullName && <p className="text-feedback-error text-[11px] mt-1">{errVol.fullName.message}</p>}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
@@ -389,7 +389,7 @@ export default function Contactos({ isSection = false }) {
                             className="form-input"
                             placeholder="seu@email.com"
                           />
-                          {errVol.email && <p className="text-red-500 text-[11px] mt-1">{errVol.email.message}</p>}
+                          {errVol.email && <p className="text-feedback-error text-[11px] mt-1">{errVol.email.message}</p>}
                         </div>
                         <div className="space-y-1">
                           <label className="form-label">Telefone *</label>
@@ -398,7 +398,7 @@ export default function Contactos({ isSection = false }) {
                             className="form-input"
                             placeholder="+258..."
                           />
-                          {errVol.phone && <p className="text-red-500 text-[11px] mt-1">{errVol.phone.message}</p>}
+                          {errVol.phone && <p className="text-feedback-error text-[11px] mt-1">{errVol.phone.message}</p>}
                         </div>
                       </div>
 
@@ -418,7 +418,7 @@ export default function Contactos({ isSection = false }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                           </div>
                         </div>
-                        {errVol.gender && <p className="text-red-500 text-[11px] mt-1">{errVol.gender.message}</p>}
+                        {errVol.gender && <p className="text-feedback-error text-[11px] mt-1">{errVol.gender.message}</p>}
                       </div>
 
                       <div className="space-y-1">
@@ -428,7 +428,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Sua morada completa..."
                         />
-                        {errVol.address && <p className="text-red-500 text-[11px] mt-1">{errVol.address.message}</p>}
+                        {errVol.address && <p className="text-feedback-error text-[11px] mt-1">{errVol.address.message}</p>}
                       </div>
 
                       <div className="space-y-1">
@@ -438,7 +438,7 @@ export default function Contactos({ isSection = false }) {
                           className="form-input"
                           placeholder="Ex: Educacao, Saude, Apoio Social..."
                         />
-                        {errVol.interestArea && <p className="text-red-500 text-[11px] mt-1">{errVol.interestArea.message}</p>}
+                        {errVol.interestArea && <p className="text-feedback-error text-[11px] mt-1">{errVol.interestArea.message}</p>}
                       </div>
                       <div className="space-y-1">
                         <label className="form-label">Atividade de Interesse *</label>
@@ -456,7 +456,7 @@ export default function Contactos({ isSection = false }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                           </div>
                         </div>
-                        {errVol.activityId && <p className="text-red-500 text-[11px] mt-1">{errVol.activityId.message}</p>}
+                        {errVol.activityId && <p className="text-feedback-error text-[11px] mt-1">{errVol.activityId.message}</p>}
                       </div>
                       <div className="space-y-1">
                         <label className="form-label">Porque quer ser voluntario? (Opcional)</label>
@@ -469,7 +469,7 @@ export default function Contactos({ isSection = false }) {
                       </div>
                       <button
                         disabled={isSubmitting}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white px-5 py-3 text-[14px] font-semibold shadow-sm hover:shadow transition-all duration-200 w-full mt-4 disabled:opacity-50"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-feedback-success hover:bg-feedback-success/80 text-white px-5 py-3 text-[14px] font-semibold shadow-sm hover:shadow transition-all duration-200 w-full mt-4 disabled:opacity-50"
                       >
                         {isSubmitting ? <Loader2 className="animate-spin" /> : <Heart size={16} />}
                         Candidatar-me a Voluntario

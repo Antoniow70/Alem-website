@@ -26,35 +26,35 @@ export default function DonationsTab({
   return (
     <div className="space-y-6">
       {/* Filter Bar */}
-      <div className="card-surface p-5 bg-white">
+      <div className="card-surface p-5">
         <div className="flex flex-wrap items-end gap-4">
-          <div className="flex items-center gap-2 text-slate-700 font-bold text-sm mb-1 sm:mb-0">
-            <Filter size={16} className="text-blue-600" />
+          <div className="flex items-center gap-2 text-brand-eastBay dark:text-dark-text font-bold text-sm mb-1 sm:mb-0">
+            <Filter size={16} className="text-brand-horizon" />
             <span>Filtrar por periodo</span>
           </div>
           <div className="flex flex-wrap gap-4 flex-1">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Data Inicio</label>
+              <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Inicio</label>
               <input
                 type="date"
                 value={donationFilterStart}
                 onChange={e => setDonationFilterStart(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 transition-all"
+                className="bg-brand-poloBlue/15 border border-slate-200 dark:border-dark-muted/20 rounded-lg px-3 py-1.5 text-xs text-brand-bigStone dark:text-dark-text focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 transition-all"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Data Fim</label>
+              <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Fim</label>
               <input
                 type="date"
                 value={donationFilterEnd}
                 onChange={e => setDonationFilterEnd(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 transition-all"
+                className="bg-brand-poloBlue/15 border border-slate-200 dark:border-dark-muted/20 rounded-lg px-3 py-1.5 text-xs text-brand-bigStone dark:text-dark-text focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 transition-all"
               />
             </div>
             {(donationFilterStart || donationFilterEnd) && (
               <button
                 onClick={() => { setDonationFilterStart(''); setDonationFilterEnd(''); }}
-                className="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all self-end"
+                className="px-3 py-1.5 text-xs font-semibold text-brand-eastBay dark:text-dark-muted hover:text-brand-eastBay dark:text-dark-text border border-slate-200 rounded-lg hover:bg-brand-poloBlue/15 transition-all self-end"
               >
                 Limpar
               </button>
@@ -80,39 +80,39 @@ export default function DonationsTab({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Doadores</p>
-            <p className="text-2xl font-bold text-slate-900 mt-1">{filtered.length}</p>
+            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Total Doadores</p>
+            <p className="text-2xl font-bold text-brand-bigStone dark:text-dark-text mt-1">{filtered.length}</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-muted flex items-center justify-center">
             <Users size={18} />
           </div>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Valor Arrecadado</p>
-            <p className="text-xl font-bold text-emerald-600 mt-1">MT {total.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</p>
+            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Valor Arrecadado</p>
+            <p className="text-xl font-bold text-feedback-success mt-1">MT {total.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-feedback-successLight text-feedback-success flex items-center justify-center">
             <TrendingUp size={18} />
           </div>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Via M-Pesa</p>
-            <p className="text-2xl font-bold text-rose-600 mt-1">{byMethod['M-Pesa']}</p>
+            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Via M-Pesa</p>
+            <p className="text-2xl font-bold text-feedback-error mt-1">{byMethod['M-Pesa']}</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-feedback-errorLight text-feedback-error flex items-center justify-center">
             <Heart size={18} />
           </div>
         </div>
-        <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Transferencia</p>
-            <p className="text-2xl font-bold text-green-600 mt-1">{byMethod['Transferencia Bancaria']}</p>
+            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Transferencia</p>
+            <p className="text-2xl font-bold text-feedback-success mt-1">{byMethod['Transferencia Bancaria']}</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-feedback-successLight text-feedback-success flex items-center justify-center">
             <Handshake size={18} />
           </div>
         </div>
@@ -120,59 +120,59 @@ export default function DonationsTab({
 
       {/* Donations Table */}
       {filtered.length === 0 ? (
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-16 text-center">
+        <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm rounded-3xl shadow-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 p-16 text-center">
           <Heart size={48} className="text-slate-300 mx-auto mb-4" />
-          <p className="text-slate-500 font-medium">Nenhuma doacao encontrada para este periodo.</p>
+          <p className="text-brand-eastBay dark:text-dark-muted font-medium">Nenhuma doacao encontrada para este periodo.</p>
           <p className="text-slate-400 text-sm mt-1">As doacoes submetidas no formulario aparecem aqui automaticamente.</p>
         </div>
       ) : (
-        <div className="card-surface bg-white overflow-hidden">
-          <div className="px-6 py-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="card-surface overflow-hidden">
+          <div className="px-6 py-4 bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10 flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">
               {filtered.length} registo{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </span>
-            <span className="text-xs text-slate-500 font-medium">
-              Total: <span className="font-bold text-emerald-700">MT {total.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</span>
+            <span className="text-xs text-brand-eastBay dark:text-dark-muted font-medium">
+              Total: <span className="font-bold text-feedback-success">MT {total.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</span>
             </span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-slate-50/50 border-b border-slate-100">
+              <thead className="bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10">
                 <tr>
-                  <th className="px-4 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider w-10 text-center">#</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Doador</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Telefone</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Causa</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Valor</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Pagamento</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Estado</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Data & Hora</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 uppercase tracking-wider">Mensagem</th>
+                  <th className="px-4 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider w-10 text-center">#</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Doador</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Telefone</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Causa</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Valor</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Pagamento</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Estado</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Data & Hora</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Mensagem</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-dark-muted/10">
                 {filtered.map((d, idx) => {
                   const donDate = d.created_at ? new Date(d.created_at) : null;
                   const isValidDate = donDate && !isNaN(donDate.getTime());
                   return (
-                    <tr key={d.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={d.id} className="hover:bg-brand-poloBlue/10 dark:hover:bg-white/5 transition-colors">
                       <td className="px-4 py-4 text-xs text-slate-400 font-bold text-center">{filtered.length - idx}</td>
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900">{d.nome}</div>
-                        <div className="text-xs text-slate-500 mt-0.5">{d.email}</div>
+                        <div className="font-semibold text-brand-bigStone dark:text-dark-text">{d.nome}</div>
+                        <div className="text-xs text-brand-eastBay dark:text-dark-muted mt-0.5">{d.email}</div>
                       </td>
-                      <td className="px-6 py-4 text-slate-600 text-sm font-medium">{d.telefone}</td>
+                      <td className="px-6 py-4 text-brand-eastBay dark:text-dark-muted text-sm font-medium">{d.telefone}</td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded border border-blue-100 whitespace-nowrap">{d.causa}</span>
+                        <span className="px-2 py-0.5 bg-brand-poloBlue/15 text-brand-eastBay text-[10px] font-bold rounded border border-brand-poloBlue/20 whitespace-nowrap">{d.causa}</span>
                       </td>
-                      <td className="px-6 py-4 font-bold text-emerald-700 whitespace-nowrap">
+                      <td className="px-6 py-4 font-bold text-feedback-success whitespace-nowrap">
                         MT {parseFloat(d.valor || 0).toLocaleString('pt-PT', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-2 py-0.5 text-[10px] font-semibold rounded whitespace-nowrap ${
-                          d.metodo_pagamento === 'M-Pesa' ? 'bg-rose-50 text-rose-700 border border-rose-100' :
-                          d.metodo_pagamento === 'Transferencia Bancaria' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
-                          'bg-slate-50 text-slate-600 border border-slate-200'
+                          d.metodo_pagamento === 'M-Pesa' ? 'bg-feedback-errorLight text-feedback-error border border-feedback-errorBorder' :
+                          d.metodo_pagamento === 'Transferencia Bancaria' ? 'bg-feedback-successLight text-feedback-success border border-feedback-successBorder' :
+                          'bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-muted border border-slate-200'
                         }`}>
                           {d.metodo_pagamento}
                         </span>
@@ -192,7 +192,7 @@ export default function DonationsTab({
                       <td className="px-6 py-4">
                         {isValidDate ? (
                           <div className="font-medium">
-                            <div className="text-sm text-slate-700">
+                            <div className="text-sm text-brand-eastBay dark:text-dark-text">
                               {donDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </div>
                             <div className="text-xs text-slate-400">
@@ -205,7 +205,7 @@ export default function DonationsTab({
                       </td>
                       <td className="px-6 py-4 max-w-[180px]">
                         {d.mensagem ? (
-                          <p className="text-xs text-slate-500 truncate" title={d.mensagem}>{d.mensagem}</p>
+                          <p className="text-xs text-brand-eastBay dark:text-dark-muted truncate" title={d.mensagem}>{d.mensagem}</p>
                         ) : (
                           <span className="text-xs text-slate-300">—</span>
                         )}

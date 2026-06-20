@@ -26,15 +26,15 @@ export default class ErrorBoundary extends React.Component {
                              error?.message.includes('Supabase');
 
       return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-[40px] shadow-2xl p-10 text-center space-y-6 border border-slate-100">
-            <div className="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
+        <div className="min-h-screen bg-brand-poloBlue/15 flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-white rounded-[40px] shadow-2xl p-10 text-center space-y-6 border border-brand-poloBlue/20">
+            <div className="w-20 h-20 bg-feedback-errorBorder text-feedback-error rounded-full flex items-center justify-center mx-auto">
               <AlertTriangle size={40} />
             </div>
             
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-[#14213D]">Algo correu mal</h2>
-              <p className="text-slate-500 text-sm leading-relaxed">
+              <h2 className="text-2xl font-bold text-brand-bigStone">Algo correu mal</h2>
+              <p className="text-brand-eastBay dark:text-dark-muted text-sm leading-relaxed">
                 {isSupabaseError 
                   ? 'A ligacao a base de dados nao esta configurada. Por favor, adicione as chaves do Supabase nas Definicoes (Secrets).'
                   : 'Ocorreu um erro inesperado na aplicacao.'}
@@ -42,9 +42,9 @@ export default class ErrorBoundary extends React.Component {
             </div>
 
             {isSupabaseError && (
-              <div className="bg-blue-50 p-4 rounded-2xl text-left space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Variaveis Necessarias:</p>
-                <code className="text-xs block bg-white p-2 rounded border border-blue-100 font-mono">
+              <div className="bg-brand-poloBlue/15 p-4 rounded-2xl text-left space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-horizon">Variaveis Necessarias:</p>
+                <code className="text-xs block bg-white p-2 rounded border border-brand-poloBlue/20 font-mono">
                   VITE_SUPABASE_URL<br />
                   VITE_SUPABASE_ANON_KEY
                 </code>
@@ -53,7 +53,7 @@ export default class ErrorBoundary extends React.Component {
 
             <button
               onClick={() => window.location.reload()}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg"
+              className="w-full bg-brand-horizon hover:bg-brand-eastBay text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg"
             >
               <RefreshCw size={18} /> Tentar Novamente
             </button>

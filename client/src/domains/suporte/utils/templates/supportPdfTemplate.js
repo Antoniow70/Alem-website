@@ -10,7 +10,7 @@ import autoTable from 'jspdf-autotable';
 // ── Cores da Paleta Minimalista (Slate Neutrals & Soft Accent) ──
 const COLORS = {
   // Neutras Escuras
-  slate900:  [15, 23, 42],      // #0F172A
+  slate900:  [15, 23, 42],      // var(--color-brand-big-stone)
   slate800:  [30, 41, 59],      // #1E293B
   slate700:  [51, 65, 85],      // #334155
   slate500:  [100, 116, 139],    // #64748B

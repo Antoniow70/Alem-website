@@ -40,8 +40,8 @@ function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-brand-poloBlue/15">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-horizon"></div>
       </div>
     );
   }
@@ -58,7 +58,7 @@ function AppLayout() {
   const isAdmin = location.pathname.startsWith('/admin');
 
   return (
-    <div className="min-h-screen flex flex-col bg-white font-sans text-[#14213D]">
+    <div className="min-h-screen flex flex-col bg-transparent font-sans text-brand-bigStone dark:text-dark-text">
       {!isAdmin && <Navbar />}
       <main className={`flex-grow ${isAdmin ? '' : 'pt-16'}`}>
         <Routes>

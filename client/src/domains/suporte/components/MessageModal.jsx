@@ -27,7 +27,7 @@ export default function MessageModal({
       </button>
       <button
         onClick={() => onRecuseAndRemove(selectedMessage.id)}
-        className="flex-grow btn-ghost border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 py-2.5 text-xs font-bold"
+        className="flex-grow btn-ghost border-feedback-errorBorder text-feedback-error hover:bg-feedback-errorLight hover:text-feedback-error py-2.5 text-xs font-bold"
       >
         <Trash2 size={16} /> Recusar e Remover
       </button>
@@ -57,72 +57,72 @@ export default function MessageModal({
         <div className="flex flex-wrap items-center gap-3">
           <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${
             selectedMessage.read_status === 'Lido'
-              ? 'bg-slate-100 text-slate-700 border-slate-200'
-              : 'bg-blue-50 text-blue-700 border-blue-200'
+              ? 'bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-text border-slate-200'
+              : 'bg-brand-poloBlue/15 text-brand-eastBay border-brand-poloBlue/30'
           }`}>
             {selectedMessage.read_status === 'Lido' ? 'Lido' : 'Nao Lido'}
           </span>
           <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${
             selectedMessage.status === 'Aceitado'
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+              ? 'bg-feedback-successLight text-feedback-success border-emerald-200'
               : selectedMessage.status === 'Recusado'
-              ? 'bg-rose-50 text-rose-700 border-rose-200'
-              : 'bg-amber-50 text-amber-700 border-amber-200'
+              ? 'bg-feedback-errorLight text-feedback-error border-feedback-errorBorder'
+              : 'bg-feedback-warningLight text-amber-700 border-amber-200'
           }`}>
             Estado: {selectedMessage.status}
           </span>
         </div>
 
         {/* Identification */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Identificacao</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <span className="form-label mb-1">Nome Completo</span>
-              <p className="text-sm font-semibold text-slate-900">{selectedMessage.name || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.name || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Genero</span>
-              <p className="text-sm font-semibold text-slate-900">{selectedMessage.genero || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.genero || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Data de Nascimento</span>
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">
                 {selectedMessage.data_nascimento ? new Date(selectedMessage.data_nascimento).toLocaleDateString('pt-PT') : 'N/A'}
               </p>
             </div>
             <div>
               <span className="form-label mb-1">Contacto Telefonico</span>
-              <p className="text-sm font-semibold text-slate-900">{selectedMessage.phone || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.phone || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Email</span>
-              <p className="text-sm font-semibold text-slate-900 break-all">{selectedMessage.email || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text break-all">{selectedMessage.email || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Endereco</span>
-              <p className="text-sm font-semibold text-slate-900">{selectedMessage.endereco || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.endereco || 'N/A'}</p>
             </div>
           </div>
         </div>
 
         {/* Support Request */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pedido</h3>
           <div>
             <span className="form-label mb-1">Tipo de Necessidade / Apoio</span>
-            <p className="text-sm font-semibold text-slate-900">{selectedMessage.subject || 'N/A'}</p>
+            <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.subject || 'N/A'}</p>
           </div>
           <div>
             <span className="form-label mb-1">Mensagem / Descricao</span>
-            <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap min-h-[100px]">
+            <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-sm text-brand-eastBay dark:text-dark-text leading-relaxed whitespace-pre-wrap min-h-[100px]">
               {selectedMessage.message || 'N/A'}
             </div>
           </div>
         </div>
 
         {/* Status Controls */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gerir Estado</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -150,7 +150,7 @@ export default function MessageModal({
                 }}
                 className={`w-full py-2.5 rounded-xl font-semibold text-xs transition-all duration-200 ${
                   selectedMessage.read_status === 'Lido'
-                    ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200/60'
+                    ? 'bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-text hover:bg-slate-200 border border-slate-200/60'
                     : 'bg-brand-primary text-white hover:bg-brand-primary-hover shadow-sm'
                 }`}
               >

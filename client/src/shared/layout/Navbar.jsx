@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, LogIn } from 'lucide-react';
+import { Menu, X, LogIn, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../utils/utils';
 
@@ -18,6 +18,26 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -87,8 +107,8 @@ export default function Navbar() {
       className={cn(
         `fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 text-white border-b`,
         scrolled
-          ? 'py-3 bg-[#14213D]/95 backdrop-blur-md shadow-md border-white/10'
-          : 'py-4 bg-[#14213D] border-transparent'
+          ? 'py-3 bg-brand-bigStone/95 dark:bg-dark-surface/95 backdrop-blur-md shadow-md border-white/10 dark:border-dark-accent/10'
+          : 'py-4 bg-brand-bigStone dark:bg-dark-bg border-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -97,14 +117,14 @@ export default function Navbar() {
             <img
               src="/images/logo alem.jpg"
               alt="Logo ALEM"
-              className="w-11 h-11 rounded-full object-cover border border-white/20 group-hover:border-blue-400/50 group-hover:scale-105 transition-all duration-300 shadow-sm"
+              className="w-11 h-11 rounded-full object-cover border border-white/20 group-hover:border-brand-poloBlue/50 group-hover:scale-105 transition-all duration-300 shadow-sm"
             />
           </div>
           <div className="flex flex-col">
             <span className="font-black text-lg leading-none tracking-wider text-white">
               ALEM
             </span>
-            <span className="text-[8px] uppercase tracking-[0.25em] font-extrabold text-blue-400 mt-0.5">
+            <span className="text-[8px] uppercase tracking-[0.25em] font-extrabold text-brand-poloBlue mt-0.5">
               Mocambique
             </span>
           </div>
@@ -123,14 +143,14 @@ export default function Navbar() {
                 onClick={(e) => handleNavLinkClick(e, link.targetId, link.path)}
                 className={cn(
                   'text-sm font-medium transition-all relative py-2 px-1 cursor-pointer',
-                  isActive ? 'text-blue-400' : 'text-white/80 hover:text-white'
+                  isActive ? 'text-brand-poloBlue' : 'text-white/80 hover:text-white'
                 )}
               >
                 {link.name}
                 {isActive && (
                   <motion.span
                     layoutId="activeNavIndicator"
-                    className="absolute bottom-0 left-1 right-1 h-0.5 rounded-full bg-blue-400"
+                    className="absolute bottom-0 left-1 right-1 h-0.5 rounded-full bg-brand-poloBlue"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -139,10 +159,19 @@ export default function Navbar() {
           })}
         </div>
 
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-xl border border-white/10 hover:border-white/30 text-white/90 hover:text-white hover:bg-white/5 transition-all duration-200 ml-6 active:scale-95 cursor-pointer hidden md:inline-flex"
+          aria-label="Alternar Tema"
+        >
+          {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+        </button>
+
         {/* Admin Login (different style) */}
         <Link
           to="/admin"
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold border border-white/10 hover:border-white/30 text-white/90 hover:text-white rounded-xl hover:bg-white/5 transition-all duration-200 ml-6 hidden md:inline-flex"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold border border-white/10 hover:border-white/30 text-white/90 hover:text-white rounded-xl hover:bg-white/5 transition-all duration-200 ml-4 hidden md:inline-flex"
         >
           <LogIn size={13} />
           Painel Admin
@@ -173,7 +202,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden bg-[#14213D]/95 backdrop-blur-md border border-white/10 mt-3 overflow-hidden rounded-xl shadow-xl absolute left-4 right-4"
+            className="md:hidden bg-brand-bigStone/95 dark:bg-dark-surface/95 backdrop-blur-md border border-white/10 dark:border-dark-accent/10 mt-3 overflow-hidden rounded-xl shadow-xl absolute left-4 right-4"
           >
             <div className="flex flex-col p-4 gap-2">
               {navLinks.map((link) => {
@@ -188,7 +217,7 @@ export default function Navbar() {
                     className={cn(
                       'text-sm font-semibold p-3 rounded-lg transition-all duration-200 flex items-center cursor-pointer',
                       isActive
-                        ? 'bg-white/10 text-blue-400'
+                        ? 'bg-white/10 text-brand-horizon'
                         : 'text-white/80 hover:bg-white/5 hover:text-white'
                     )}
                   >
@@ -196,6 +225,21 @@ export default function Navbar() {
                   </a>
                 );
               })}
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="border border-white/10 hover:border-white/30 text-white/90 hover:text-white hover:bg-white/5 text-sm p-3 rounded-lg text-center font-semibold active:scale-[0.98] transition-transform mt-2 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {theme === 'light' ? (
+                  <>
+                    <Moon size={15} /> Modo Escuro
+                  </>
+                ) : (
+                  <>
+                    <Sun size={15} /> Modo Claro
+                  </>
+                )}
+              </button>
               <Link
                 to="/admin"
                 className="border border-white/10 hover:border-white/30 text-white/90 hover:text-white hover:bg-white/5 text-sm p-3 rounded-lg text-center font-semibold active:scale-[0.98] transition-transform mt-2 flex items-center justify-center gap-2"

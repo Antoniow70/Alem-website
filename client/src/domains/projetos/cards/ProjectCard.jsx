@@ -3,9 +3,9 @@ import { Image as ImageIcon, ExternalLink } from 'lucide-react';
 
 export default function ProjectCard({ project, onClick }) {
   const statusColors = {
-    'Planeamento': 'bg-blue-600/90 text-white',
-    'Em Curso': 'bg-emerald-600/90 text-white',
-    'Concluido': 'bg-slate-600/95 text-white',
+    'Planeamento': 'bg-brand-horizon/90 text-white',
+    'Em Curso': 'bg-feedback-success/90 text-white',
+    'Concluido': 'bg-brand-eastBay dark:text-dark-muted/95 text-white',
   };
 
   return (
@@ -14,7 +14,7 @@ export default function ProjectCard({ project, onClick }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       onClick={onClick}
-      className="relative rounded-2xl overflow-hidden group cursor-pointer aspect-[3/4] border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300"
+      className="relative rounded-2xl overflow-hidden group cursor-pointer aspect-[3/4] border border-brand-poloBlue/20 shadow-sm hover:shadow-lg transition-all duration-300"
     >
       {/* Full-bleed image */}
       <img

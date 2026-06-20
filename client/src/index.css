@@ -1,54 +1,61 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
-  
-  /* Brand Institutional Palette */
-  --color-brand-primary: #2563eb;
-  --color-brand-primary-hover: #1d4ed8;
-  --color-brand-primary-dark: #1e40af;
-  --color-brand-primary-light: #eff6ff;
-  
-  --color-brand-secondary: #16a34a;
-  --color-brand-secondary-hover: #15803d;
-  --color-brand-secondary-dark: #166534;
-  --color-brand-secondary-light: #f0fdf4;
-  
-  --color-brand-accent: #facc15;
-  --color-brand-accent-hover: #eab308;
-  --color-brand-accent-dark: #ca8a04;
-  --color-brand-accent-light: #fef9c3;
+  --animate-wa-float: wa-float 3s ease-in-out infinite;
+  --animate-wa-ring: wa-pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-wa-ring2: wa-pulse-ring2 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.4s;
+
+  @keyframes wa-pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    70%  { transform: scale(1.9); opacity: 0;   }
+    100% { transform: scale(1.9); opacity: 0;   }
+  }
+  @keyframes wa-pulse-ring2 {
+    0%   { transform: scale(1);   opacity: 0.4; }
+    70%  { transform: scale(2.4); opacity: 0;   }
+    100% { transform: scale(2.4); opacity: 0;   }
+  }
+  @keyframes wa-float {
+    0%, 100% { transform: translateY(0px);   }
+    50%       { transform: translateY(-6px);  }
+  }
 }
 
 @layer base {
   body {
     min-height: 100vh;
-    background: #f8fafc; /* Neutral bg-slate-50 background for enterprise SaaS look */
-    color: #0f172a;
-    font-family: var(--font-sans);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%) no-repeat fixed;
+    color: var(--color-brand-big-stone);
+    font-family: "Roboto", sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
   }
+}
+
+.dark body {
+  background: #0B1220;
+  color: #E6EDF3;
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-primary text-white px-5 py-3 text-[14px] font-semibold shadow-sm hover:shadow transition-all duration-200 hover:bg-brand-primary-hover active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-bigStone text-white px-5 py-3 text-[14px] font-semibold shadow-sm hover:shadow transition-all duration-200 hover:bg-brand-eastBay active:scale-[0.98] dark:bg-brand-horizon dark:hover:bg-brand-poloBlue;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 text-slate-900 px-5 py-3 text-[14px] font-semibold transition-all duration-200 hover:bg-slate-200 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 text-slate-900 px-5 py-3 text-[14px] font-semibold transition-all duration-200 hover:bg-slate-200 active:scale-[0.98] dark:bg-dark-surface dark:text-dark-text dark:hover:bg-dark-accent/20;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-slate-700 px-5 py-2.5 text-[14px] font-semibold transition-all duration-200 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-slate-700 px-5 py-2.5 text-[14px] font-semibold transition-all duration-200 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.98] dark:border-dark-muted/20 dark:bg-transparent dark:text-dark-text dark:hover:bg-dark-surface;
   }
 
   .form-input {
-    @apply w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10;
+    @apply w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:outline-none focus:border-brand-horizon focus:ring-4 focus:ring-brand-horizon/10 dark:bg-dark-surface dark:border-dark-muted/20 dark:text-dark-text dark:placeholder-dark-muted dark:focus:border-dark-accent dark:focus:ring-dark-accent/10;
   }
 
   .form-label {
-    @apply block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2;
+    @apply block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 dark:text-dark-muted;
   }
 
   .section-lg {
@@ -60,7 +67,7 @@
   }
 
   .card-surface {
-    @apply rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300;
+    @apply rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-dark-surface dark:border-dark-muted/10;
   }
 }
 

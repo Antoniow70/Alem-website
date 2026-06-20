@@ -30,55 +30,55 @@ export default function VolunteerModal({
     >
       <div className="p-6 space-y-6 overflow-y-auto flex-grow">
         {/* Identification */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Identificacao do Voluntario</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <span className="form-label mb-1">Nome Completo</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.full_name}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.full_name}</p>
             </div>
             <div>
               <span className="form-label mb-1">Genero</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.genero || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.genero || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Email</span>
-              <p className="text-sm font-semibold text-slate-900 break-all">{editingVolunteer?.email}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text break-all">{editingVolunteer?.email}</p>
             </div>
             <div>
               <span className="form-label mb-1">Telefone</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.phone}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.phone}</p>
             </div>
             <div className="md:col-span-2">
               <span className="form-label mb-1">Endereco</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.endereco || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.endereco || 'N/A'}</p>
             </div>
           </div>
         </div>
 
         {/* Application Details */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Candidatura</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <span className="form-label mb-1">Area de Interesse</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.area_interesse || 'N/A'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.area_interesse || 'N/A'}</p>
             </div>
             <div>
               <span className="form-label mb-1">Atividade de Interesse</span>
-              <p className="text-sm font-semibold text-slate-900">{editingVolunteer?.activities?.name || 'Nenhuma'}</p>
+              <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{editingVolunteer?.activities?.name || 'Nenhuma'}</p>
             </div>
           </div>
           <div>
             <span className="form-label mb-1">Mensagem/Observacoes do Voluntario</span>
-            <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap min-h-[100px]">
+            <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-sm text-brand-eastBay dark:text-dark-text leading-relaxed whitespace-pre-wrap min-h-[100px]">
               {editingVolunteer?.message || 'Nenhuma mensagem.'}
             </div>
           </div>
         </div>
 
         {/* Manage Status */}
-        <div className="bg-slate-50/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
+        <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gerir Estado</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

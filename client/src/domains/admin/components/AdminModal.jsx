@@ -15,7 +15,7 @@ export default function AdminModal({ isOpen, onClose, title, subtitle, maxWidth 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs"
+            className="absolute inset-0 bg-brand-bigStone dark:text-dark-text/40 backdrop-blur-xs"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -24,12 +24,12 @@ export default function AdminModal({ isOpen, onClose, title, subtitle, maxWidth 
             className={`bg-white w-full ${maxWidth} rounded-xl border border-slate-200/60 shadow-xl relative z-10 overflow-hidden max-h-[90vh] flex flex-col`}
           >
             {/* Header */}
-            <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-20">
+            <div className="px-6 py-4 bg-brand-poloBlue/15 border-b border-brand-poloBlue/20 flex justify-between items-center sticky top-0 bg-white z-20">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+                <h2 className="text-lg font-bold text-brand-bigStone dark:text-dark-text">{title}</h2>
                 {subtitle && <p className="text-slate-400 text-xs mt-0.5">{subtitle}</p>}
               </div>
-              <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <button onClick={onClose} className="text-slate-400 hover:text-brand-eastBay dark:text-dark-muted transition-colors">
                 <X size={18} />
               </button>
             </div>
@@ -39,7 +39,7 @@ export default function AdminModal({ isOpen, onClose, title, subtitle, maxWidth 
 
             {/* Footer */}
             {footer && (
-              <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+              <div className="px-6 py-4 bg-brand-poloBlue/15 border-t border-brand-poloBlue/20 flex flex-col sm:flex-row gap-3">
                 {footer}
               </div>
             )}

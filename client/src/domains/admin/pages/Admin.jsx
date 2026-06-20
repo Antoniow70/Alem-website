@@ -110,18 +110,18 @@ const beneficiarySchema = z.object({
 });
 
 const statusSelectClasses = (status) => {
-  const base = "px-2.5 py-1 text-xs font-semibold rounded-lg border focus:ring-2 focus:ring-blue-500 cursor-pointer transition-all outline-none appearance-none pr-7 bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat";
+  const base = "px-2.5 py-1 text-xs font-semibold rounded-lg border focus:ring-2 focus:ring-brand-horizon cursor-pointer transition-all outline-none appearance-none pr-7 bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat";
   
   if (status === 'Pendente' || status === 'Planeamento') {
-    return `${base} bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100`;
+    return `${base} bg-feedback-warningLight text-amber-700 border-amber-200 hover:bg-feedback-warningBorder`;
   }
   if (status === 'Em Analise' || status === 'Em Curso' || status === 'Novo') {
-    return `${base} bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100`;
+    return `${base} bg-brand-poloBlue/15 text-brand-eastBay border-brand-poloBlue/30 hover:bg-brand-poloBlue/20`;
   }
   if (status === 'Aprovado' || status === 'Concluido' || status === 'Aceitado') {
-    return `${base} bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100`;
+    return `${base} bg-feedback-successLight text-feedback-success border-emerald-200 hover:bg-feedback-successBorder`;
   }
-  return `${base} bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100`;
+  return `${base} bg-feedback-errorLight text-feedback-error border-feedback-errorBorder hover:bg-feedback-errorBorder`;
 };
 
 export default function Admin() {
@@ -734,8 +734,8 @@ export default function Admin() {
 
   if (!authChecked) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="animate-spin text-blue-600" size={48} />
+      <div className="min-h-screen flex items-center justify-center bg-brand-poloBlue/15">
+        <Loader2 className="animate-spin text-brand-horizon" size={48} />
       </div>
     );
   }
@@ -765,7 +765,7 @@ export default function Admin() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-brand-poloBlue/15 flex flex-col lg:flex-row">
       <AdminSidebar
         menuItems={menuItems}
         activeTab={activeTab}
@@ -778,7 +778,7 @@ export default function Admin() {
       <main className="flex-grow lg:ml-64 p-4 md:p-8 min-h-screen">
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-brand-bigStone dark:text-dark-text">
               {activeTab === 'projects' ? 'Gestao de Projetos' :
                 activeTab === 'volunteers' ? 'Gestao de Voluntarios' :
                   activeTab === 'beneficiaries' ? 'Historias de Beneficiarios' :
@@ -787,7 +787,7 @@ export default function Admin() {
                         activeTab === 'team' ? 'Gestao da Equipa' :
                           activeTab === 'donations' ? 'Nossos Doadores' : ''}
             </h1>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <p className="text-sm text-brand-eastBay dark:text-dark-muted mt-0.5">
               {activeTab === 'projects'
                 ? `${projects.length} projetos registados`
                 : activeTab === 'volunteers'
@@ -845,7 +845,7 @@ export default function Admin() {
 
         {loading ? (
           <div className="flex justify-center py-32">
-            <Loader2 className="animate-spin text-blue-600" size={48} />
+            <Loader2 className="animate-spin text-brand-horizon" size={48} />
           </div>
         ) : activeTab === 'projects' ? (
           <ProjectsTab

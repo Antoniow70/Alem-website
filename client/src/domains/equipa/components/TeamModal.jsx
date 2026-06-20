@@ -94,7 +94,7 @@ export default function TeamModal({
         <div className="space-y-2">
           <label className="form-label">Fotografia</label>
 
-          <div className="flex gap-4 items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+          <div className="flex gap-4 items-center bg-brand-poloBlue/15 p-4 rounded-xl border border-brand-poloBlue/20">
             <div className="w-16 h-16 rounded-full bg-white shrink-0 overflow-hidden border border-slate-200/80 flex items-center justify-center shadow-sm">
               {(newTeamMember.photo_data || newTeamMember.photo_url) ? (
                 <img src={newTeamMember.photo_data || newTeamMember.photo_url} alt="Preview" className="w-full h-full object-cover" />
@@ -114,7 +114,7 @@ export default function TeamModal({
                 />
                 <div className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 flex items-center gap-2 hover:border-brand-primary transition-all">
                   <Upload size={14} className="text-slate-400 group-hover:text-brand-primary shrink-0" />
-                  <span className="text-xs text-slate-500 font-semibold">
+                  <span className="text-xs text-brand-eastBay dark:text-dark-muted font-semibold">
                     {newTeamMember.photo_data ? '✓ Foto carregada' : 'Carregar do Computador'}
                   </span>
                 </div>

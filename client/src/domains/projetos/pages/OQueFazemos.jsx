@@ -75,10 +75,10 @@ export default function OQueFazemos({ isSection = false }) {
   }, [activeActivity]);
 
   return (
-    <div className={isSection ? "" : "bg-slate-50 min-h-screen"}>
+    <div className={isSection ? "" : "bg-transparent min-h-screen"}>
       {!isSection && (
         /* Header */
-        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
           {/* Background Image and Overlays */}
           <div className="absolute inset-0 z-0">
             <img
@@ -96,7 +96,7 @@ export default function OQueFazemos({ isSection = false }) {
               animate={{ opacity: 1, scale: 1 }}
               className="space-y-4"
             >
-              <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+              <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
                 O Que Fazemos
               </span>
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
@@ -111,12 +111,12 @@ export default function OQueFazemos({ isSection = false }) {
       )}
 
       {/* Dynamic Pillars, Activities, and Projects Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-white border-b border-slate-100">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent border-b border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto space-y-12">
           {loadingPillars ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <Loader2 className="animate-spin text-blue-600" size={36} />
-              <p className="text-slate-500 text-sm mt-3">A carregar os pilares estrategicos...</p>
+              <Loader2 className="animate-spin text-brand-horizon" size={36} />
+              <p className="text-brand-eastBay dark:text-dark-muted text-sm mt-3">A carregar os pilares estrategicos...</p>
             </div>
           ) : (
             <>
@@ -132,33 +132,33 @@ export default function OQueFazemos({ isSection = false }) {
                       whileHover={{ y: -2 }}
                       className={`p-6 rounded-2xl border text-left transition-all relative ${
                         isActive
-                          ? 'border-blue-600 bg-blue-50/20 shadow-md shadow-blue-500/5'
-                          : 'border-slate-100 bg-white hover:border-slate-200 shadow-sm'
+                          ? 'border-brand-horizon bg-brand-poloBlue/20 shadow-md shadow-brand-horizon/5'
+                          : 'border-brand-poloBlue/20 bg-transparent hover:border-slate-200 shadow-sm'
                       }`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-50 text-slate-600'}`}>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-brand-horizon text-white' : 'bg-transparent text-brand-eastBay dark:text-dark-muted'}`}>
                           {icons[i % icons.length]}
                         </div>
                         <div>
-                          <h4 className="font-extrabold text-slate-900 text-base">{pillar.name}</h4>
+                          <h4 className="font-extrabold text-brand-bigStone dark:text-dark-text text-base">{pillar.name}</h4>
                         </div>
                       </div>
-                      <p className="text-slate-500 text-xs mt-4 leading-relaxed line-clamp-2">{pillar.description}</p>
+                      <p className="text-brand-eastBay dark:text-dark-muted text-xs mt-4 leading-relaxed line-clamp-2">{pillar.description}</p>
                     </motion.button>
                   );
                 })}
               </div>
 
               {/* Activities Bar under selected Pilar */}
-              <div className="pt-6 border-t border-slate-100">
+              <div className="pt-6 border-t border-brand-poloBlue/20">
                 <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
                   Areas de Atividade de "{activePillar?.name}"
                 </h4>
                 {loadingActivities ? (
                   <div className="flex items-center gap-2 py-4">
-                    <Loader2 className="animate-spin text-blue-600" size={16} />
-                    <span className="text-slate-500 text-xs">A carregar atividades...</span>
+                    <Loader2 className="animate-spin text-brand-horizon" size={16} />
+                    <span className="text-brand-eastBay dark:text-dark-muted text-xs">A carregar atividades...</span>
                   </div>
                 ) : activities.length > 0 ? (
                   <div className="flex flex-wrap gap-2.5">
@@ -170,8 +170,8 @@ export default function OQueFazemos({ isSection = false }) {
                           onClick={() => setActiveActivity(act)}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                             isActive
-                              ? 'bg-blue-600 text-white shadow-sm'
-                              : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-100'
+                              ? 'bg-brand-horizon text-white shadow-sm'
+                              : 'bg-transparent hover:bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-muted hover:text-brand-bigStone dark:text-dark-text border border-brand-poloBlue/20'
                           }`}
                         >
                           {act.name}
@@ -185,7 +185,7 @@ export default function OQueFazemos({ isSection = false }) {
               </div>
 
               {/* Projects Grid for selected Activity */}
-              <div className="pt-6 border-t border-slate-100">
+              <div className="pt-6 border-t border-brand-poloBlue/20">
                 <div className="flex items-center justify-between mb-6">
                   <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                     Projetos em "{activeActivity?.name || 'Selecione uma atividade'}"
@@ -193,8 +193,8 @@ export default function OQueFazemos({ isSection = false }) {
                 </div>
                 {loadingProjects ? (
                   <div className="flex flex-col items-center justify-center py-20">
-                    <Loader2 className="animate-spin text-blue-600" size={32} />
-                    <p className="text-slate-500 text-xs mt-2">A carregar iniciativas...</p>
+                    <Loader2 className="animate-spin text-brand-horizon" size={32} />
+                    <p className="text-brand-eastBay dark:text-dark-muted text-xs mt-2">A carregar iniciativas...</p>
                   </div>
                 ) : projects.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -207,8 +207,8 @@ export default function OQueFazemos({ isSection = false }) {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-16 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
-                    <p className="text-slate-500 text-sm font-semibold">Sem projetos associados de momento</p>
+                  <div className="text-center py-16 bg-transparent/50 rounded-2xl border border-dashed border-slate-200">
+                    <p className="text-brand-eastBay dark:text-dark-muted text-sm font-semibold">Sem projetos associados de momento</p>
                     <p className="text-slate-400 text-xs mt-1">Brevemente teremos novas iniciativas a decorrer nesta area.</p>
                   </div>
                 )}
@@ -219,40 +219,40 @@ export default function OQueFazemos({ isSection = false }) {
       </section>
 
       {/* Impact Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-slate-900 text-white overflow-hidden relative">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent text-brand-bigStone dark:text-dark-text overflow-hidden relative border-t border-brand-poloBlue/20 dark:border-dark-muted/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <span className="inline-flex items-center rounded-lg bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-400">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">
               O Nosso Impacto
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold leading-tight text-brand-bigStone dark:text-white">
               O nosso impacto vai alem dos numeros. E sobre vidas transformadas.
             </h2>
-            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+            <p className="text-brand-eastBay dark:text-dark-muted text-sm md:text-base leading-relaxed">
               Cada crianca que aprende a ler apesar da dislexia, ou que consegue focar-se na aula com estrategias para TDAH, representa uma vitoria para toda a comunidade.
             </p>
             <div className="grid grid-cols-2 gap-8 pt-4">
               <div>
-                <p className="text-4xl font-black text-emerald-400">85%</p>
-                <p className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1">Melhoria Escolar</p>
+                <p className="text-4xl font-black text-feedback-success">85%</p>
+                <p className="text-xs text-brand-eastBay/70 dark:text-dark-muted uppercase font-semibold tracking-wider mt-1">Melhoria Escolar</p>
               </div>
               <div>
-                <p className="text-4xl font-black text-blue-400">92%</p>
-                <p className="text-xs text-slate-400 uppercase font-semibold tracking-wider mt-1">Satisfacao Familiar</p>
+                <p className="text-4xl font-black text-brand-poloBlue">92%</p>
+                <p className="text-xs text-brand-eastBay/70 dark:text-dark-muted uppercase font-semibold tracking-wider mt-1">Satisfacao Familiar</p>
               </div>
             </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-sm p-8 md:p-10 rounded-2xl border border-white/10 shadow-lg">
-            <blockquote className="text-base md:text-lg italic text-slate-300 leading-relaxed">
+          <div className="bg-transparent/40 dark:bg-dark-surface/40 backdrop-blur-sm p-8 md:p-10 rounded-2xl border border-brand-poloBlue/20 dark:border-dark-muted/10 shadow-lg">
+            <blockquote className="text-base md:text-lg italic text-brand-eastBay dark:text-dark-text leading-relaxed">
               "Antes da ALEM, o meu filho era visto como 'preguicoso'. Hoje, ele entende que apenas aprende de forma diferente e a sua autoestima mudou completamente. Ele agora sonha em ser engenheiro."
             </blockquote>
             <div className="mt-6 flex items-center gap-4">
-              <div className="w-10 h-10 bg-slate-850 rounded-full flex items-center justify-center border border-white/10 text-white font-bold text-xs uppercase">
+              <div className="w-10 h-10 bg-brand-poloBlue/15 dark:bg-dark-bg rounded-full flex items-center justify-center border border-brand-poloBlue/20 dark:border-dark-muted/10 text-brand-horizon dark:text-white font-bold text-xs uppercase">
                 HM
               </div>
               <div>
-                <p className="font-bold text-sm">Dra. Helena Matsinhe</p>
-                <p className="text-xs text-slate-400">Mae e Beneficiaria</p>
+                <p className="font-bold text-sm text-brand-bigStone dark:text-white">Dra. Helena Matsinhe</p>
+                <p className="text-xs text-brand-eastBay dark:text-dark-muted">Mae e Beneficiaria</p>
               </div>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function OQueFazemos({ isSection = false }) {
       </section>
 
       {/* Documentario Video Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-slate-50 border-t border-b border-slate-100">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent border-t border-b border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -270,9 +270,9 @@ export default function OQueFazemos({ isSection = false }) {
             className="space-y-10"
           >
             <div className="text-center space-y-3">
-              <span className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">Video</span>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Documentario</h3>
-              <p className="text-slate-500 text-sm md:text-base max-w-xl mx-auto">
+              <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">Video</span>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Documentario</h3>
+              <p className="text-brand-eastBay dark:text-dark-muted text-sm md:text-base max-w-xl mx-auto">
                 Conheca a historia da Associacao ALEM e o impacto que estamos a gerar na vida das criancas e familias em Mocambique.
               </p>
             </div>

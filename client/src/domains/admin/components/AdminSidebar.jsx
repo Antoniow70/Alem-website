@@ -17,7 +17,7 @@ export default function AdminSidebar({
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden h-16 bg-slate-950 border-b border-slate-900 flex items-center justify-between px-6 sticky top-0 z-40 text-white">
+      <div className="lg:hidden h-16 bg-slate-950 border-b border-brand-bigStone dark:text-dark-text flex items-center justify-between px-6 sticky top-0 z-40 text-white">
         <div className="flex items-center gap-3">
           <img
             src="/images/logo alem.jpg"
@@ -26,7 +26,7 @@ export default function AdminSidebar({
           />
           <div className="flex flex-col">
             <span className="font-black text-sm leading-none tracking-wider text-white">ALEM</span>
-            <span className="text-[8px] uppercase tracking-[0.2em] font-extrabold text-blue-400 mt-0.5">
+            <span className="text-[8px] uppercase tracking-[0.2em] font-extrabold text-brand-poloBlue mt-0.5">
               Painel Admin
             </span>
           </div>
@@ -57,9 +57,9 @@ export default function AdminSidebar({
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-80 bg-slate-950 border-r border-slate-900 z-50 lg:hidden flex flex-col p-6 shadow-2xl text-white"
+              className="fixed inset-y-0 left-0 w-80 bg-slate-950 border-r border-brand-bigStone dark:text-dark-text z-50 lg:hidden flex flex-col p-6 shadow-2xl text-white"
             >
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-900">
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-bigStone dark:text-dark-text">
                 <div className="flex items-center gap-3">
                   <img
                     src="/images/logo alem.jpg"
@@ -68,14 +68,14 @@ export default function AdminSidebar({
                   />
                   <div className="flex flex-col">
                     <span className="font-black text-base leading-none tracking-wider text-white">ALEM</span>
-                    <span className="text-[8px] uppercase tracking-[0.2em] font-extrabold text-blue-400 mt-0.5">
+                    <span className="text-[8px] uppercase tracking-[0.2em] font-extrabold text-brand-poloBlue mt-0.5">
                       Painel Admin
                     </span>
                   </div>
                 </div>
                 <button 
                   onClick={() => setIsMobileMenuOpen(false)} 
-                  className="p-1.5 text-slate-400 hover:text-white transition-colors hover:bg-slate-900 rounded-lg"
+                  className="p-1.5 text-slate-400 hover:text-white transition-colors hover:bg-brand-bigStone dark:text-dark-text rounded-lg"
                 >
                   <X size={20} />
                 </button>
@@ -90,13 +90,13 @@ export default function AdminSidebar({
                       setIsMobileMenuOpen(false);
                     }}
                     className={`w-full flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold transition-all relative group ${
-                      activeTab === item.id ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900/40'
+                      activeTab === item.id ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-brand-bigStone dark:text-dark-text/40'
                     }`}
                   >
                     {activeTab === item.id && (
                       <motion.div
                         layoutId="activeAdminTabMobile"
-                        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl -z-10 shadow-lg shadow-blue-600/20"
+                        className="absolute inset-0 bg-gradient-to-r from-brand-horizon to-brand-eastBay rounded-xl -z-10 shadow-lg shadow-brand-horizon/20"
                         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                       />
                     )}
@@ -116,7 +116,7 @@ export default function AdminSidebar({
 
               <button
                 onClick={() => setIsLogoutConfirmOpen(true)}
-                className="flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold text-rose-400 hover:text-rose-350 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/10 transition-all mt-auto"
+                className="flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold text-feedback-error hover:text-rose-350 hover:bg-feedback-error/10 border border-transparent hover:border-feedback-error/10 transition-all mt-auto"
               >
                 <LogOut size={18} /> Sair
               </button>
@@ -126,8 +126,8 @@ export default function AdminSidebar({
       </AnimatePresence>
 
       {/* Desktop Sidebar */}
-      <aside className="w-64 bg-slate-950 border-r border-slate-900 hidden lg:flex flex-col p-6 fixed h-full z-30 text-white">
-        <div className="flex items-center gap-3 mb-10 pb-6 border-b border-slate-900">
+      <aside className="w-64 bg-slate-950 border-r border-brand-bigStone dark:text-dark-text hidden lg:flex flex-col p-6 fixed h-full z-30 text-white">
+        <div className="flex items-center gap-3 mb-10 pb-6 border-b border-brand-bigStone dark:text-dark-text">
           <img
             src="/images/logo alem.jpg"
             alt="Logo ALEM"
@@ -135,7 +135,7 @@ export default function AdminSidebar({
           />
           <div className="flex flex-col">
             <span className="font-black text-base leading-none tracking-wider text-white">ALEM</span>
-            <span className="text-[8px] uppercase tracking-[0.25em] font-extrabold text-blue-400 mt-1">
+            <span className="text-[8px] uppercase tracking-[0.25em] font-extrabold text-brand-poloBlue mt-1">
               Painel Admin
             </span>
           </div>
@@ -147,13 +147,13 @@ export default function AdminSidebar({
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold transition-all relative group ${
-                activeTab === item.id ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-slate-900/40'
+                activeTab === item.id ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-brand-bigStone dark:text-dark-text/40'
               }`}
             >
               {activeTab === item.id && (
                 <motion.div
                   layoutId="activeAdminTabDesktop"
-                  className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl -z-10 shadow-lg shadow-blue-600/20"
+                  className="absolute inset-0 bg-gradient-to-r from-brand-horizon to-brand-eastBay rounded-xl -z-10 shadow-lg shadow-brand-horizon/20"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
@@ -173,7 +173,7 @@ export default function AdminSidebar({
 
         <button
           onClick={() => setIsLogoutConfirmOpen(true)}
-          className="flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold text-rose-400 hover:text-rose-350 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/10 transition-all mt-auto"
+          className="flex items-center gap-3.5 px-4.5 py-3 rounded-xl text-sm font-semibold text-feedback-error hover:text-rose-350 hover:bg-feedback-error/10 border border-transparent hover:border-feedback-error/10 transition-all mt-auto"
         >
           <LogOut size={18} /> Sair
         </button>

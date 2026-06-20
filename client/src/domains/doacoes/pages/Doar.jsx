@@ -20,19 +20,19 @@ export default function Doar() {
 
   const paymentDetails = {
     'transferencia': {
-      icon: <Building2 className="w-6 h-6 text-blue-600" />,
+      icon: <Building2 className="w-6 h-6 text-brand-horizon" />,
       title: 'Transferencia Bancaria',
       number: 'MZ59 0000 0000 0000 0000 0 (Millennium BIM)',
       instruction: 'Envie o comprovativo para info@alem.mz'
     },
     'mpesa': {
-      icon: <Smartphone className="w-6 h-6 text-red-600" />,
+      icon: <Smartphone className="w-6 h-6 text-feedback-error" />,
       title: 'M-Pesa',
       number: '84 000 0000',
       instruction: 'Transferencia direta via menu *150#'
     },
     'cartao': {
-      icon: <CreditCard className="w-6 h-6 text-slate-700" />,
+      icon: <CreditCard className="w-6 h-6 text-brand-eastBay dark:text-dark-text" />,
       title: 'Cartao de Credito',
       number: 'Redirecionamento Seguro',
       instruction: 'Ira ser redirecionado para o portal de pagamentos apos confirmar.'
@@ -107,8 +107,8 @@ export default function Doar() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
-      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-slate-900">
+    <div className="bg-brand-poloBlue/15 min-h-screen pb-24">
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/Doar.jpg"
@@ -120,7 +120,7 @@ export default function Doar() {
         </div>
 
         <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
-          <span className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+          <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
             Apoie a Nossa Missao
           </span>
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
@@ -134,7 +134,7 @@ export default function Doar() {
 
       {/* Form Section */}
       <section className="max-w-3xl mx-auto px-6 -mt-10 relative z-20">
-        <div className="bg-white rounded-2xl shadow-sm p-8 md:p-10 border border-slate-100">
+        <div className="bg-white rounded-2xl shadow-sm p-8 md:p-10 border border-brand-poloBlue/20">
 
           <AnimatePresence mode="wait">
             {isSubmitted ? (
@@ -143,11 +143,11 @@ export default function Doar() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12 space-y-6"
               >
-                <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 bg-feedback-successLight text-feedback-success rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle size={40} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">Obrigado pela sua Doacao!</h2>
-                <p className="text-slate-600 max-w-md mx-auto leading-relaxed text-sm">
+                <h2 className="text-2xl font-bold text-brand-bigStone dark:text-dark-text">Obrigado pela sua Doacao!</h2>
+                <p className="text-brand-eastBay dark:text-dark-muted max-w-md mx-auto leading-relaxed text-sm">
                   A sua generosidade fara a diferenca na vida de muitas criancas. Recebera um email com os detalhes e o recibo da sua contribuicao.
                 </p>
                 <button
@@ -169,8 +169,8 @@ export default function Doar() {
                 className="space-y-6"
               >
                 <div className="text-center mb-8">
-                  <h2 className="text-xl font-bold text-slate-900">Preencha o Formulario</h2>
-                  <p className="text-slate-500 text-xs mt-1">Os seus dados estao seguros e encriptados.</p>
+                  <h2 className="text-xl font-bold text-brand-bigStone dark:text-dark-text">Preencha o Formulario</h2>
+                  <p className="text-brand-eastBay dark:text-dark-muted text-xs mt-1">Os seus dados estao seguros e encriptados.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -182,10 +182,10 @@ export default function Doar() {
                       name="nome"
                       value={formData.nome}
                       onChange={handleChange}
-                      className={`form-input ${errors.nome ? 'border-red-400 focus:ring-red-500/10 focus:border-red-400' : ''}`}
+                      className={`form-input ${errors.nome ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                       placeholder="Introduza o seu nome"
                     />
-                    {errors.nome && <p className="text-red-500 text-[11px] mt-1">{errors.nome}</p>}
+                    {errors.nome && <p className="text-feedback-error text-[11px] mt-1">{errors.nome}</p>}
                   </div>
 
                   {/* Email */}
@@ -196,10 +196,10 @@ export default function Doar() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`form-input ${errors.email ? 'border-red-400 focus:ring-red-500/10 focus:border-red-400' : ''}`}
+                      className={`form-input ${errors.email ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                       placeholder="seu@email.com"
                     />
-                    {errors.email && <p className="text-red-500 text-[11px] mt-1">{errors.email}</p>}
+                    {errors.email && <p className="text-feedback-error text-[11px] mt-1">{errors.email}</p>}
                   </div>
 
                   {/* Contacto Telefonico */}
@@ -210,10 +210,10 @@ export default function Doar() {
                       name="telefone"
                       value={formData.telefone}
                       onChange={handleChange}
-                      className={`form-input ${errors.telefone ? 'border-red-400 focus:ring-red-500/10 focus:border-red-400' : ''}`}
+                      className={`form-input ${errors.telefone ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                       placeholder="+258 8X XXX XXXX"
                     />
-                    {errors.telefone && <p className="text-red-500 text-[11px] mt-1">{errors.telefone}</p>}
+                    {errors.telefone && <p className="text-feedback-error text-[11px] mt-1">{errors.telefone}</p>}
                   </div>
 
                   {/* Causa a Apoiar */}
@@ -224,7 +224,7 @@ export default function Doar() {
                         name="causa"
                         value={formData.causa}
                         onChange={handleChange}
-                        className={`form-input appearance-none cursor-pointer pr-10 ${errors.causa ? 'border-red-400 focus:ring-red-500/10 focus:border-red-400' : ''}`}
+                        className={`form-input appearance-none cursor-pointer pr-10 ${errors.causa ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                       >
                         <option value="" disabled>Selecione uma causa</option>
                         {causas.map(c => <option key={c} value={c}>{c}</option>)}
@@ -233,7 +233,7 @@ export default function Doar() {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                       </div>
                     </div>
-                    {errors.causa && <p className="text-red-500 text-[11px] mt-1">{errors.causa}</p>}
+                    {errors.causa && <p className="text-feedback-error text-[11px] mt-1">{errors.causa}</p>}
                   </div>
 
                   {/* Valor da Doacao */}
@@ -246,11 +246,11 @@ export default function Doar() {
                         name="valor"
                         value={formData.valor}
                         onChange={handleChange}
-                        className={`form-input pl-12 text-base font-bold text-slate-800 ${errors.valor ? 'border-red-400 focus:ring-red-500/10 focus:border-red-400' : ''}`}
+                        className={`form-input pl-12 text-base font-bold text-brand-eastBay dark:text-dark-text ${errors.valor ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                         placeholder="0.00"
                       />
                     </div>
-                    {errors.valor && <p className="text-red-500 text-[11px] mt-1">{errors.valor}</p>}
+                    {errors.valor && <p className="text-feedback-error text-[11px] mt-1">{errors.valor}</p>}
                   </div>
 
                   {/* Metodo de Pagamento */}
@@ -266,15 +266,15 @@ export default function Doar() {
                           }}
                           className={`relative flex flex-col p-4 cursor-pointer rounded-xl border transition-all ${
                             formData.metodoPagamento === key
-                              ? 'border-brand-primary bg-blue-50/20 ring-2 ring-brand-primary/10 shadow-sm'
-                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                              ? 'border-brand-primary bg-brand-poloBlue/20 ring-2 ring-brand-primary/10 shadow-sm'
+                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-brand-poloBlue/15'
                           }`}
                         >
                           <div className="flex items-center gap-3 mb-1">
-                            <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100">
+                            <div className="p-1.5 bg-brand-poloBlue/15 rounded-lg border border-brand-poloBlue/20">
                               {details.icon}
                             </div>
-                            <span className="font-bold text-slate-800 text-xs">{details.title}</span>
+                            <span className="font-bold text-brand-eastBay dark:text-dark-text text-xs">{details.title}</span>
                           </div>
 
                           {/* Expanded Details when selected */}
@@ -297,7 +297,7 @@ export default function Doar() {
                         </div>
                       ))}
                     </div>
-                    {errors.metodoPagamento && <p className="text-red-500 text-[11px] mt-1">{errors.metodoPagamento}</p>}
+                    {errors.metodoPagamento && <p className="text-feedback-error text-[11px] mt-1">{errors.metodoPagamento}</p>}
                   </div>
 
                   {/* Mensagem Opcional */}
@@ -315,9 +315,9 @@ export default function Doar() {
 
                 </div>
 
-                <div className="pt-6 border-t border-slate-100 flex items-center justify-between flex-wrap gap-4 mt-6">
+                <div className="pt-6 border-t border-brand-poloBlue/20 flex items-center justify-between flex-wrap gap-4 mt-6">
                   <p className="text-xs text-slate-400 leading-normal max-w-sm">
-                    Ao confirmar, aceita os nossos <a href="#" className="text-blue-600 hover:underline">Termos de Doacao</a>.
+                    Ao confirmar, aceita os nossos <a href="#" className="text-brand-horizon hover:underline">Termos de Doacao</a>.
                   </p>
                   <button
                     type="submit"

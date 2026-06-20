@@ -23,7 +23,7 @@ export default function ProjectModal({
             className="form-input"
             placeholder="Nome do projeto..."
           />
-          {projectForm.formState.errors.name && <p className="text-red-500 text-xs mt-1">{projectForm.formState.errors.name.message}</p>}
+          {projectForm.formState.errors.name && <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.name.message}</p>}
         </div>
 
         <div className="space-y-1">
@@ -34,12 +34,12 @@ export default function ProjectModal({
             className="form-input resize-y min-h-[100px] leading-relaxed"
             placeholder="Detalhes dos objetivos..."
           />
-          {projectForm.formState.errors.objetivos_especificos && <p className="text-red-500 text-xs mt-1">{projectForm.formState.errors.objetivos_especificos.message}</p>}
+          {projectForm.formState.errors.objetivos_especificos && <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.objetivos_especificos.message}</p>}
         </div>
 
         <div className="space-y-1">
           <label className="form-label">Equipa Responsavel</label>
-          <div className="relative group cursor-pointer border border-slate-200 rounded-xl bg-slate-50 max-h-32 overflow-y-auto p-3.5 custom-scrollbar">
+          <div className="relative group cursor-pointer border border-slate-200 rounded-xl bg-brand-poloBlue/15 max-h-32 overflow-y-auto p-3.5 custom-scrollbar">
             {team.length === 0 ? (
               <p className="text-xs text-slate-400">Nenhum membro registado. Adicione na aba Equipa.</p>
             ) : (
@@ -52,14 +52,14 @@ export default function ProjectModal({
                       {...projectForm.register('equipa_responsavel')}
                       className="w-4 h-4 rounded border-slate-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
                     />
-                    <span className="text-xs font-semibold text-slate-700">{member.name} ({member.role})</span>
+                    <span className="text-xs font-semibold text-brand-eastBay dark:text-dark-text">{member.name} ({member.role})</span>
                   </label>
                 ))}
               </div>
             )}
           </div>
           {projectForm.formState.errors.equipa_responsavel && (
-            <p className="text-red-500 text-xs mt-1">{projectForm.formState.errors.equipa_responsavel.message}</p>
+            <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.equipa_responsavel.message}</p>
           )}
         </div>
 
@@ -67,7 +67,7 @@ export default function ProjectModal({
           <label className="form-label">Estado</label>
           <select
             {...projectForm.register('status')}
-            className="form-input cursor-pointer font-semibold text-slate-900"
+            className="form-input cursor-pointer font-semibold text-brand-bigStone dark:text-dark-text"
           >
             <option value="Planeamento">Planeamento</option>
             <option value="Em Curso">Em Curso</option>
@@ -92,9 +92,9 @@ export default function ProjectModal({
                 }}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
-              <div className="bg-slate-50 border border-dashed border-slate-300 rounded-xl p-5 flex flex-col items-center justify-center gap-2 group-hover:border-brand-primary group-hover:bg-slate-100/50 transition-all">
+              <div className="bg-brand-poloBlue/15 border border-dashed border-slate-300 rounded-xl p-5 flex flex-col items-center justify-center gap-2 group-hover:border-brand-primary group-hover:bg-brand-poloBlue/50 transition-all">
                 <Upload className="text-slate-400 group-hover:text-brand-primary" size={20} />
-                <span className="text-xs font-semibold text-slate-500 text-center">
+                <span className="text-xs font-semibold text-brand-eastBay dark:text-dark-muted text-center">
                   {selectedFile ? selectedFile.name : 'Escolher Ficheiro'}
                 </span>
               </div>
@@ -116,12 +116,12 @@ export default function ProjectModal({
           </div>
 
           {uploadPreview && (
-            <div className="mt-3 rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-50 relative max-w-sm mx-auto shadow-sm">
+            <div className="mt-3 rounded-xl overflow-hidden border border-slate-200 aspect-video bg-brand-poloBlue/15 relative max-w-sm mx-auto shadow-sm">
               <img src={uploadPreview} alt="Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               <button
                 type="button"
                 onClick={() => { setSelectedFile(null); setUploadPreview(null); projectForm.setValue('capa_url', ''); }}
-                className="absolute top-2 right-2 bg-rose-500 text-white p-1.5 rounded-full shadow hover:bg-rose-600 transition-all duration-200"
+                className="absolute top-2 right-2 bg-feedback-error text-white p-1.5 rounded-full shadow hover:bg-feedback-error transition-all duration-200"
               >
                 <X size={14} />
               </button>
@@ -129,15 +129,15 @@ export default function ProjectModal({
           )}
         </div>
 
-        <div className="space-y-3 pt-2 border-t border-slate-100">
+        <div className="space-y-3 pt-2 border-t border-brand-poloBlue/20">
           <label className="form-label text-brand-primary">Imagens ou videos do projeto</label>
           <div className="space-y-3">
             {galleryFields.map((field, index) => (
-              <div key={field.id} className="bg-slate-50/50 p-4 rounded-xl border border-slate-200/60 space-y-3 relative">
+              <div key={field.id} className="bg-brand-poloBlue/50 p-4 rounded-xl border border-slate-200/60 space-y-3 relative">
                 <button
                   type="button"
                   onClick={() => removeGallery(index)}
-                  className="absolute top-2 right-2 text-slate-400 hover:text-rose-500 transition-colors"
+                  className="absolute top-2 right-2 text-slate-400 hover:text-feedback-error transition-colors"
                 >
                   <X size={14} />
                 </button>
@@ -176,7 +176,7 @@ export default function ProjectModal({
             <button
               type="button"
               onClick={() => appendGallery({ type: 'image', url: '', description: '' })}
-              className="w-full py-2.5 border border-dashed border-slate-300 rounded-xl text-slate-500 hover:text-brand-primary hover:border-brand-primary hover:bg-slate-50 transition-all flex items-center justify-center gap-2 font-semibold text-xs"
+              className="w-full py-2.5 border border-dashed border-slate-300 rounded-xl text-brand-eastBay dark:text-dark-muted hover:text-brand-primary hover:border-brand-primary hover:bg-brand-poloBlue/15 transition-all flex items-center justify-center gap-2 font-semibold text-xs"
             >
               <Plus size={16} /> Adicionar imagem ou video do projeto
             </button>
@@ -193,7 +193,7 @@ export default function ProjectModal({
               <button
                 type="button"
                 disabled={isGalleryUploading}
-                className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                className="w-full py-2.5 bg-brand-poloBlue/20 hover:bg-slate-200 text-brand-eastBay dark:text-dark-text rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
                 {isGalleryUploading ? <Loader2 className="animate-spin" size={14} /> : <Upload size={14} />}
                 Carregar Multiplos Ficheiros (Imagens/Videos)
@@ -203,7 +203,7 @@ export default function ProjectModal({
         </div>
 
         {/* Footer Buttons */}
-        <div className="pt-4 border-t border-slate-100 flex gap-3">
+        <div className="pt-4 border-t border-brand-poloBlue/20 flex gap-3">
           <button
             type="button"
             onClick={() => { onClose(); setSelectedFile(null); setUploadPreview(null); }}

@@ -29,24 +29,24 @@ export default function DialogConfirm({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-            className="bg-white rounded-2xl border border-slate-100 shadow-2xl max-w-sm w-full p-6 relative z-10 flex flex-col items-center text-center"
+            className="bg-white rounded-2xl border border-brand-poloBlue/20 shadow-2xl max-w-sm w-full p-6 relative z-10 flex flex-col items-center text-center"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-50 transition-colors"
+              className="absolute top-4 right-4 text-slate-400 hover:text-brand-eastBay dark:text-dark-muted p-1 rounded-lg hover:bg-brand-poloBlue/15 transition-colors"
             >
               <X size={16} />
             </button>
 
             {/* Icon Wrapper */}
-            <div className="w-12 h-12 rounded-full bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-full bg-feedback-errorLight border border-feedback-errorBorder text-feedback-error flex items-center justify-center mb-4">
               <LogOut size={20} className="translate-x-0.5" />
             </div>
 
             {/* Content */}
-            <h3 className="text-base font-extrabold text-slate-900 mb-2">{title}</h3>
-            <p className="text-slate-500 text-xs leading-relaxed mb-6 px-1">
+            <h3 className="text-base font-extrabold text-brand-bigStone dark:text-dark-text mb-2">{title}</h3>
+            <p className="text-brand-eastBay dark:text-dark-muted text-xs leading-relaxed mb-6 px-1">
               {message}
             </p>
 
@@ -55,7 +55,7 @@ export default function DialogConfirm({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brand-eastBay dark:text-dark-muted hover:text-brand-bigStone dark:text-dark-text border border-slate-200 hover:bg-brand-poloBlue/15 hover:border-slate-300 transition-all duration-200"
               >
                 {cancelText}
               </button>
@@ -65,7 +65,7 @@ export default function DialogConfirm({
                   onConfirm();
                   onClose();
                 }}
-                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-600/10 active:scale-[0.98] transition-all duration-200"
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-feedback-error hover:bg-feedback-error hover:shadow-lg hover:shadow-feedback-error/10 active:scale-[0.98] transition-all duration-200"
               >
                 {confirmText}
               </button>

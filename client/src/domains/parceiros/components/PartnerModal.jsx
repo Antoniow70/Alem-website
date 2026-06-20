@@ -71,18 +71,18 @@ export default function PartnerModal({
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               onChange={handleFileChange}
             />
-            <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl px-4 py-2.5 flex items-center gap-2.5 hover:border-brand-primary transition-all">
+            <div className="bg-brand-poloBlue/15 border border-dashed border-slate-200 rounded-xl px-4 py-2.5 flex items-center gap-2.5 hover:border-brand-primary transition-all">
               <Upload size={16} className="text-slate-400 group-hover:text-brand-primary shrink-0" />
-              <span className="text-xs text-slate-500 font-semibold">
+              <span className="text-xs text-brand-eastBay dark:text-dark-muted font-semibold">
                 {newPartner.logo_data ? '✓ Ficheiro carregado' : 'Carregar do Computador'}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2 text-[10px] text-slate-400">
-            <div className="flex-1 h-px bg-slate-100" />
+            <div className="flex-1 h-px bg-brand-poloBlue/20" />
             <span>ou</span>
-            <div className="flex-1 h-px bg-slate-100" />
+            <div className="flex-1 h-px bg-brand-poloBlue/20" />
           </div>
 
           {/* URL externa */}
@@ -97,7 +97,7 @@ export default function PartnerModal({
 
         {/* Preview */}
         {(newPartner.logo_data || newPartner.logo_url) && (
-          <div className="bg-slate-900 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-brand-bigStone dark:text-dark-text rounded-xl p-4 flex items-center gap-3">
             <img
               src={newPartner.logo_data || newPartner.logo_url}
               alt="Preview"
@@ -110,7 +110,7 @@ export default function PartnerModal({
             </div>
             <button
               onClick={() => setNewPartner(p => ({ ...p, logo_data: '', logo_url: '' }))}
-              className="ml-auto text-slate-400 hover:text-red-400 transition-colors"
+              className="ml-auto text-slate-400 hover:text-feedback-error transition-colors"
               title="Remover logo"
             >
               <X size={14} />
