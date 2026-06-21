@@ -64,6 +64,7 @@ async function fetchAllAdminData() {
 // Components
 import AdminLogin from '../../auth/components/AdminLogin';
 import AdminSidebar from '../components/AdminSidebar';
+import ConfirmModal from '../components/ConfirmModal';
 import ProjectsTab from '../../projetos/components/ProjectsTab';
 import ProjectModal from '../../projetos/components/ProjectModal';
 import VolunteersTab from '../../voluntarios/components/VolunteersTab';
@@ -190,6 +191,29 @@ export default function Admin() {
   const [newTeamMember, setNewTeamMember] = useState({ name: '', role: '', bio: '', photo_data: '', photo_url: '' });
   const [editingTeamMember, setEditingTeamMember] = useState(null);
 
+  // Confirm Modal state and helper
+  const [confirmConfig, setConfirmConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: '',
+    cancelText: '',
+    type: 'danger',
+    onConfirm: () => {}
+  });
+
+  const openConfirm = ({ title, message, confirmText, cancelText, type = 'danger', onConfirm }) => {
+    setConfirmConfig({
+      isOpen: true,
+      title,
+      message,
+      confirmText,
+      cancelText,
+      type,
+      onConfirm
+    });
+  };
+
   // Forms
   const projectForm = useForm({
     resolver: zodResolver(projectSchema),
@@ -294,15 +318,22 @@ export default function Admin() {
     }
   };
 
-  const handleDeletePartner = async (id) => {
-    if (confirm('Remover este parceiro?')) {
-      try {
-        await deletePartnerService(id);
-        fetchData();
-      } catch (err) {
-        console.error('Error deleting partner:', err);
+  const handleDeletePartner = (id) => {
+    openConfirm({
+      title: 'Remover Parceiro',
+      message: 'Tem a certeza que deseja eliminar este parceiro? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deletePartnerService(id);
+          fetchData();
+        } catch (err) {
+          console.error('Error deleting partner:', err);
+        }
       }
-    }
+    });
   };
 
   // Team CRUD
@@ -327,15 +358,22 @@ export default function Admin() {
     }
   };
 
-  const handleDeleteTeamMember = async (id) => {
-    if (confirm('Remover este membro da equipa?')) {
-      try {
-        await deleteTeamMemberService(id);
-        fetchData();
-      } catch (err) {
-        console.error('Error deleting team member:', err);
+  const handleDeleteTeamMember = (id) => {
+    openConfirm({
+      title: 'Remover Membro da Equipa',
+      message: 'Tem a certeza que deseja remover este membro da equipa? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteTeamMemberService(id);
+          fetchData();
+        } catch (err) {
+          console.error('Error deleting team member:', err);
+        }
       }
-    }
+    });
   };
 
   const openEditTeamMember = (member) => {
@@ -395,11 +433,22 @@ export default function Admin() {
     }
   };
 
-  const handleDeleteProject = async (id) => {
-    if (confirm('Tem a certeza que deseja eliminar este projeto?')) {
-      await deleteProjectService(id);
-      fetchData();
-    }
+  const handleDeleteProject = (id) => {
+    openConfirm({
+      title: 'Eliminar Projeto',
+      message: 'Tem a certeza que deseja eliminar este projeto? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteProjectService(id);
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting project:', error);
+        }
+      }
+    });
   };
 
   const handleUpdateProjectStatus = async (id, newStatus) => {
@@ -470,11 +519,22 @@ export default function Admin() {
   const handleUpdateVolunteerStatus = async (id, newStatus) => {
     try {
       if (newStatus === 'Recusado') {
-        if (confirm('Tem a certeza? Ao marcar como Recusado, o registo sera eliminado permanentemente.')) {
-          await deleteVolunteerService(id);
-          fetchData();
-          if (isVolunteerModalOpen) setIsVolunteerModalOpen(false);
-        }
+        openConfirm({
+          title: 'Recusar Voluntário',
+          message: 'Tem a certeza? Ao marcar como Recusado, o registo sera eliminado permanentemente.',
+          confirmText: 'Recusar e Eliminar',
+          cancelText: 'Cancelar',
+          type: 'danger',
+          onConfirm: async () => {
+            try {
+              await deleteVolunteerService(id);
+              fetchData();
+              if (isVolunteerModalOpen) setIsVolunteerModalOpen(false);
+            } catch (error) {
+              console.error('Error deleting volunteer:', error);
+            }
+          }
+        });
         return;
       }
       await updateVolunteerStatusService(id, newStatus);
@@ -502,11 +562,22 @@ export default function Admin() {
     setIsVolunteerModalOpen(true);
   };
 
-  const handleDeleteVolunteer = async (id) => {
-    if (confirm('Tem a certeza que deseja remover este voluntario?')) {
-      await deleteVolunteerService(id);
-      fetchData();
-    }
+  const handleDeleteVolunteer = (id) => {
+    openConfirm({
+      title: 'Remover Voluntário',
+      message: 'Tem a certeza que deseja remover este voluntario? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteVolunteerService(id);
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting volunteer:', error);
+        }
+      }
+    });
   };
 
   const getFilteredVolunteers = () => {
@@ -586,11 +657,22 @@ export default function Admin() {
   const handleUpdateMessageStatus = async (id, status) => {
     try {
       if (status === 'Recusado') {
-        if (confirm('Tem a certeza? Ao marcar como Recusado, o registo sera eliminado permanentemente.')) {
-          await deleteMessageService(id);
-          fetchData();
-          if (isMessageModalOpen) setIsMessageModalOpen(false);
-        }
+        openConfirm({
+          title: 'Recusar Pedido de Apoio',
+          message: 'Tem a certeza? Ao marcar como Recusado, o registo sera eliminado permanentemente.',
+          confirmText: 'Recusar e Eliminar',
+          cancelText: 'Cancelar',
+          type: 'danger',
+          onConfirm: async () => {
+            try {
+              await deleteMessageService(id);
+              fetchData();
+              if (isMessageModalOpen) setIsMessageModalOpen(false);
+            } catch (error) {
+              console.error('Error deleting message:', error);
+            }
+          }
+        });
         return;
       }
       await updateMessageStatusService(id, status);
@@ -638,9 +720,22 @@ export default function Admin() {
     setIsMessageModalOpen(true);
   };
 
-  const handleDeleteMessage = async (id) => {
-    await deleteMessageService(id);
-    fetchData();
+  const handleDeleteMessage = (id) => {
+    openConfirm({
+      title: 'Eliminar Pedido de Apoio',
+      message: 'Tem a certeza que deseja eliminar este pedido permanentemente? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteMessageService(id);
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting message:', error);
+        }
+      }
+    });
   };
 
   const getFilteredMessages = () => {
@@ -714,11 +809,22 @@ export default function Admin() {
     setIsBeneficiaryModalOpen(true);
   };
 
-  const handleDeleteBeneficiary = async (id) => {
-    if (confirm('Tem a certeza que deseja eliminar esta historia de beneficiario?')) {
-      await deleteBeneficiaryService(id);
-      fetchData();
-    }
+  const handleDeleteBeneficiary = (id) => {
+    openConfirm({
+      title: 'Eliminar História de Beneficiário',
+      message: 'Tem a certeza que deseja eliminar esta história de beneficiário? Esta ação é irreversível.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteBeneficiaryService(id);
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting beneficiary story:', error);
+        }
+      }
+    });
   };
 
   // Donations filters & PDF
@@ -745,10 +851,21 @@ export default function Admin() {
   const handleUpdateDonationStatus = async (id, newStatus) => {
     try {
       if (newStatus === 'Nao Recebido' || newStatus === 'Recusado') {
-        if (confirm('Tem a certeza? Ao marcar como Nao Recebido, o registo de doacao sera eliminado permanentemente.')) {
-          await updateDonationStatusService(id, newStatus);
-          fetchData();
-        }
+        openConfirm({
+          title: 'Eliminar Registo de Doação',
+          message: 'Tem a certeza? Ao marcar como Não Recebido, o registo de doação será eliminado permanentemente.',
+          confirmText: 'Eliminar',
+          cancelText: 'Cancelar',
+          type: 'danger',
+          onConfirm: async () => {
+            try {
+              await updateDonationStatusService(id, newStatus);
+              fetchData();
+            } catch (error) {
+              console.error('Error updating donation status:', error);
+            }
+          }
+        });
         return;
       }
       await updateDonationStatusService(id, newStatus);
@@ -1028,6 +1145,17 @@ export default function Admin() {
         newTeamMember={newTeamMember}
         setNewTeamMember={setNewTeamMember}
         addOrUpdateTeamMember={handleAddOrUpdateTeamMember}
+      />
+
+      <ConfirmModal
+        isOpen={confirmConfig.isOpen}
+        onClose={() => setConfirmConfig(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmConfig.onConfirm}
+        title={confirmConfig.title}
+        message={confirmConfig.message}
+        confirmText={confirmConfig.confirmText}
+        cancelText={confirmConfig.cancelText}
+        type={confirmConfig.type}
       />
     </div>
   );

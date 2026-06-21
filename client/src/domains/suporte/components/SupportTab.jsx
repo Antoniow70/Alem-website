@@ -218,9 +218,7 @@ export default function SupportTab({
                           </button>
                           <button
                             onClick={() => {
-                              if (confirm('Eliminar este pedido permanentemente?')) {
-                                deleteMessage(msg.id);
-                              }
+                              deleteMessage(msg.id);
                             }}
                             className="p-2 bg-feedback-errorLight hover:bg-feedback-error text-feedback-error hover:text-white rounded-lg transition-all"
                             title="Eliminar Pedido"
