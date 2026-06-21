@@ -1,82 +1,79 @@
-import { supabase } from '../../../shared/lib/supabaseClient';
+import axiosClient from '../../../shared/lib/axiosClient';
 
+/**
+ * Gets all pillars from backend
+ * @returns {Promise<object[]>} Pillars
+ */
 export async function getPillars() {
-  const { data, error } = await supabase
-    .from('pillars')
-    .select('*')
-    .order('sort_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/projetos/pillars');
+  return response.data.data;
 }
 
+/**
+ * Gets activities for a specific pillar or all if pillarId is null
+ * @param {string} pillarId
+ * @returns {Promise<object[]>} Activities
+ */
 export async function getActivities(pillarId) {
-  const { data, error } = await supabase
-    .from('activities')
-    .select('*')
-    .eq('pillar_id', pillarId)
-    .order('sort_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/projetos/activities', { params: { pillarId } });
+  return response.data.data;
 }
 
+/**
+ * Gets all activities sorted by name
+ * @returns {Promise<object[]>} Activities
+ */
 export async function getAllActivities() {
-  const { data, error } = await supabase
-    .from('activities')
-    .select('*')
-    .order('name', { ascending: true });
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/projetos/activities/all');
+  return response.data.data;
 }
 
+/**
+ * Gets projects matching filters
+ * @param {object} filters
+ * @returns {Promise<object[]>} Projects
+ */
 export async function getProjects(filters = {}) {
-  let query = supabase.from('projects').select('*, activities(name)');
-  
-  if (filters.activityId) {
-    query = query.eq('activity_id', filters.activityId);
-  }
-  if (filters.status && filters.status !== 'Todos') {
-    query = query.eq('status', filters.status);
-  }
-  if (filters.search) {
-    query = query.or(`name.ilike.%${filters.search}%,objetivos_especificos.ilike.%${filters.search}%`);
-  }
-  
-  query = query.order('created_at', { ascending: false });
-  
-  const { data, error } = await query;
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/projetos', { params: filters });
+  return response.data.data;
 }
 
+/**
+ * Gets a single project by its ID
+ * @param {string} id
+ * @returns {Promise<object>} Project data
+ */
 export async function getProjectById(id) {
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*, activities(name)')
-    .eq('id', id)
-    .single();
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get(`/projetos/${id}`);
+  return response.data.data;
 }
 
+/**
+ * Creates a new project
+ * @param {object} data
+ * @returns {Promise<object>} Created project
+ */
 export async function createProject(data) {
-  const { data: result, error } = await supabase
-    .from('projects')
-    .insert([data])
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.post('/projetos', data);
+  return response.data.data;
 }
 
+/**
+ * Updates an existing project
+ * @param {string} id
+ * @param {object} data
+ * @returns {Promise<object>} Updated project
+ */
 export async function updateProject(id, data) {
-  const { data: result, error } = await supabase
-    .from('projects')
-    .update(data)
-    .eq('id', id)
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.put(`/projetos/${id}`, data);
+  return response.data.data;
 }
 
+/**
+ * Wrapper for creating/updating a project
+ * @param {object} payload
+ * @param {string} editingId
+ */
 export async function saveProject(payload, editingId) {
   if (editingId) {
     return updateProject(editingId, payload);
@@ -85,39 +82,52 @@ export async function saveProject(payload, editingId) {
   }
 }
 
+/**
+ * Deletes a project
+ * @param {string} id
+ */
 export async function deleteProject(id) {
-  const { error } = await supabase
-    .from('projects')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  const response = await axiosClient.delete(`/projetos/${id}`);
+  return response.data;
 }
 
+/**
+ * Updates project lifecycle status
+ * @param {string} id
+ * @param {string} newStatus
+ */
 export async function updateProjectStatus(id, newStatus) {
-  const { error } = await supabase
-    .from('projects')
-    .update({ status: newStatus })
-    .eq('id', id);
-  if (error) throw error;
+  const response = await axiosClient.patch(`/projetos/${id}/status`, { status: newStatus });
+  return response.data.data;
 }
 
-// File Upload helper
+/**
+ * Helper to upload files to backend media storage (converting to base64 on client-side)
+ * @param {File} file
+ * @param {string} folder
+ * @returns {Promise<object>} Result containing error and publicUrl
+ */
 export async function uploadFileToStorage(file, folder = 'projects') {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Math.random()}.${fileExt}`;
-  const filePath = `${folder}/${fileName}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from('project-media')
-    .upload(filePath, file);
-
-  if (uploadError) {
-    return { error: uploadError, filePath: null, publicUrl: null };
-  }
-
-  const { data: urlData } = supabase.storage
-    .from('project-media')
-    .getPublicUrl(filePath);
-
-  return { error: null, filePath, publicUrl: urlData.publicUrl };
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const fileData = reader.result;
+        const response = await axiosClient.post('/upload', {
+          fileData,
+          fileName: file.name,
+          folder
+        });
+        resolve({ error: null, filePath: null, publicUrl: response.data.publicUrl });
+      } catch (err) {
+        console.error('File upload failed via backend:', err);
+        resolve({ error: err, filePath: null, publicUrl: null });
+      }
+    };
+    reader.onerror = (error) => {
+      console.error('File read error:', error);
+      resolve({ error, filePath: null, publicUrl: null });
+    };
+    reader.readAsDataURL(file);
+  });
 }

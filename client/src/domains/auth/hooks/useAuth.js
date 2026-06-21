@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { loginAdmin, logoutAdmin, getCurrentSession } from '../services/authApi';
-import { supabase } from '../../../shared/lib/supabaseClient';
 
+/**
+ * Hook to manage admin authentication state using backend REST API
+ */
 export function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
@@ -9,17 +11,13 @@ export function useAuth() {
   const [loginLoading, setLoginLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    getCurrentSession().then((session) => {
       setIsLoggedIn(!!session);
       setAuthChecked(true);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session);
+    }).catch(() => {
+      setIsLoggedIn(false);
       setAuthChecked(true);
     });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   const handleLogin = async (email, password) => {
@@ -27,6 +25,7 @@ export function useAuth() {
     setLoginLoading(true);
     try {
       await loginAdmin(email, password);
+      setIsLoggedIn(true);
       return true;
     } catch (error) {
       setLoginError(error.message || 'Credenciais invalidas. Tente novamente.');
@@ -39,6 +38,7 @@ export function useAuth() {
   const handleLogout = async () => {
     try {
       await logoutAdmin();
+      setIsLoggedIn(false);
       return true;
     } catch (error) {
       console.error('Logout error:', error);

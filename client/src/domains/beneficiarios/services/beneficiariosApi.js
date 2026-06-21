@@ -1,33 +1,49 @@
-import { supabase } from '../../../shared/lib/supabaseClient';
+import axiosClient from '../../../shared/lib/axiosClient';
 
+/**
+ * Gets the list of beneficiary stories
+ * @returns {Promise<object[]>} Stories
+ */
 export async function getBeneficiaryStories() {
-  const { data, error } = await supabase
-    .from('beneficiary_stories')
-    .select('*, projects(name)')
-    .order('created_at', { ascending: false });
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/beneficiarios');
+  return response.data.data;
 }
 
+/**
+ * Creates a beneficiary story
+ * @param {object} data
+ * @returns {Promise<object>} Created story
+ */
 export async function createStory(data) {
-  const { data: result, error } = await supabase
-    .from('beneficiary_stories')
-    .insert([data])
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.post('/beneficiarios', data);
+  return response.data.data;
 }
 
+/**
+ * Updates a beneficiary story
+ * @param {string} id
+ * @param {object} data
+ * @returns {Promise<object>} Updated story
+ */
 export async function updateStory(id, data) {
-  const { data: result, error } = await supabase
-    .from('beneficiary_stories')
-    .update(data)
-    .eq('id', id)
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.put(`/beneficiarios/${id}`, data);
+  return response.data.data;
 }
 
+/**
+ * Deletes a beneficiary story
+ * @param {string} id
+ */
+export async function deleteStory(id) {
+  const response = await axiosClient.delete(`/beneficiarios/${id}`);
+  return response.data;
+}
+
+/**
+ * Helper wrapper to save (create or update) a story
+ * @param {object} data
+ * @param {string} editingId
+ */
 export async function saveBeneficiary(data, editingId) {
   const payload = {
     full_name: data.full_name,
@@ -42,14 +58,10 @@ export async function saveBeneficiary(data, editingId) {
   }
 }
 
-export async function deleteStory(id) {
-  const { error } = await supabase
-    .from('beneficiary_stories')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
-}
-
+/**
+ * Deletes a beneficiary story
+ * @param {string} id
+ */
 export async function deleteBeneficiary(id) {
   return deleteStory(id);
 }

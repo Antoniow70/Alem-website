@@ -62,7 +62,7 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
 
           {/* Bio */}
           <div className="flex-grow w-full overflow-y-auto text-[13px] text-brand-eastBay dark:text-dark-muted leading-relaxed whitespace-pre-wrap pr-2 custom-scrollbar scrollbar-thin">
-            {person.bio || 'Sem informações adicionais.'}
+            {person.bio || 'Sem informacoes adicionais.'}
           </div>
           
         </div>

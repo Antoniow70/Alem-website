@@ -15,50 +15,49 @@ import {
   Heart
 } from 'lucide-react';
 
-import { supabase } from '../../../shared/lib/supabaseClient';
+import axiosClient from '../../../shared/lib/axiosClient';
 
 // Utilities
 import { compressImage } from '../../../shared/utils/imageUtils';
-import { exportDonationsPDF, exportVolunteersPDF, exportSupportPDF } from '../../suporte/utils/pdfExport';
 
 // Services from Domain API files
-import { loginAdmin, logoutAdmin } from '../../auth/services/authApi';
-import { saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage } from '../../projetos/services/projetosApi';
-import { deleteVolunteer as deleteVolunteerService, updateVolunteerStatus as updateVolunteerStatusService, updateVolunteerReadStatus as updateVolunteerReadStatusService, bulkUpdateVolunteerStatus as bulkUpdateVolunteerStatusService } from '../../voluntarios/services/voluntariosApi';
-import { deleteMessage as deleteMessageService, updateMessageStatus as updateMessageStatusService, updateMessageReadStatus as updateMessageReadStatusService, bulkUpdateMessageStatus as bulkUpdateMessageStatusService } from '../../suporte/services/suporteApi';
-import { saveBeneficiary as saveBeneficiaryService, deleteBeneficiary as deleteBeneficiaryService } from '../../beneficiarios/services/beneficiariosApi';
-import { addPartner as addPartnerService, deletePartner as deletePartnerService } from '../../parceiros/services/parceirosApi';
-import { addOrUpdateTeamMember as addOrUpdateTeamMemberService, deleteTeamMember as deleteTeamMemberService } from '../../equipa/services/equipaApi';
-import { updateDonationStatus as updateDonationStatusService } from '../../doacoes/services/doacoesApi';
+import { loginAdmin, logoutAdmin, getCurrentSession } from '../../auth/services/authApi';
+import { getProjects, saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage } from '../../projetos/services/projetosApi';
+import { getVolunteers, deleteVolunteer as deleteVolunteerService, updateVolunteerStatus as updateVolunteerStatusService, updateVolunteerReadStatus as updateVolunteerReadStatusService, bulkUpdateVolunteerStatus as bulkUpdateVolunteerStatusService } from '../../voluntarios/services/voluntariosApi';
+import { getMessages, deleteMessage as deleteMessageService, updateMessageStatus as updateMessageStatusService, updateMessageReadStatus as updateMessageReadStatusService, bulkUpdateMessageStatus as bulkUpdateMessageStatusService } from '../../suporte/services/suporteApi';
+import { getBeneficiaryStories, saveBeneficiary as saveBeneficiaryService, deleteBeneficiary as deleteBeneficiaryService } from '../../beneficiarios/services/beneficiariosApi';
+import { getPartners, addPartner as addPartnerService, deletePartner as deletePartnerService } from '../../parceiros/services/parceirosApi';
+import { getTeam, addOrUpdateTeamMember as addOrUpdateTeamMemberService, deleteTeamMember as deleteTeamMemberService } from '../../equipa/services/equipaApi';
+import { getDonations, updateDonationStatus as updateDonationStatusService } from '../../doacoes/services/doacoesApi';
 
 // fetchAllAdminData local implementation
 async function fetchAllAdminData() {
   const [
-    { data: projects },
-    { data: volunteers },
-    { data: messages },
-    { data: beneficiaries },
-    { data: team },
-    { data: partners },
-    { data: donations }
+    projects,
+    volunteersRes,
+    messagesRes,
+    beneficiaries,
+    team,
+    partners,
+    donationsRes
   ] = await Promise.all([
-    supabase.from('projects').select('*, activities(name)').order('created_at', { ascending: false }),
-    supabase.from('volunteers').select('*, activities(name)').order('created_at', { ascending: false }),
-    supabase.from('messages').select('*').order('created_at', { ascending: false }),
-    supabase.from('beneficiary_stories').select('*, projects(name)').order('created_at', { ascending: false }),
-    supabase.from('team').select('*').order('sort_order', { ascending: true }),
-    supabase.from('partners').select('*').order('created_at', { ascending: false }),
-    supabase.from('donations').select('*').order('created_at', { ascending: false })
+    getProjects(),
+    getVolunteers(),
+    getMessages(),
+    getBeneficiaryStories(),
+    getTeam(),
+    getPartners(),
+    getDonations()
   ]);
   
   return {
     projects: projects || [],
-    volunteers: volunteers || [],
-    messages: messages || [],
+    volunteers: volunteersRes?.data || [],
+    messages: messagesRes?.data || [],
     beneficiaries: beneficiaries || [],
     team: team || [],
     partners: partners || [],
-    donations: donations || []
+    donations: donationsRes?.data || []
   };
 }
 
@@ -132,19 +131,15 @@ export default function Admin() {
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
 
-  // Check Supabase auth session on mount and listen for changes
+  // Check auth session on mount
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    getCurrentSession().then((session) => {
       setIsLoggedIn(!!session);
       setAuthChecked(true);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session);
+    }).catch(() => {
+      setIsLoggedIn(false);
       setAuthChecked(true);
     });
-
-    return () => subscription.unsubscribe();
   }, []);
   
   const [projects, setProjects] = useState([]);
@@ -265,7 +260,7 @@ export default function Admin() {
     setLoginLoading(true);
     try {
       await loginAdmin(email, password);
-      // onAuthStateChange will set isLoggedIn to true
+      setIsLoggedIn(true);
     } catch (error) {
       setLoginError(error.message || 'Credenciais invalidas. Tente novamente.');
     } finally {
@@ -276,7 +271,7 @@ export default function Admin() {
   const handleLogout = async () => {
     try {
       await logoutAdmin();
-      // onAuthStateChange will set isLoggedIn to false
+      setIsLoggedIn(false);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -544,10 +539,38 @@ export default function Admin() {
     return filtered;
   };
 
-  const handleExportVolunteersPDF = async () => {
-    const filtered = getFilteredVolunteers();
-    exportVolunteersPDF(filtered, { readFilter: volunteerReadFilter, search: volunteerSearch });
+  const triggerReportDownload = async (startDate, endDate, defaultFilename) => {
+    try {
+      const start = startDate || '2025-01-01';
+      const end = endDate || new Date().toISOString().split('T')[0];
+      
+      const response = await axiosClient.get('/reports', {
+        params: { startDate: start, endDate: end },
+        responseType: 'blob'
+      });
+      
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', defaultFilename);
+      document.body.appendChild(link);
+      link.click();
+      
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error generating PDF report:', err);
+      alert('Erro ao gerar relatorio em PDF no servidor.');
+    }
+  };
 
+  const handleExportVolunteersPDF = async () => {
+    const start = volunteerFilterStart || '2025-01-01';
+    const end = volunteerFilterEnd || new Date().toISOString().split('T')[0];
+    await triggerReportDownload(start, end, `relatorio_voluntarios_${start}_a_${end}.pdf`);
+
+    const filtered = getFilteredVolunteers();
     const pendingIds = filtered.filter(v => v.status === 'Pendente').map(v => v.id);
     if (pendingIds.length > 0) {
       try {
@@ -651,9 +674,11 @@ export default function Admin() {
   };
 
   const handleExportSupportPDF = async () => {
-    const filtered = getFilteredMessages();
-    exportSupportPDF(filtered, { readFilter: supportReadFilter, search: supportSearch, filterStart: supportFilterStart, filterEnd: supportFilterEnd });
+    const start = supportFilterStart || '2025-01-01';
+    const end = supportFilterEnd || new Date().toISOString().split('T')[0];
+    await triggerReportDownload(start, end, `relatorio_pedidos_apoio_${start}_a_${end}.pdf`);
 
+    const filtered = getFilteredMessages();
     const pendingIds = filtered.filter(m => m.status === 'Pendente').map(m => m.id);
     if (pendingIds.length > 0) {
       try {
@@ -711,9 +736,10 @@ export default function Admin() {
     });
   };
 
-  const handleExportDonationsPDF = () => {
-    const filtered = getFilteredDonations();
-    exportDonationsPDF(filtered, { filterStart: donationFilterStart, filterEnd: donationFilterEnd });
+  const handleExportDonationsPDF = async () => {
+    const start = donationFilterStart || '2025-01-01';
+    const end = donationFilterEnd || new Date().toISOString().split('T')[0];
+    await triggerReportDownload(start, end, `relatorio_doacoes_${start}_a_${end}.pdf`);
   };
 
   const handleUpdateDonationStatus = async (id, newStatus) => {

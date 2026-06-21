@@ -1,41 +1,49 @@
-import { supabase } from '../../../shared/lib/supabaseClient';
+import axiosClient from '../../../shared/lib/axiosClient';
 
+/**
+ * Gets the list of team members
+ * @returns {Promise<object[]>} Team members
+ */
 export async function getTeam() {
-  const { data, error } = await supabase
-    .from('team')
-    .select('*')
-    .order('sort_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const response = await axiosClient.get('/equipa');
+  return response.data.data;
 }
 
+/**
+ * Creates a team member record
+ * @param {object} data
+ * @returns {Promise<object>} Created member
+ */
 export async function createTeamMember(data) {
-  const { data: result, error } = await supabase
-    .from('team')
-    .insert([data])
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.post('/equipa', data);
+  return response.data.data;
 }
 
+/**
+ * Updates a team member record
+ * @param {string} id
+ * @param {object} data
+ * @returns {Promise<object>} Updated member
+ */
 export async function updateTeamMember(id, data) {
-  const { data: result, error } = await supabase
-    .from('team')
-    .update(data)
-    .eq('id', id)
-    .select();
-  if (error) throw error;
-  return result[0];
+  const response = await axiosClient.put(`/equipa/${id}`, data);
+  return response.data.data;
 }
 
+/**
+ * Deletes a team member record
+ * @param {string} id
+ */
 export async function deleteTeamMember(id) {
-  const { error } = await supabase
-    .from('team')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  const response = await axiosClient.delete(`/equipa/${id}`);
+  return response.data;
 }
 
+/**
+ * Helper wrapper to add or update a team member
+ * @param {object} memberData
+ * @param {string} editingId
+ */
 export async function addOrUpdateTeamMember(memberData, editingId) {
   const payload = {
     name: memberData.name,

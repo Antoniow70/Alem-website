@@ -18,24 +18,27 @@ import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
 import TermosUso from './pages/TermosUso';
 import HistoriasBeneficiarios from './domains/beneficiarios/pages/HistoriasBeneficiarios';
 import ErrorBoundary from './shared/common/ErrorBoundary';
-import { supabase } from './shared/lib/supabaseClient';
+import { getCurrentSession } from './domains/auth/services/authApi';
 
 function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
+    let active = true;
+    getCurrentSession().then((activeSession) => {
+      if (active) {
+        setSession(activeSession);
+        setLoading(false);
+      }
+    }).catch(() => {
+      if (active) {
+        setLoading(false);
+      }
     });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      active = false;
+    };
   }, []);
 
   if (loading) {
@@ -62,13 +65,13 @@ function AppLayout() {
       {!isAdmin && <Navbar />}
       <main className={`flex-grow ${isAdmin ? '' : 'pt-16'}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/inicio" element={<Navigate to="/" replace />} />
-          <Route path="/quem-somos" element={<Navigate to="/" replace />} />
-          <Route path="/o-que-fazemos" element={<Navigate to="/" replace />} />
-          <Route path="/projetos-sociais" element={<Navigate to="/" replace />} />
-          <Route path="/contactos" element={<Navigate to="/" replace />} />
-          <Route path="/localizacao" element={<Navigate to="/" replace />} />
+          <Route path="/" element={<Navigate to="/inicio" replace />} />
+          <Route path="/inicio" element={<Home />} />
+          <Route path="/quem-somos" element={<Navigate to="/inicio" replace />} />
+          <Route path="/o-que-fazemos" element={<Navigate to="/inicio" replace />} />
+          <Route path="/projetos-sociais" element={<Navigate to="/inicio" replace />} />
+          <Route path="/contactos" element={<Navigate to="/inicio" replace />} />
+          <Route path="/localizacao" element={<Navigate to="/inicio" replace />} />
           <Route path="/projetos-sociais/:id" element={<ProjetoDetalhes />} />
           <Route path="/doar" element={<Doar />} />
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />

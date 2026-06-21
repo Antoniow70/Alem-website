@@ -1,69 +1,50 @@
-import { supabase } from '../../../shared/lib/supabaseClient';
+import axiosClient from '../../../shared/lib/axiosClient';
 
+/**
+ * Gets the donations list with filters
+ * @param {object} filters
+ * @returns {Promise<object>} Donations list and count
+ */
 export async function getDonations(filters = {}) {
-  let query = supabase.from('donations').select('*', { count: 'exact' });
-  
-  if (filters.status && filters.status !== 'Todos') {
-    query = query.eq('status', filters.status);
-  }
-  if (filters.dateFrom) {
-    query = query.gte('created_at', `${filters.dateFrom}T00:00:00`);
-  }
-  if (filters.dateTo) {
-    query = query.lte('created_at', `${filters.dateTo}T23:59:59`);
-  }
-  
-  query = query.order('created_at', { ascending: false });
-  
-  if (filters.page && filters.pageSize) {
-    const from = (filters.page - 1) * filters.pageSize;
-    const to = from + filters.pageSize - 1;
-    query = query.range(from, to);
-  }
-  
-  const { data, error, count } = await query;
-  if (error) throw error;
-  return { data, count };
+  const response = await axiosClient.get('/doacoes', { params: filters });
+  return response.data;
 }
 
+/**
+ * Gets total donation amount raised in a period
+ * @param {string} dateFrom
+ * @param {string} dateTo
+ * @returns {Promise<number>} Total amount
+ */
 export async function getDonationsTotalByPeriod(dateFrom, dateTo) {
-  let query = supabase.from('donations').select('valor').eq('status', 'Recebido');
-  if (dateFrom) {
-    query = query.gte('created_at', `${dateFrom}T00:00:00`);
-  }
-  if (dateTo) {
-    query = query.lte('created_at', `${dateTo}T23:59:59`);
-  }
-  const { data, error } = await query;
-  if (error) throw error;
-  return (data || []).reduce((sum, d) => sum + (parseFloat(d.valor) || 0), 0);
+  const response = await axiosClient.get('/doacoes/total', { params: { dateFrom, dateTo } });
+  return response.data.total || 0;
 }
 
+/**
+ * Deletes a donation record
+ * @param {string} id
+ */
 export async function deleteDonation(id) {
-  const { error } = await supabase
-    .from('donations')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  const response = await axiosClient.delete(`/doacoes/${id}`);
+  return response.data;
 }
 
+/**
+ * Updates a donation status
+ * @param {string} id
+ * @param {string} status
+ */
 export async function updateDonationStatus(id, status) {
-  if (status === 'Nao Recebido' || status === 'Recusado') {
-    return deleteDonation(id);
-  }
-  const { error } = await supabase
-    .from('donations')
-    .update({ status })
-    .eq('id', id);
-  if (error) throw error;
+  const response = await axiosClient.patch(`/doacoes/${id}/status`, { status });
+  return response.data;
 }
 
+/**
+ * Submits a new donation declaration
+ * @param {object} data
+ */
 export async function submitDonation(data) {
-  const { error } = await supabase
-    .from('donations')
-    .insert([{
-      ...data,
-      status: 'Pendente'
-    }]);
-  if (error) throw error;
+  const response = await axiosClient.post('/doacoes', data);
+  return response.data;
 }
