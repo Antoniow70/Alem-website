@@ -13,12 +13,26 @@ import { voluntariosRouter } from './modules/voluntarios/index.js';
 import { parceirosRouter } from './modules/parceiros/index.js';
 import { doacoesRouter } from './modules/doacoes/index.js';
 import { suporteRouter } from './modules/suporte/index.js';
+import { uploadRouter } from './modules/upload/index.js';
+import { reportsRouter } from './modules/reports/index.js';
 
 const app = express();
 
 // ─── Global Middlewares ──────────────────────────────────
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:5173'
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('A política CORS não permite acesso desta origem.'), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -44,6 +58,8 @@ app.use('/api/voluntarios', voluntariosRouter);
 app.use('/api/parceiros', parceirosRouter);
 app.use('/api/doacoes', doacoesRouter);
 app.use('/api/suporte', suporteRouter);
+app.use('/api/upload', uploadRouter);
+app.use('/api/reports', reportsRouter);
 
 // ─── 404 Handler ─────────────────────────────────────────
 app.use((req, res) => {

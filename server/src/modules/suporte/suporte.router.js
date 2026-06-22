@@ -8,10 +8,10 @@ import { adminOnly } from '../../middleware/adminOnly.js';
 const router = Router();
 
 // Public routes
-router.get('/', suporteController.getMessages);
 router.post('/', validate(submitMessageSchema), suporteController.submitMessage);
 
 // Admin-only routes
+router.get('/', authGuard, adminOnly, suporteController.getMessages);
 router.patch('/:id/status', authGuard, adminOnly, validate(updateMessageStatusSchema), suporteController.updateMessageStatus);
 router.patch('/:id/read', authGuard, adminOnly, suporteController.markMessageRead);
 router.post('/bulk-status', authGuard, adminOnly, validate(bulkUpdateMessageStatusSchema), suporteController.bulkUpdateMessageStatus);
