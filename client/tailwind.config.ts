@@ -11,9 +11,9 @@ export default {
       colors: {
         brand: {
           bigStone: "#1B314C",
-          eastBay: "#3C5E82",
-          horizon: "#5E82AC",
-          poloBlue: "#789ACA",
+          eastBay: "#5e6770ff",
+          horizon: "#2563eb",
+          poloBlue: "#2563eb",
         },
         dark: {
           bg: "#0B1220",

@@ -55,7 +55,7 @@ export default function Inicio({ isSection = false }) {
       <section className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6 md:px-12 lg:px-16 text-brand-bigStone dark:text-dark-text">
         <div className="absolute inset-0 z-0 bg-transparent">
           <img
-            src="/images/Intervencao-social-imagem-principal.jpg"
+            src="/"
             alt="Criancas em Mocambique"
             className="w-full h-full object-cover opacity-20 dark:opacity-40"
             referrerPolicy="no-referrer"
