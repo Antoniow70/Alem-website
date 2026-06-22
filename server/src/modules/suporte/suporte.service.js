@@ -1,4 +1,6 @@
 import { supabaseAdmin } from '../../infra/supabaseAdmin.js';
+import { sendEmail } from '../../infra/emailService.js';
+import { getSupportEmailHtml } from '../../../../client/src/shared/utils/template/supportEmailTemplate.js';
 
 export async function getMessages(filters = {}) {
   let query = supabaseAdmin.from('messages').select('*', { count: 'exact' });
@@ -92,5 +94,17 @@ export async function submitMessage(payload) {
     .select()
     .single();
   if (error) throw error;
+
+  // Enviar e-mail de confirmação em segundo plano (não bloqueia a resposta da API)
+  if (data && data.email) {
+    sendEmail({
+      to: data.email,
+      subject: 'Recebemos o seu pedido de apoio - ALEM',
+      html: getSupportEmailHtml(data)
+    }).catch(err => {
+      console.error('⚠️ [EmailService] Falha ao enviar e-mail de confirmação de apoio:', err);
+    });
+  }
+
   return data;
 }

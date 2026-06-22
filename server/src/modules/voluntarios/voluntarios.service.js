@@ -1,4 +1,6 @@
 import { supabaseAdmin } from '../../infra/supabaseAdmin.js';
+import { sendEmail } from '../../infra/emailService.js';
+import { getVolunteerEmailHtml } from '../../../../client/src/shared/utils/template/volunteerEmailTemplate.js';
 
 export async function getVolunteers(filters = {}) {
   let query = supabaseAdmin.from('volunteers').select('*, activities(name)', { count: 'exact' });
@@ -92,6 +94,40 @@ export async function submitVolunteer(payload) {
     .select()
     .single();
   if (error) throw error;
+
+  // Enviar e-mail de confirmação em segundo plano (não bloqueia a resposta da API)
+  if (data && data.email) {
+    (async () => {
+      let activityName = 'Atividade Selecionada';
+      try {
+        const { data: activityData } = await supabaseAdmin
+          .from('activities')
+          .select('name')
+          .eq('id', data.activity_id)
+          .single();
+        if (activityData) {
+          activityName = activityData.name;
+        }
+      } catch (err) {
+        console.error('⚠️ [EmailService] Erro ao obter nome da atividade:', err);
+      }
+
+      try {
+        const html = getVolunteerEmailHtml({
+          ...data,
+          activityName
+        });
+        await sendEmail({
+          to: data.email,
+          subject: 'Candidatura a Voluntário Recebida - ALEM',
+          html
+        });
+      } catch (err) {
+        console.error('⚠️ [EmailService] Falha ao enviar e-mail de confirmação de voluntário:', err);
+      }
+    })();
+  }
+
   return data;
 }
 

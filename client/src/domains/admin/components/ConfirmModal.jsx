@@ -9,8 +9,8 @@ export default function ConfirmModal({
   isOpen,
   onClose,
   onConfirm,
-  title = "Confirmar Ação",
-  message = "Tem a certeza que deseja realizar esta ação? Esta alteração pode ser irreversível.",
+  title = "Confirmar Acao",
+  message = "Tem a certeza que deseja realizar esta acao? Esta alteracao pode ser irreversivel.",
   confirmText = "Eliminar",
   cancelText = "Cancelar",
   type = "danger"

@@ -321,7 +321,7 @@ export default function Admin() {
   const handleDeletePartner = (id) => {
     openConfirm({
       title: 'Remover Parceiro',
-      message: 'Tem a certeza que deseja eliminar este parceiro? Esta ação é irreversível.',
+      message: 'Tem a certeza que deseja eliminar este parceiro? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -361,7 +361,7 @@ export default function Admin() {
   const handleDeleteTeamMember = (id) => {
     openConfirm({
       title: 'Remover Membro da Equipa',
-      message: 'Tem a certeza que deseja remover este membro da equipa? Esta ação é irreversível.',
+      message: 'Tem a certeza que deseja remover este membro da equipa? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -436,7 +436,7 @@ export default function Admin() {
   const handleDeleteProject = (id) => {
     openConfirm({
       title: 'Eliminar Projeto',
-      message: 'Tem a certeza que deseja eliminar este projeto? Esta ação é irreversível.',
+      message: 'Tem a certeza que deseja eliminar este projeto? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -520,7 +520,7 @@ export default function Admin() {
     try {
       if (newStatus === 'Recusado') {
         openConfirm({
-          title: 'Recusar Voluntário',
+          title: 'Recusar Voluntario',
           message: 'Tem a certeza? Ao marcar como Recusado, o registo sera eliminado permanentemente.',
           confirmText: 'Recusar e Eliminar',
           cancelText: 'Cancelar',
@@ -564,8 +564,8 @@ export default function Admin() {
 
   const handleDeleteVolunteer = (id) => {
     openConfirm({
-      title: 'Remover Voluntário',
-      message: 'Tem a certeza que deseja remover este voluntario? Esta ação é irreversível.',
+      title: 'Remover Voluntario',
+      message: 'Tem a certeza que deseja remover este voluntario? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -723,7 +723,7 @@ export default function Admin() {
   const handleDeleteMessage = (id) => {
     openConfirm({
       title: 'Eliminar Pedido de Apoio',
-      message: 'Tem a certeza que deseja eliminar este pedido permanentemente? Esta ação é irreversível.',
+      message: 'Tem a certeza que deseja eliminar este pedido permanentemente? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -811,8 +811,8 @@ export default function Admin() {
 
   const handleDeleteBeneficiary = (id) => {
     openConfirm({
-      title: 'Eliminar História de Beneficiário',
-      message: 'Tem a certeza que deseja eliminar esta história de beneficiário? Esta ação é irreversível.',
+      title: 'Eliminar Historia de Beneficiario',
+      message: 'Tem a certeza que deseja eliminar esta historia de beneficiario? Esta acao e irreversivel.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar',
       type: 'danger',
@@ -852,8 +852,8 @@ export default function Admin() {
     try {
       if (newStatus === 'Nao Recebido' || newStatus === 'Recusado') {
         openConfirm({
-          title: 'Eliminar Registo de Doação',
-          message: 'Tem a certeza? Ao marcar como Não Recebido, o registo de doação será eliminado permanentemente.',
+          title: 'Eliminar Registo de Doacao',
+          message: 'Tem a certeza? Ao marcar como Nao Recebido, o registo de doacao sera eliminado permanentemente.',
           confirmText: 'Eliminar',
           cancelText: 'Cancelar',
           type: 'danger',
