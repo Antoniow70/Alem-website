@@ -17,7 +17,7 @@ export default function VolunteersTab({
       <div className="card-surface p-5">
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1 w-full max-w-xs">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Pesquisar</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Pesquisar</label>
             <input
               type="text"
               value={volunteerSearch}
@@ -27,7 +27,7 @@ export default function VolunteersTab({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Leitura</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Leitura</label>
             <select
               value={volunteerReadFilter}
               onChange={e => setVolunteerReadFilter(e.target.value)}
@@ -39,7 +39,7 @@ export default function VolunteersTab({
             </select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Inicio</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Inicio</label>
             <input
               type="date"
               value={volunteerFilterStart}
@@ -48,7 +48,7 @@ export default function VolunteersTab({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Fim</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Fim</label>
             <input
               type="date"
               value={volunteerFilterEnd}
@@ -77,7 +77,7 @@ export default function VolunteersTab({
 
       <div className="card-surface overflow-hidden">
         <div className="px-6 py-4 bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10 flex items-center justify-between">
-          <span className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">
+          <span className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">
             {getFilteredVolunteers().length} registo(s) encontrado(s)
           </span>
         </div>
@@ -85,12 +85,12 @@ export default function VolunteersTab({
           <table className="w-full text-left border-collapse">
             <thead className="bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10">
               <tr>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider w-16">Leitura</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Nome / Info</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Atividade de Interesse</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Estado (Aprovacao)</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Data</th>
-                <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider text-right pr-8">Acoes</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider w-16">Leitura</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Nome / Info</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Atividade de Interesse</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Estado (Aprovacao)</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Data</th>
+                <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider text-right pr-8">Acoes</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-dark-muted/10">

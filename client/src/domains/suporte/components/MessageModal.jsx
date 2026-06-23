@@ -75,7 +75,7 @@ export default function MessageModal({
 
         {/* Identification */}
         <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Identificacao</h3>
+          <h3 className="text-xs font-bold text-brand-eastBay uppercase tracking-wider">Identificacao</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <span className="form-label mb-1">Nome Completo</span>
@@ -108,7 +108,7 @@ export default function MessageModal({
 
         {/* Support Request */}
         <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pedido</h3>
+          <h3 className="text-xs font-bold text-brand-eastBay uppercase tracking-wider">Pedido</h3>
           <div>
             <span className="form-label mb-1">Tipo de Necessidade / Apoio</span>
             <p className="text-sm font-semibold text-brand-bigStone dark:text-dark-text">{selectedMessage.subject || 'N/A'}</p>
@@ -123,7 +123,7 @@ export default function MessageModal({
 
         {/* Status Controls */}
         <div className="bg-brand-poloBlue/50 border border-slate-200/60 rounded-xl p-5 space-y-4">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gerir Estado</h3>
+          <h3 className="text-xs font-bold text-brand-eastBay uppercase tracking-wider">Gerir Estado</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="form-label mb-1.5">Estado do Registo</label>

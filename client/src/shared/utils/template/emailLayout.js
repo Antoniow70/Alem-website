@@ -2,11 +2,11 @@
  * Layout HTML base para e-mails institucionais da ALEM.
  * Utiliza cores oficiais do website da ALEM.
  * 
- * @param {string} contentHtml - O conteúdo principal em HTML
- * @param {string} previewText - Texto de pré-visualização (preheader)
+ * @param {string} contentHtml - O conteudo principal em HTML
+ * @param {string} previewText - Texto de pre-visualizacao (preheader)
  * @returns {string} HTML completo do e-mail
  */
-export function getEmailLayout(contentHtml, previewText = 'Associação ALEM') {
+export function getEmailLayout(contentHtml, previewText = 'Associacao ALEM') {
   const currentYear = new Date().getFullYear();
   return `<!DOCTYPE html>
 <html>
@@ -56,7 +56,7 @@ export function getEmailLayout(contentHtml, previewText = 'Associação ALEM') {
           <tr>
             <td align="center" style="background-color: #1B314C; padding: 32px 24px; text-align: center;">
               <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 800; letter-spacing: 2px;">ALEM</h1>
-              <p style="margin: 4px 0 0 0; color: #789ACA; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Associação de Luta e Esperança de Moçambique</p>
+              <p style="margin: 4px 0 0 0; color: #789ACA; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Associacao de Luta e Esperanca de Mocambique</p>
             </td>
           </tr>
 
@@ -72,13 +72,13 @@ export function getEmailLayout(contentHtml, previewText = 'Associação ALEM') {
             <td align="center" style="background-color: #1B314C; padding: 32px 24px; color: #9FB3C8; font-size: 12px; line-height: 1.5; text-align: center; border-top: 1px solid #E2E8F0;">
               <p style="margin: 0 0 8px 0; color: #ffffff; font-weight: bold; font-size: 14px;">ALEM</p>
               <p style="margin: 0 0 16px 0;">
-                Bairro de Macuti, Beira, Moçambique<br>
+                Bairro de Macuti, Beira, Mocambique<br>
                 Telefones: +258 84 000 0000 | +258 87 000 0000<br>
                 E-mails: info@alem.mz | apoio@alem.mz
               </p>
               <div style="margin-bottom: 16px; border-top: 1px solid #3C5E82; width: 60px; height: 1px; display: inline-block;"></div>
               <p style="margin: 0; font-size: 11px; color: #9FB3C8;">
-                Esta é uma mensagem automática de confirmação de envio. Por favor, não responda diretamente a este e-mail.
+                Esta e uma mensagem automatica de confirmacao de envio. Por favor, nao responda diretamente a este e-mail.
               </p>
               <p style="margin: 12px 0 0 0; font-size: 11px; color: #789ACA;">
                 &copy; ${currentYear} ALEM. Todos os direitos reservados.

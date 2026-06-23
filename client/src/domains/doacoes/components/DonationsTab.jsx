@@ -34,7 +34,7 @@ export default function DonationsTab({
           </div>
           <div className="flex flex-wrap gap-4 flex-1">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Inicio</label>
+              <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Inicio</label>
               <input
                 type="date"
                 value={donationFilterStart}
@@ -43,7 +43,7 @@ export default function DonationsTab({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Fim</label>
+              <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5 block">Data Fim</label>
               <input
                 type="date"
                 value={donationFilterEnd}
@@ -82,7 +82,7 @@ export default function DonationsTab({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Total Doadores</p>
+            <p className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Total Doadores</p>
             <p className="text-2xl font-bold text-brand-bigStone dark:text-dark-text mt-1">{filtered.length}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-muted flex items-center justify-center">
@@ -123,12 +123,12 @@ export default function DonationsTab({
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm rounded-3xl shadow-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 p-16 text-center">
           <Heart size={48} className="text-slate-300 mx-auto mb-4" />
           <p className="text-brand-eastBay dark:text-dark-muted font-medium">Nenhuma doacao encontrada para este periodo.</p>
-          <p className="text-slate-400 text-sm mt-1">As doacoes submetidas no formulario aparecem aqui automaticamente.</p>
+          <p className="text-brand-eastBay dark:text-dark-muted text-sm mt-1">As doacoes submetidas no formulario aparecem aqui automaticamente.</p>
         </div>
       ) : (
         <div className="card-surface overflow-hidden">
           <div className="px-6 py-4 bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10 flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">
+            <span className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">
               {filtered.length} registo{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </span>
             <span className="text-xs text-brand-eastBay dark:text-dark-muted font-medium">
@@ -139,15 +139,15 @@ export default function DonationsTab({
             <table className="w-full text-left border-collapse">
               <thead className="bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10">
                 <tr>
-                  <th className="px-4 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider w-10 text-center">#</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Doador</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Telefone</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Causa</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Valor</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Pagamento</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Estado</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Data & Hora</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Mensagem</th>
+                  <th className="px-4 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider w-10 text-center">#</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Doador</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Telefone</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Causa</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Valor</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Pagamento</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Estado</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Data & Hora</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Mensagem</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-dark-muted/10">
@@ -156,7 +156,7 @@ export default function DonationsTab({
                   const isValidDate = donDate && !isNaN(donDate.getTime());
                   return (
                     <tr key={d.id} className="hover:bg-brand-poloBlue/10 dark:hover:bg-white/5 transition-colors">
-                      <td className="px-4 py-4 text-xs text-slate-400 font-bold text-center">{filtered.length - idx}</td>
+                      <td className="px-4 py-4 text-xs text-brand-eastBay dark:text-dark-muted font-bold text-center">{filtered.length - idx}</td>
                       <td className="px-6 py-4">
                         <div className="font-semibold text-brand-bigStone dark:text-dark-text">{d.nome}</div>
                         <div className="text-xs text-brand-eastBay dark:text-dark-muted mt-0.5">{d.email}</div>
@@ -195,12 +195,12 @@ export default function DonationsTab({
                             <div className="text-sm text-brand-eastBay dark:text-dark-text">
                               {donDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </div>
-                            <div className="text-xs text-slate-400">
+                            <div className="text-xs text-brand-eastBay dark:text-dark-muted">
                               {donDate.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-400 italic">Data nao registada</span>
+                          <span className="text-xs text-brand-eastBay dark:text-dark-muted italic">Data nao registada</span>
                         )}
                       </td>
                       <td className="px-6 py-4 max-w-[180px]">
