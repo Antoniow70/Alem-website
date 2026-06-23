@@ -61,8 +61,8 @@ export default function HistoriasBeneficiarios() {
       <section className="relative text-white py-28 px-4 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/nossa historia.jpg"
-            alt="Historias de Beneficiarios"
+            src="/images/membrosAlem.jpg"
+            alt="Hero Beneficiários"
             className="w-full h-full object-cover opacity-60"
             referrerPolicy="no-referrer"
           />

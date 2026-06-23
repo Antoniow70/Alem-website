@@ -21,7 +21,7 @@ export async function uploadBase64File(base64Data, filename, folder = 'projects'
   const filePath = `${folder}/${uniqueName}`;
 
   const { data, error } = await supabaseAdmin.storage
-    .from('project-media')
+    .from('projects')
     .upload(filePath, buffer, {
       contentType,
       duplex: 'half'
@@ -32,7 +32,7 @@ export async function uploadBase64File(base64Data, filename, folder = 'projects'
   }
 
   const { data: urlData } = supabaseAdmin.storage
-    .from('project-media')
+    .from('projects')
     .getPublicUrl(filePath);
 
   return urlData.publicUrl;

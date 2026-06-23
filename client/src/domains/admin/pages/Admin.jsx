@@ -90,7 +90,7 @@ const projectSchema = z.object({
     description: z.string().optional(),
   })).optional(),
   equipa_responsavel: z.array(z.string()).optional(),
-  activity_id: z.string().uuid('Atividade obrigatoria'),
+  activity_id: z.string().nullable().optional(),
 });
 
 const volunteerSchema = z.object({
@@ -222,7 +222,8 @@ export default function Admin() {
     defaultValues: {
       status: 'Planeamento',
       gallery: [],
-      equipa_responsavel: []
+      equipa_responsavel: [],
+      activity_id: ''
     }
   });
 
@@ -421,7 +422,7 @@ export default function Admin() {
         capa_url: finalMediaUrl,
         gallery: data.gallery || [],
         equipa_responsavel: data.equipa_responsavel || [],
-        activity_id: data.activity_id,
+        activity_id: data.activity_id || null,
       };
 
       await saveProject(payload, editingProject?.id);
@@ -433,8 +434,9 @@ export default function Admin() {
       projectForm.reset();
       fetchData();
     } catch (error) {
-      console.error('Error saving project:', error);
-      alert(`Erro ao guardar projeto: ${error?.message || 'Verifique a consola para detalhes.'}`);
+      console.error('Error saving project:', error, error.response?.data);
+      const errorDetails = error.response?.data ? JSON.stringify(error.response.data, null, 2) : error?.message;
+      alert(`Erro ao guardar projeto:\n${errorDetails}`);
     } finally {
       setIsUploading(false);
     }

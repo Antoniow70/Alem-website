@@ -7,10 +7,14 @@ export const validate = (schema) => (req, res, next) => {
     });
     next();
   } catch (error) {
+    const errorDetails = error.errors ? error.errors : error.message;
+    const errorString = typeof errorDetails === 'string' ? errorDetails : JSON.stringify(errorDetails, null, 2);
+    console.error('Validation Error Details:', errorString);
+    console.error('Received Body keys:', req.body ? Object.keys(req.body) : 'none');
     return res.status(400).json({
       success: false,
-      error: 'Dados de validação incorretos.',
-      details: error.errors
+      error: `Dados de validação incorretos. Detalhes: ${errorString}`,
+      details: errorDetails
     });
   }
 };

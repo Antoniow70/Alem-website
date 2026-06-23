@@ -83,7 +83,7 @@ export default function QuemSomos({ isSection = false }) {
           </div>
           <div className="relative">
             <img
-              src="/images/nossa historia.jpg"
+              src="/images/membrosAlem.jpg"
               alt="Equipa ALEM - A nossa historia"
               className="rounded-2xl shadow-md w-full aspect-[4/3] object-cover border border-brand-poloBlue/20"
               referrerPolicy="no-referrer"

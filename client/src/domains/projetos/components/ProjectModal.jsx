@@ -15,7 +15,7 @@ export default function ProjectModal({
       onClose={onClose}
       title={editingProject ? 'Editar Projeto' : 'Novo Projeto'}
     >
-      <form onSubmit={projectForm.handleSubmit(onSubmit)} className="p-6 space-y-5 overflow-y-auto flex-grow">
+      <form onSubmit={projectForm.handleSubmit(onSubmit, (errs) => console.error('Form validation errors:', errs))} className="p-6 space-y-5 overflow-y-auto flex-grow">
         <div className="space-y-1">
           <label className="form-label">Nome do projeto</label>
           <input

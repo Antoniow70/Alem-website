@@ -36,7 +36,7 @@ export default function Inicio({ isSection = false }) {
         ]);
         setPillars(pillarsData || []);
         setTeam(teamData || []);
-        
+
         const filteredProjects = (projectsData || [])
           .filter(p => p.status === 'Em Curso' || p.status === 'Concluido')
           .slice(0, 4); // Shows up to 4 projects
@@ -52,40 +52,40 @@ export default function Inicio({ isSection = false }) {
     <div className="overflow-hidden bg-transparent">
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6 md:px-12 lg:px-16 text-brand-bigStone dark:text-dark-text">
-        <div className="absolute inset-0 z-0 bg-transparent">
+      <section className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6 md:px-12 lg:px-16 bg-brand-bigStone text-white">
+        <div className="absolute inset-0 z-0">
           <img
-            src="/"
+            src="/public/images/ImagemDaTelaInicio.png"
             alt="Criancas em Mocambique"
-            className="w-full h-full object-cover opacity-20 dark:opacity-40"
+            className="w-full h-full object-cover opacity-[0.62] dark:opacity-[0.84]"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-poloBlue/10 via-transparent to-brand-poloBlue/15 dark:from-dark-bg/85 dark:via-dark-bg/70 dark:to-dark-bg z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-bigStone/30 via-transparent to-brand-bigStone/90 dark:from-dark-bg/85 dark:via-dark-bg/70 dark:to-dark-bg z-10" />
         </div>
 
         <div className="max-w-4xl mx-auto w-full relative z-20 text-center">
           <div className="space-y-6">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-transparent/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-horizon dark:text-white">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               Associacao Lacos Especiais Mocambique
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-brand-bigStone dark:text-white tracking-tight">
-              Construindo <span className="text-brand-horizon dark:text-brand-poloBlue drop-shadow-sm">Lacos de Inclusao</span> em Mocambique
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-white tracking-tight">
+              Construindo <span className="text-brand-horizon drop-shadow-md">Lacos de Inclusao</span> em Mocambique
             </h1>
-            <p className="text-base md:text-xl text-brand-eastBay dark:text-dark-muted leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-gray-200 leading-relaxed max-w-2xl mx-auto">
               Promovemos a insercao das pessoas com necessidades especiais no acesso aos subsistemas de ensino e aprendizagem.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Link
                 to="/contactos"
                 onClick={(e) => handleScrollToSection(e, 'contactos')}
-                className="btn-primary w-full sm:w-auto text-sm px-6 py-3.5 shadow-lg shadow-brand-horizon/20"
+                className="btn-primary w-full sm:w-auto text-sm px-6 py-3.5 shadow-lg shadow-brand-horizon/30"
               >
                 Tornar-me Voluntario <ArrowRight size={16} />
               </Link>
               <Link
                 to="/contactos"
                 onClick={(e) => handleScrollToSection(e, 'contactos')}
-                className="btn-ghost w-full sm:w-auto text-sm px-6 py-3.5 !bg-transparent border-brand-poloBlue/30 text-brand-eastBay hover:!bg-brand-poloBlue/10 dark:border-white/30 dark:text-white dark:hover:!bg-transparent/10"
+                className="btn-ghost w-full sm:w-auto text-sm px-6 py-3.5 !bg-transparent border-white/40 text-white hover:!bg-white/10"
               >
                 Solicitar Apoio <ArrowRight size={16} />
               </Link>
