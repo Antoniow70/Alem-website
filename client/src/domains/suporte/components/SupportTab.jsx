@@ -33,7 +33,7 @@ export default function SupportTab({
       <div className="card-surface p-5">
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col gap-1 w-full max-w-xs">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Pesquisar</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Pesquisar</label>
             <input
               type="text"
               value={supportSearch}
@@ -43,7 +43,7 @@ export default function SupportTab({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Leitura</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Leitura</label>
             <select
               value={supportReadFilter}
               onChange={e => setSupportReadFilter(e.target.value)}
@@ -55,7 +55,7 @@ export default function SupportTab({
             </select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Inicio</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Inicio</label>
             <input
               type="date"
               value={supportFilterStart}
@@ -64,7 +64,7 @@ export default function SupportTab({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Fim</label>
+            <label className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider mb-1.5">Data Fim</label>
             <input
               type="date"
               value={supportFilterEnd}
@@ -95,7 +95,7 @@ export default function SupportTab({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Total Pedidos</p>
+            <p className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Total Pedidos</p>
             <p className="text-2xl font-bold text-brand-bigStone dark:text-dark-text mt-1">{filtered.length}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-muted flex items-center justify-center">
@@ -104,7 +104,7 @@ export default function SupportTab({
         </div>
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Pendentes</p>
+            <p className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Pendentes</p>
             <p className="text-2xl font-bold text-feedback-warning mt-1">{pendentes}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-feedback-warningLight text-feedback-warning flex items-center justify-center">
@@ -113,7 +113,7 @@ export default function SupportTab({
         </div>
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Em Analise</p>
+            <p className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Em Analise</p>
             <p className="text-2xl font-bold text-brand-horizon mt-1">{emAnalise}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-brand-poloBlue/15 text-brand-horizon flex items-center justify-center">
@@ -122,7 +122,7 @@ export default function SupportTab({
         </div>
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Aprovados</p>
+            <p className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Aprovados</p>
             <p className="text-2xl font-bold text-feedback-success mt-1">{aprovados}</p>
           </div>
           <div className="w-10 h-10 rounded-lg bg-feedback-successLight text-feedback-success flex items-center justify-center">
@@ -136,12 +136,12 @@ export default function SupportTab({
         <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm rounded-3xl shadow-sm border border-brand-poloBlue/20 dark:border-dark-muted/10 p-16 text-center">
           <Mail size={48} className="text-slate-300 mx-auto mb-4" />
           <p className="text-brand-eastBay dark:text-dark-muted font-medium">Nenhum pedido de apoio encontrado.</p>
-          <p className="text-slate-400 text-sm mt-1">Os pedidos submetidos no formulario aparecem aqui automaticamente.</p>
+          <p className="text-brand-eastBay dark:text-dark-muted text-sm mt-1">Os pedidos submetidos no formulario aparecem aqui automaticamente.</p>
         </div>
       ) : (
         <div className="card-surface overflow-hidden">
           <div className="px-6 py-4 bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10 flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">
+            <span className="text-[11px] font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">
               {filtered.length} registo{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </span>
             <span className="text-xs font-semibold text-brand-eastBay dark:text-dark-muted bg-brand-poloBlue/20 dark:bg-white/10 px-2 py-1 rounded">
@@ -152,12 +152,12 @@ export default function SupportTab({
             <table className="w-full text-left border-collapse">
               <thead className="bg-brand-poloBlue/50 dark:bg-dark-surface/80 border-b border-brand-poloBlue/20 dark:border-dark-muted/10">
                 <tr>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider w-16">Leitura</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Nome / Info</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Tipo de Apoio</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Estado</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider">Data Inscricao</th>
-                  <th className="px-6 py-3.5 text-xs font-bold text-slate-400 dark:text-dark-muted uppercase tracking-wider text-right pr-8">Acoes</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider w-16">Leitura</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Nome / Info</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Tipo de Apoio</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Estado</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider">Data Inscricao</th>
+                  <th className="px-6 py-3.5 text-xs font-bold text-brand-eastBay dark:text-dark-muted uppercase tracking-wider text-right pr-8">Acoes</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-dark-muted/10">
@@ -199,12 +199,12 @@ export default function SupportTab({
                             <div className="text-sm font-semibold text-brand-eastBay dark:text-dark-text">
                               {msgDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </div>
-                            <div className="text-xs text-slate-400">
+                            <div className="text-xs text-brand-eastBay dark:text-dark-muted">
                               {msgDate.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-400 italic">N/A</span>
+                          <span className="text-xs text-brand-eastBay dark:text-dark-muted italic">N/A</span>
                         )}
                       </td>
                       <td className="px-6 py-4 text-right pr-8">

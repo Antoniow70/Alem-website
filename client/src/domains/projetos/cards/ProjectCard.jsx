@@ -1,11 +1,11 @@
 import { motion } from 'motion/react';
-import { Image as ImageIcon, ExternalLink } from 'lucide-react';
+import { Image as ImageIcon, ExternalLink, Users } from 'lucide-react';
 
 export default function ProjectCard({ project, onClick }) {
   const statusColors = {
-    'Planeamento': 'bg-brand-horizon/90 text-white',
-    'Em Curso': 'bg-feedback-success/90 text-white',
-    'Concluido': 'bg-brand-eastBay dark:text-dark-muted/95 text-white',
+    'Planeamento': 'bg-brand-horizon/80 text-white backdrop-blur-md',
+    'Em Curso': 'bg-feedback-success/80 text-white backdrop-blur-md',
+    'Concluido': 'bg-brand-bigStone/85 dark:bg-dark-surface/90 text-white backdrop-blur-md',
   };
 
   return (
@@ -14,45 +14,76 @@ export default function ProjectCard({ project, onClick }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       onClick={onClick}
-      className="relative rounded-2xl overflow-hidden group cursor-pointer aspect-[3/4] border border-brand-poloBlue/20 shadow-sm hover:shadow-lg transition-all duration-300"
+      className="relative rounded-3xl overflow-hidden group cursor-pointer aspect-[3/4] border border-brand-poloBlue/15 hover:border-brand-horizon/45 shadow-sm hover:shadow-2xl transition-all duration-500 ease-out bg-slate-950"
     >
-      {/* Full-bleed image */}
+      {/* Full-bleed cover image with zoom effect */}
       <img
         src={project.capa_url || 'https://via.placeholder.com/800x1200?text=Sem+Capa'}
         alt={project.name}
-        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+        className="absolute inset-0 w-full h-full object-cover scale-101 group-hover:scale-108 transition-transform duration-700 ease-out"
         referrerPolicy="no-referrer"
       />
 
-      {/* Gradient overlay — stronger at bottom */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent group-hover:from-slate-950/90 transition-all duration-300" />
+      {/* Advanced multi-stop gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 via-slate-900/25 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-500" />
 
-      {/* Status badge */}
+      {/* Status badge with animated pulsing indicator dot */}
       <div className="absolute top-4 left-4 z-10">
-        <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest backdrop-blur-sm ${statusColors[project.status] || 'bg-slate-500/90 text-white'}`}>
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest border border-white/10 shadow-sm ${statusColors[project.status] || 'bg-slate-500/80 text-white'}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${
+            project.status === 'Planeamento' ? 'bg-amber-400 animate-pulse' :
+            project.status === 'Em Curso' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse' :
+            'bg-white/60'
+          }`} />
           {project.status}
         </span>
       </div>
 
-      {/* Icon */}
-      <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-md p-1.5 rounded-lg text-white z-10 border border-white/10 opacity-70">
-        <ImageIcon size={12} />
+      {/* Media Type Icon */}
+      <div className="absolute top-4 right-4 bg-slate-950/30 backdrop-blur-md p-2 rounded-xl text-white z-10 border border-white/10 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+        <ImageIcon size={13} />
       </div>
 
-      {/* Text overlay at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 z-10 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-        <h3 className="text-lg font-bold text-white mb-2 leading-tight">
+      {/* Card Content Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-10 translate-y-3.5 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+        {/* Category / Pillar Tag */}
+        {project.activities?.name && (
+          <span className="text-[10px] text-brand-poloBlue font-black tracking-widest uppercase mb-1.5 block">
+            {project.activities.name}
+          </span>
+        )}
+
+        <h3 className="text-lg font-black text-white mb-2 leading-tight tracking-tight">
           {project.name}
         </h3>
-        <p className="text-slate-300 text-xs line-clamp-2 leading-relaxed mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+
+        {/* Short Description */}
+        <p className="text-slate-350 text-xs line-clamp-2 leading-relaxed mb-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
           {project.objetivos_especificos}
         </p>
-        <div className="flex items-center justify-end pt-2 border-t border-white/10">
-          <span className="text-white text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-            Ver mais <ExternalLink size={12} />
+
+        {/* Micro-stats row */}
+        <div className="flex items-center gap-3.5 text-[10px] text-slate-300 font-semibold mb-4.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+          <span className="flex items-center gap-1.5">
+            <Users size={12} className="text-brand-poloBlue" />
+            {project.equipa_responsavel?.length || 0} na equipa
+          </span>
+          <span className="w-1 h-1 rounded-full bg-white/20" />
+          <span className="flex items-center gap-1.5">
+            <ImageIcon size={12} className="text-brand-poloBlue" />
+            {project.gallery?.length || 0} ficheiros
+          </span>
+        </div>
+
+        {/* Read More Link */}
+        <div className="flex items-center justify-end pt-3.5 border-t border-white/10">
+          <span className="text-white text-xs font-bold flex items-center gap-1.5 group-hover:text-brand-poloBlue transition-colors duration-300">
+            Ver detalhes 
+            <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
           </span>
         </div>
       </div>
     </motion.div>
   );
 }
+

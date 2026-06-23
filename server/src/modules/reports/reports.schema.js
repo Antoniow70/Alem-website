@@ -12,6 +12,7 @@ export const getReportSchema = z.object({
     }).refine((val) => !isNaN(Date.parse(val)), {
       message: 'A data de fim deve ser uma data válida no formato YYYY-MM-DD.',
     }),
+    type: z.enum(['volunteers', 'support', 'donations', 'consolidated']).optional(),
   }).refine((data) => new Date(data.startDate) <= new Date(data.endDate), {
     message: 'A data de início não pode ser posterior à data de fim.',
     path: ['startDate'],

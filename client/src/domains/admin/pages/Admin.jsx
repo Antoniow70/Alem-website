@@ -22,7 +22,7 @@ import { compressImage } from '../../../shared/utils/imageUtils';
 
 // Services from Domain API files
 import { loginAdmin, logoutAdmin, getCurrentSession } from '../../auth/services/authApi';
-import { getProjects, saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage } from '../../projetos/services/projetosApi';
+import { getProjects, saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage, getAllActivities } from '../../projetos/services/projetosApi';
 import { getVolunteers, deleteVolunteer as deleteVolunteerService, updateVolunteerStatus as updateVolunteerStatusService, updateVolunteerReadStatus as updateVolunteerReadStatusService, bulkUpdateVolunteerStatus as bulkUpdateVolunteerStatusService } from '../../voluntarios/services/voluntariosApi';
 import { getMessages, deleteMessage as deleteMessageService, updateMessageStatus as updateMessageStatusService, updateMessageReadStatus as updateMessageReadStatusService, bulkUpdateMessageStatus as bulkUpdateMessageStatusService } from '../../suporte/services/suporteApi';
 import { getBeneficiaryStories, saveBeneficiary as saveBeneficiaryService, deleteBeneficiary as deleteBeneficiaryService } from '../../beneficiarios/services/beneficiariosApi';
@@ -90,6 +90,7 @@ const projectSchema = z.object({
     description: z.string().optional(),
   })).optional(),
   equipa_responsavel: z.array(z.string()).optional(),
+  activity_id: z.string().uuid('Atividade obrigatoria'),
 });
 
 const volunteerSchema = z.object({
@@ -150,6 +151,7 @@ export default function Admin() {
   const [donations, setDonations] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [team, setTeam] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('projects');
@@ -263,7 +265,10 @@ export default function Admin() {
   async function fetchData() {
     try {
       setLoading(true);
-      const data = await fetchAllAdminData();
+      const [data, allActivities] = await Promise.all([
+        fetchAllAdminData(),
+        getAllActivities()
+      ]);
       setProjects(data.projects);
       setVolunteers(data.volunteers);
       setMessages(data.messages);
@@ -271,6 +276,7 @@ export default function Admin() {
       setTeam(data.team);
       setPartners(data.partners);
       setDonations(data.donations);
+      setActivities(allActivities || []);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -415,6 +421,7 @@ export default function Admin() {
         capa_url: finalMediaUrl,
         gallery: data.gallery || [],
         equipa_responsavel: data.equipa_responsavel || [],
+        activity_id: data.activity_id,
       };
 
       await saveProject(payload, editingProject?.id);
@@ -511,6 +518,7 @@ export default function Admin() {
     projectForm.setValue('capa_url', project._original_capa_url || project.capa_url || '');
     projectForm.setValue('gallery', project.gallery?.map(g => ({ ...g, url: g._original_url || g.url })) || []);
     projectForm.setValue('equipa_responsavel', project.equipa_responsavel || []);
+    projectForm.setValue('activity_id', project.activity_id || '');
     setUploadPreview(project.capa_url || null);
     setIsModalOpen(true);
   };
@@ -610,13 +618,13 @@ export default function Admin() {
     return filtered;
   };
 
-  const triggerReportDownload = async (startDate, endDate, defaultFilename) => {
+  const triggerReportDownload = async (startDate, endDate, type, defaultFilename) => {
     try {
       const start = startDate || '2025-01-01';
       const end = endDate || new Date().toISOString().split('T')[0];
       
       const response = await axiosClient.get('/reports', {
-        params: { startDate: start, endDate: end },
+        params: { startDate: start, endDate: end, type },
         responseType: 'blob'
       });
       
@@ -639,7 +647,7 @@ export default function Admin() {
   const handleExportVolunteersPDF = async () => {
     const start = volunteerFilterStart || '2025-01-01';
     const end = volunteerFilterEnd || new Date().toISOString().split('T')[0];
-    await triggerReportDownload(start, end, `relatorio_voluntarios_${start}_a_${end}.pdf`);
+    await triggerReportDownload(start, end, 'volunteers', `relatorio_voluntarios_${start}_a_${end}.pdf`);
 
     const filtered = getFilteredVolunteers();
     const pendingIds = filtered.filter(v => v.status === 'Pendente').map(v => v.id);
@@ -771,7 +779,7 @@ export default function Admin() {
   const handleExportSupportPDF = async () => {
     const start = supportFilterStart || '2025-01-01';
     const end = supportFilterEnd || new Date().toISOString().split('T')[0];
-    await triggerReportDownload(start, end, `relatorio_pedidos_apoio_${start}_a_${end}.pdf`);
+    await triggerReportDownload(start, end, 'support', `relatorio_pedidos_apoio_${start}_a_${end}.pdf`);
 
     const filtered = getFilteredMessages();
     const pendingIds = filtered.filter(m => m.status === 'Pendente').map(m => m.id);
@@ -845,7 +853,7 @@ export default function Admin() {
   const handleExportDonationsPDF = async () => {
     const start = donationFilterStart || '2025-01-01';
     const end = donationFilterEnd || new Date().toISOString().split('T')[0];
-    await triggerReportDownload(start, end, `relatorio_doacoes_${start}_a_${end}.pdf`);
+    await triggerReportDownload(start, end, 'donations', `relatorio_doacoes_${start}_a_${end}.pdf`);
   };
 
   const handleUpdateDonationStatus = async (id, newStatus) => {
@@ -967,6 +975,7 @@ export default function Admin() {
                       status: 'Planeamento',
                       gallery: [],
                       equipa_responsavel: [],
+                      activity_id: '',
                     });
                     setIsModalOpen(true);
                   } else if (activeTab === 'partners') {
@@ -1098,6 +1107,7 @@ export default function Admin() {
         isGalleryUploading={isGalleryUploading}
         handleGalleryFiles={handleGalleryFiles}
         team={team}
+        activities={activities}
         onSubmit={handleProjectSubmit}
       />
 

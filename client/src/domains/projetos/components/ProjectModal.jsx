@@ -7,7 +7,7 @@ import { AdminModal } from '../../admin';
 export default function ProjectModal({
   isOpen, onClose, editingProject, projectForm, galleryFields, appendGallery, removeGallery,
   selectedFile, setSelectedFile, uploadPreview, setUploadPreview,
-  isUploading, isGalleryUploading, handleGalleryFiles, team, onSubmit
+  isUploading, isGalleryUploading, handleGalleryFiles, team, activities = [], onSubmit
 }) {
   return (
     <AdminModal
@@ -73,6 +73,26 @@ export default function ProjectModal({
             <option value="Em Curso">Em Curso</option>
             <option value="Concluido">Concluido</option>
           </select>
+        </div>
+
+        <div className="space-y-1">
+          <label className="form-label">Atividade Associada</label>
+          <select
+            {...projectForm.register('activity_id')}
+            className="form-input cursor-pointer font-semibold text-brand-bigStone dark:text-dark-text"
+          >
+            <option value="">Selecionar uma atividade...</option>
+            {activities.map((act) => (
+              <option key={act.id} value={act.id}>
+                {act.name}
+              </option>
+            ))}
+          </select>
+          {projectForm.formState.errors.activity_id && (
+            <p className="text-feedback-error text-xs mt-1">
+              {projectForm.formState.errors.activity_id.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
