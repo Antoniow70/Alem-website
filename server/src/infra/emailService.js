@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { config } from '../config/env.js';
 
 let transporter = null;
 
@@ -9,8 +10,8 @@ let transporter = null;
 function getTransporter() {
   if (transporter) return transporter;
 
-  const user = process.env.EMAIL_USER;
-  const pass = process.env.EMAIL_PASS;
+  const user = config.emailUser;
+  const pass = config.emailPass;
 
   if (!user || !pass) {
     console.warn('⚠️ [EmailService] EMAIL_USER ou EMAIL_PASS não estão configurados no ficheiro .env. Os e-mails de confirmação serão simulados.');
@@ -54,7 +55,7 @@ export async function sendEmail({ to, subject, html }) {
 
   try {
     const info = await mailTransporter.sendMail({
-      from: `"ALEM" <${process.env.EMAIL_USER}>`,
+      from: `"ALEM" <${config.emailUser}>`,
       to,
       subject,
       html

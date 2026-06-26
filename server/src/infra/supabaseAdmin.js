@@ -1,13 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+import { config } from '../config/env.js';
 
-dotenv.config();
-
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = config.supabaseUrl;
+const supabaseServiceRoleKey = config.supabaseServiceRoleKey;
 
 if (!supabaseUrl) {
-  console.error('Missing VITE_SUPABASE_URL in backend env configuration.');
+  console.error('Missing SUPABASE_URL/VITE_SUPABASE_URL in backend env configuration.');
 }
 
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {

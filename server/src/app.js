@@ -21,10 +21,10 @@ const app = express();
 
 // ─── Global Middlewares ──────────────────────────────────
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : []),
   'http://localhost:3000',
   'http://localhost:5173'
-].filter(Boolean);
+].map(origin => origin.trim()).filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { BookOpen, Users, GraduationCap, Loader2 } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, Loader2, Compass } from 'lucide-react';
 import { getPillars, getActivities, getProjects } from '../services/projetosApi';
 import ProjectCard from '../cards/ProjectCard';
 import { useNavigate } from 'react-router-dom';
@@ -115,26 +115,102 @@ export default function OQueFazemos() {
         </div>
       </section>
 
-      {/* Static Pillars List block exactly as requested */}
+      {/* Static Pillars List block - Redesigned to be Premium & Enterprise */}
       <section className="pt-16 px-6 md:px-12 lg:px-16 bg-transparent">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-dark-surface rounded-[32px] p-8 md:p-10 border border-brand-poloBlue/20 shadow-sm space-y-6">
-          <h3 className="text-2xl font-bold text-brand-bigStone dark:text-dark-text border-b border-slate-100 pb-4">
-            Pilares da ALEM
-          </h3>
-          <ul className="space-y-4 text-brand-eastBay dark:text-dark-muted font-medium">
-            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
-              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
-              <span>Rastreamento e insercao das pessoas com necessidades especiais em diferentes subsistemas.</span>
-            </li>
-            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
-              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
-              <span>Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.</span>
-            </li>
-            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
-              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
-              <span>Promover a insercao no mercado de trabalho a pessoas com necessidades especiais.</span>
-            </li>
-          </ul>
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] font-bold text-brand-horizon uppercase tracking-[0.3em] block">
+              Estrutura de Ação
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-brand-bigStone dark:text-white tracking-tight">
+              Pilares Fundamentais da ALEM
+            </h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-brand-horizon to-feedback-success mx-auto rounded-full mt-2" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Pillar Card 1 */}
+            <motion.div
+              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(37, 99, 235, 0.15)' }}
+              transition={{ duration: 0.3 }}
+              className="bg-white dark:bg-dark-surface border border-brand-poloBlue/15 dark:border-dark-muted/10 rounded-[28px] p-8 space-y-6 relative overflow-hidden group shadow-sm flex flex-col justify-between"
+            >
+              {/* Background gradient blur glow */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-horizon/5 rounded-full blur-2xl group-hover:bg-brand-horizon/10 transition-colors" />
+              
+              <div className="space-y-6 flex-grow">
+                <div className="flex justify-between items-center">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-horizon/10 text-brand-horizon flex items-center justify-center font-bold">
+                    <Compass size={22} className="group-hover:rotate-12 transition-transform duration-300" />
+                  </div>
+                  <span className="font-mono text-3xl font-black text-brand-horizon/10 group-hover:text-brand-horizon/25 transition-colors">
+                    01
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Identificação e Triagem</h4>
+                  <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
+                    Rastreamento e inserção das pessoas com necessidades especiais em diferentes subsistemas.
+                  </p>
+                </div>
+              </div>
+              <div className="w-8 h-1 bg-brand-horizon/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
+            </motion.div>
+
+            {/* Pillar Card 2 */}
+            <motion.div
+              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(34, 197, 94, 0.15)' }}
+              transition={{ duration: 0.3 }}
+              className="bg-white dark:bg-dark-surface border border-brand-poloBlue/15 dark:border-dark-muted/10 rounded-[28px] p-8 space-y-6 relative overflow-hidden group shadow-sm flex flex-col justify-between"
+            >
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-feedback-success/5 rounded-full blur-2xl group-hover:bg-feedback-success/10 transition-colors" />
+
+              <div className="space-y-6 flex-grow">
+                <div className="flex justify-between items-center">
+                  <div className="w-12 h-12 rounded-2xl bg-feedback-success/10 text-feedback-success flex items-center justify-center font-bold">
+                    <GraduationCap size={22} className="group-hover:-translate-y-1 transition-transform duration-300" />
+                  </div>
+                  <span className="font-mono text-3xl font-black text-feedback-success/10 group-hover:text-feedback-success/25 transition-colors">
+                    02
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-success">Ensino de Qualidade</h4>
+                  <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
+                    Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.
+                  </p>
+                </div>
+              </div>
+              <div className="w-8 h-1 bg-feedback-success/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
+            </motion.div>
+
+            {/* Pillar Card 3 */}
+            <motion.div
+              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(245, 158, 11, 0.15)' }}
+              transition={{ duration: 0.3 }}
+              className="bg-white dark:bg-dark-surface border border-brand-poloBlue/15 dark:border-dark-muted/10 rounded-[28px] p-8 space-y-6 relative overflow-hidden group shadow-sm flex flex-col justify-between"
+            >
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-feedback-warning/5 rounded-full blur-2xl group-hover:bg-feedback-warning/10 transition-colors" />
+
+              <div className="space-y-6 flex-grow">
+                <div className="flex justify-between items-center">
+                  <div className="w-12 h-12 rounded-2xl bg-feedback-warning/10 text-feedback-warning flex items-center justify-center font-bold">
+                    <Users size={22} className="group-hover:scale-105 transition-transform duration-300" />
+                  </div>
+                  <span className="font-mono text-3xl font-black text-feedback-warning/10 group-hover:text-feedback-warning/25 transition-colors">
+                    03
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-warning">Inclusão Profissional</h4>
+                  <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
+                    Promover a inserção no mercado de trabalho a pessoas com necessidades especiais.
+                  </p>
+                </div>
+              </div>
+              <div className="w-8 h-1 bg-feedback-warning/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
+            </motion.div>
+          </div>
         </div>
       </section>
 
