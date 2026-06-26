@@ -1,5 +1,5 @@
 import { Upload, Save, UserCircle } from 'lucide-react';
-import { AdminModal } from '../../admin';
+import AdminModal from '../../admin/components/AdminModal';
 import { compressImage, readFileAsDataURL } from '../../../shared/utils/imageUtils';
 
 /**

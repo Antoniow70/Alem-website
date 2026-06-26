@@ -4,7 +4,6 @@ import Navbar from './shared/layout/Navbar';
 import Footer from './shared/layout/Footer';
 import WhatsAppButton from './shared/common/WhatsAppButton';
 import ScrollToTop from './shared/layout/ScrollToTop';
-import Home from './pages/Home';
 import Inicio from './pages/Inicio';
 import QuemSomos from './domains/equipa/pages/QuemSomos';
 import OQueFazemos from './domains/projetos/pages/OQueFazemos';
@@ -66,12 +65,13 @@ function AppLayout() {
       <main className={`flex-grow ${isAdmin ? '' : 'pt-16'}`}>
         <Routes>
           <Route path="/" element={<Navigate to="/inicio" replace />} />
-          <Route path="/inicio" element={<Home />} />
-          <Route path="/quem-somos" element={<Navigate to="/inicio" replace />} />
-          <Route path="/o-que-fazemos" element={<Navigate to="/inicio" replace />} />
-          <Route path="/projetos-sociais" element={<Navigate to="/inicio" replace />} />
-          <Route path="/contactos" element={<Navigate to="/inicio" replace />} />
-          <Route path="/localizacao" element={<Navigate to="/inicio" replace />} />
+          <Route path="/inicio" element={<Inicio />} />
+          <Route path="/quem-somos" element={<QuemSomos />} />
+          <Route path="/o-que-fazemos" element={<OQueFazemos />} />
+          <Route path="/projetos-sociais" element={<ProjetosSociais />} />
+          <Route path="/destaques" element={<ProjetosSociais />} />
+          <Route path="/contactos" element={<Contactos />} />
+          <Route path="/localizacao" element={<Localizacao />} />
           <Route path="/projetos-sociais/:id" element={<ProjetoDetalhes />} />
           <Route path="/doar" element={<Doar />} />
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />

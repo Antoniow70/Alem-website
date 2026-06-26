@@ -46,7 +46,8 @@ export async function deletePartner(id) {
 export async function addPartner(partnerData) {
   const payload = {
     name: partnerData.name,
-    logo_url: partnerData.logo_data || partnerData.logo_url || ''
+    logo_url: partnerData.logo_url || '',
+    logo_data: partnerData.logo_data || ''
   };
   return createPartner(payload);
 }

@@ -1,5 +1,5 @@
 import { Plus, Trash2 } from 'lucide-react';
-import { AdminModal } from '../../admin';
+import AdminModal from '../../admin/components/AdminModal';
 
 /**
  * Message details modal.

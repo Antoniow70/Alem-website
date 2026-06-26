@@ -1,5 +1,5 @@
 import { Plus, Upload, X, Save, Loader2 } from 'lucide-react';
-import { AdminModal } from '../../admin';
+import AdminModal from '../../admin/components/AdminModal';
 
 /**
  * Project create/edit modal. Extracted from Admin.jsx lines 2414–2651.

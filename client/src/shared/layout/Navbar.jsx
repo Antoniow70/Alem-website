@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../utils/utils';
 
 const navLinks = [
-  { name: 'Inicio', path: '/', targetId: 'inicio' },
-  { name: 'Quem Somos', path: '/#quem-somos', targetId: 'quem-somos' },
-  { name: 'O Que Fazemos', path: '/#o-que-fazemos', targetId: 'o-que-fazemos' },
-  { name: 'Destaques', path: '/#destaques', targetId: 'destaques' },
-  { name: 'Contactos', path: '/#contactos', targetId: 'contactos' },
-  { name: 'Localizacao', path: '/#localizacao', targetId: 'localizacao' },
-  { name: 'Doar', path: '/doar', targetId: '' },
+  { name: 'Inicio', path: '/inicio' },
+  { name: 'Quem Somos', path: '/quem-somos' },
+  { name: 'O Que Fazemos', path: '/o-que-fazemos' },
+  { name: 'Destaques', path: '/destaques' },
+  { name: 'Contactos', path: '/contactos' },
+  { name: 'Localizacao', path: '/localizacao' },
+  { name: 'Doar', path: '/doar' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('inicio');
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'light';
@@ -38,8 +37,8 @@ export default function Navbar() {
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
+  
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,55 +52,6 @@ export default function Navbar() {
     if (isOpen) setIsOpen(false);
   }, [location]);
 
-  useEffect(() => {
-    if (location.pathname !== '/' && location.pathname !== '/inicio') {
-      setActiveSection('');
-      return;
-    }
-    const handleObserver = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0,
-    });
-
-    const sections = ['inicio', 'quem-somos', 'o-que-fazemos', 'destaques', 'contactos', 'localizacao'];
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [location.pathname]);
-
-  const handleNavLinkClick = (e, targetId, path) => {
-    if (!targetId) {
-      e.preventDefault();
-      navigate(path);
-      setIsOpen(false);
-      return;
-    }
-    if (location.pathname === '/' || location.pathname === '/inicio') {
-      e.preventDefault();
-      const element = document.getElementById(targetId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      setIsOpen(false);
-    } else {
-      e.preventDefault();
-      navigate('/', { state: { scrollToId: targetId } });
-      setIsOpen(false);
-    }
-  };
-
   return (
     <nav
       className={cn(
@@ -112,7 +62,7 @@ export default function Navbar() {
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link to="/" onClick={(e) => handleNavLinkClick(e, 'inicio')} className="flex items-center gap-3 group">
+        <Link to="/inicio" className="flex items-center gap-3 group">
           <div className="relative">
             <img
               src="/images/logo alem.jpg"
@@ -133,14 +83,11 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 mx-auto">
           {navLinks.map((link) => {
-            const isActive = link.targetId
-              ? (location.pathname === '/' && activeSection === link.targetId)
-              : (location.pathname === link.path);
+            const isActive = location.pathname === link.path || (link.path === '/inicio' && location.pathname === '/');
             return (
-              <a
+              <Link
                 key={link.name}
-                href={link.path}
-                onClick={(e) => handleNavLinkClick(e, link.targetId, link.path)}
+                to={link.path}
                 className={cn(
                   'text-sm font-medium transition-all relative py-2 px-1 cursor-pointer',
                   isActive ? 'text-brand-poloBlue' : 'text-white/80 hover:text-white'
@@ -154,7 +101,7 @@ export default function Navbar() {
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -167,7 +114,6 @@ export default function Navbar() {
         >
           {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
         </button>
-
 
         {/* CTA (kept at the right) */}
         <Link
@@ -198,14 +144,11 @@ export default function Navbar() {
           >
             <div className="flex flex-col p-4 gap-2">
               {navLinks.map((link) => {
-                const isActive = link.targetId
-                  ? (location.pathname === '/' && activeSection === link.targetId)
-                  : (location.pathname === link.path);
+                const isActive = location.pathname === link.path || (link.path === '/inicio' && location.pathname === '/');
                 return (
-                  <a
+                  <Link
                     key={link.name}
-                    href={link.path}
-                    onClick={(e) => handleNavLinkClick(e, link.targetId, link.path)}
+                    to={link.path}
                     className={cn(
                       'text-sm font-semibold p-3 rounded-lg transition-all duration-200 flex items-center cursor-pointer',
                       isActive
@@ -214,7 +157,7 @@ export default function Navbar() {
                     )}
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 );
               })}
               {/* Mobile Theme Toggle */}

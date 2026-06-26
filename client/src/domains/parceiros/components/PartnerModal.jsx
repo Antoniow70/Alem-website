@@ -1,5 +1,5 @@
 import { X, Upload, Save, Handshake } from 'lucide-react';
-import { AdminModal } from '../../admin';
+import AdminModal from '../../admin/components/AdminModal';
 
 /**
  * Partner creation modal.

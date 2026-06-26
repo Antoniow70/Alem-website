@@ -18,9 +18,9 @@ export default function PartnersTab({ partners, deletePartner }) {
           {partners.map((partner) => (
             <div key={partner.id} className="card-surface p-4 flex items-center gap-4 group relative bg-white">
               <div className="w-14 h-14 rounded-xl bg-brand-poloBlue/15 flex items-center justify-center shrink-0 overflow-hidden border border-brand-poloBlue/20">
-                {partner.logo_url ? (
+                {partner.logo_data || partner.logo_url ? (
                   <img
-                    src={partner.logo_url}
+                    src={partner.logo_data || partner.logo_url}
                     alt={partner.name}
                     className="w-full h-full object-contain p-1 filter grayscale hover:grayscale-0 transition-all duration-300"
                     referrerPolicy="no-referrer"
@@ -31,8 +31,8 @@ export default function PartnersTab({ partners, deletePartner }) {
               </div>
               <div className="flex-grow min-w-0">
                 <h3 className="font-bold text-brand-eastBay dark:text-dark-text text-sm truncate">{partner.name}</h3>
-                {partner.logo_url && (
-                  <p className="text-slate-400 text-[10px] truncate mt-0.5">{partner.logo_url}</p>
+                {(partner.logo_data || partner.logo_url) && (
+                  <p className="text-slate-400 text-[10px] truncate mt-0.5">{partner.logo_url || 'Imagem carregada'}</p>
                 )}
               </div>
               <button

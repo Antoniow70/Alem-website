@@ -111,7 +111,7 @@ export default function TermosUso() {
                 Necessita de suporte adicional?
               </p>
               <Link 
-                to="/#contactos"
+                to="/contactos"
                 className="inline-flex items-center gap-1.5 text-xs text-brand-horizon dark:text-brand-poloBlue hover:text-brand-eastBay font-bold mt-2 hover:underline"
               >
                 Formulario de Contacto <ExternalLink size={12} />

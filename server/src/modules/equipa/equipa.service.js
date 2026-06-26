@@ -1,12 +1,31 @@
 import { supabaseAdmin } from '../../infra/supabaseAdmin.js';
 
 export async function getTeam() {
-  const { data, error } = await supabaseAdmin
-    .from('team')
-    .select('*')
-    .order('sort_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('team')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (error) {
+      if (error.code === '42703') { // column does not exist
+        const fallback = await supabaseAdmin
+          .from('team')
+          .select('*')
+          .order('created_at', { ascending: true });
+        if (fallback.error) throw fallback.error;
+        return fallback.data;
+      }
+      throw error;
+    }
+    return data;
+  } catch (err) {
+    console.error('Error fetching team with order:', err);
+    const { data, error } = await supabaseAdmin
+      .from('team')
+      .select('*');
+    if (error) throw error;
+    return data || [];
+  }
 }
 
 export async function createTeamMember(payload) {

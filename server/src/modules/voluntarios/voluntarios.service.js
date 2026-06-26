@@ -3,7 +3,7 @@ import { sendEmail } from '../../infra/emailService.js';
 import { getVolunteerEmailHtml } from '../../../../client/src/shared/utils/template/volunteerEmailTemplate.js';
 
 export async function getVolunteers(filters = {}) {
-  let query = supabaseAdmin.from('volunteers').select('*, activities(name)', { count: 'exact' });
+  let query = supabaseAdmin.from('volunteers').select('*', { count: 'exact' });
   
   if (filters.status && filters.status !== 'Todos') {
     query = query.eq('status', filters.status);
@@ -31,6 +31,37 @@ export async function getVolunteers(filters = {}) {
   
   const { data, error, count } = await query;
   if (error) throw error;
+
+  // Manually fetch and populate activity names to avoid relationship issues
+  if (data && data.length > 0) {
+    const activityIds = [...new Set(data.map(v => v.activity_id).filter(Boolean))];
+    if (activityIds.length > 0) {
+      try {
+        const { data: activitiesData, error: activitiesError } = await supabaseAdmin
+          .from('activities')
+          .select('id, name')
+          .in('id', activityIds);
+        
+        if (!activitiesError && activitiesData) {
+          const activitiesMap = activitiesData.reduce((acc, act) => {
+            acc[act.id] = act;
+            return acc;
+          }, {});
+          
+          data.forEach(v => {
+            if (v.activity_id && activitiesMap[v.activity_id]) {
+              v.activities = { name: activitiesMap[v.activity_id].name };
+            } else {
+              v.activities = null;
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching activities for volunteers manually:', err);
+      }
+    }
+  }
+  
   return { data, count };
 }
 

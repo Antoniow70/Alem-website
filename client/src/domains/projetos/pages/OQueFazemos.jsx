@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Users, Lightbulb, Heart, ShieldCheck, GraduationCap, ChevronRight, Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import { BookOpen, Users, GraduationCap, Loader2 } from 'lucide-react';
 import { getPillars, getActivities, getProjects } from '../services/projetosApi';
 import ProjectCard from '../cards/ProjectCard';
 import { useNavigate } from 'react-router-dom';
 
-export default function OQueFazemos({ isSection = false }) {
+const exactPillarTitles = [
+  "Rastreamento e insercao das pessoas com necessidades especiais em diferentes subsistemas.",
+  "Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.",
+  "Promover a insercao no mercado de trabalho a pessoas com necessidades especiais."
+];
+
+export default function OQueFazemos() {
   const navigate = useNavigate();
   const [pillars, setPillars] = useState([]);
   const [activePillar, setActivePillar] = useState(null);
@@ -75,43 +81,65 @@ export default function OQueFazemos({ isSection = false }) {
   }, [activeActivity]);
 
   return (
-    <div className={isSection ? "" : "bg-transparent min-h-screen"}>
-      {!isSection && (
-        /* Header */
-        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
-          {/* Background Image and Overlays */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/O que fazemos.jpg"
-              alt="O que fazemos"
-              className="w-full h-full object-cover opacity-60"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
-          </div>
+    <div className="bg-transparent min-h-screen">
+      
+      {/* Header */}
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
+        {/* Background Image and Overlays */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/O que fazemos.jpg"
+            alt="O que fazemos"
+            className="w-full h-full object-cover opacity-60"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
+        </div>
 
-          <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="space-y-4"
-            >
-              <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-                O Que Fazemos
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-                Nossos Programas
-              </h1>
-              <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Desenvolvemos programas integrados que abrangem a crianca, a escola, a familia e a sociedade.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-      )}
+        <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="space-y-4"
+          >
+            <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+              O Que Fazemos
+            </span>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
+              Nossos Programas
+            </h1>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Desenvolvemos programas integrados que abrangem a crianca, a escola, a familia e a sociedade.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Static Pillars List block exactly as requested */}
+      <section className="pt-16 px-6 md:px-12 lg:px-16 bg-transparent">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-dark-surface rounded-[32px] p-8 md:p-10 border border-brand-poloBlue/20 shadow-sm space-y-6">
+          <h3 className="text-2xl font-bold text-brand-bigStone dark:text-dark-text border-b border-slate-100 pb-4">
+            Pilares da ALEM
+          </h3>
+          <ul className="space-y-4 text-brand-eastBay dark:text-dark-muted font-medium">
+            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
+              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
+              <span>Rastreamento e insercao das pessoas com necessidades especiais em diferentes subsistemas.</span>
+            </li>
+            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
+              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
+              <span>Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.</span>
+            </li>
+            <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
+              <span className="text-brand-horizon text-lg mt-0.5 shrink-0">➢</span>
+              <span>Promover a insercao no mercado de trabalho a pessoas com necessidades especiais.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
 
       {/* Dynamic Pillars, Activities, and Projects Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent border-b border-brand-poloBlue/20">
+      <section className="py-16 px-6 md:px-12 lg:px-16 bg-transparent border-b border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto space-y-12">
           {loadingPillars ? (
             <div className="flex flex-col items-center justify-center py-20">
@@ -125,6 +153,8 @@ export default function OQueFazemos({ isSection = false }) {
                 {pillars.map((pillar, i) => {
                   const icons = [<GraduationCap size={24} />, <BookOpen size={24} />, <Users size={24} />];
                   const isActive = activePillar?.id === pillar.id;
+                  const displayTitle = exactPillarTitles[i] || pillar.name;
+
                   return (
                     <motion.button
                       key={pillar.id}
@@ -136,15 +166,16 @@ export default function OQueFazemos({ isSection = false }) {
                           : 'border-brand-poloBlue/20 bg-transparent hover:border-slate-200 shadow-sm'
                       }`}
                     >
-                      <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-brand-horizon text-white' : 'bg-transparent text-brand-eastBay dark:text-dark-muted'}`}>
+                      <div className="flex flex-col gap-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-brand-horizon text-white' : 'bg-brand-poloBlue/10 text-brand-horizon dark:text-brand-poloBlue'}`}>
                           {icons[i % icons.length]}
                         </div>
                         <div>
-                          <h4 className="font-extrabold text-brand-bigStone dark:text-dark-text text-base">{pillar.name}</h4>
+                          <h4 className="font-extrabold text-brand-bigStone dark:text-dark-text text-sm md:text-base leading-snug">
+                            {displayTitle}
+                          </h4>
                         </div>
                       </div>
-                      <p className="text-brand-eastBay dark:text-dark-muted text-xs mt-4 leading-relaxed line-clamp-2">{pillar.description}</p>
                     </motion.button>
                   );
                 })}
@@ -153,7 +184,7 @@ export default function OQueFazemos({ isSection = false }) {
               {/* Activities Bar under selected Pilar */}
               <div className="pt-6 border-t border-brand-poloBlue/20">
                 <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
-                  Areas de Atividade de "{activePillar?.name}"
+                  Areas de Atividade do Pilar Selecionado
                 </h4>
                 {loadingActivities ? (
                   <div className="flex items-center gap-2 py-4">
@@ -259,39 +290,6 @@ export default function OQueFazemos({ isSection = false }) {
         </div>
       </section>
 
-      {/* Documentario Video Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent border-t border-b border-brand-poloBlue/20">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-10"
-          >
-            <div className="text-center space-y-3">
-              <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">Video</span>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Documentario</h3>
-              <p className="text-brand-eastBay dark:text-dark-muted text-sm md:text-base max-w-xl mx-auto">
-                Conheca a historia da Associacao ALEM e o impacto que estamos a gerar na vida das criancas e familias em Mocambique.
-              </p>
-            </div>
-
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-lg bg-black border border-slate-200/20 max-w-4xl mx-auto">
-              <div className="relative pb-[56.25%] w-full">
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/8qAz0MZgoA8"
-                  title="Documentario ALEM"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

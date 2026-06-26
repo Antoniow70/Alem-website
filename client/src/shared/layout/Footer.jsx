@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getPartners } from '../../domains/parceiros';
@@ -58,29 +58,12 @@ function PartnerLogosStrip() {
 }
 
 export default function Footer() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleFooterLinkClick = (e, targetId) => {
-    if (location.pathname === '/' || location.pathname === '/inicio') {
-      e.preventDefault();
-      const element = document.getElementById(targetId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    } else {
-      e.preventDefault();
-      navigate('/', { state: { scrollToId: targetId } });
-    }
-  };
-
   return (
     <footer className="bg-brand-bigStone dark:bg-dark-bg text-white pt-16 pb-8 px-6 border-t border-white/10 dark:border-dark-accent/10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-6">
           <Link
-            to="/"
-            onClick={(e) => handleFooterLinkClick(e, 'inicio')}
+            to="/inicio"
             className="flex items-center gap-3 group cursor-pointer"
           >
             <img 
@@ -108,12 +91,12 @@ export default function Footer() {
         <div>
           <h3 className="text-white font-bold mb-6 text-xs uppercase tracking-wider">Links Rapidos</h3>
           <ul className="space-y-3 text-sm">
-            <li><Link to="/" onClick={(e) => handleFooterLinkClick(e, 'inicio')} className="text-slate-300 hover:text-white transition-all duration-200">Inicio</Link></li>
-            <li><Link to="/#quem-somos" onClick={(e) => handleFooterLinkClick(e, 'quem-somos')} className="text-slate-300 hover:text-white transition-all duration-200">Quem Somos</Link></li>
-            <li><Link to="/#o-que-fazemos" onClick={(e) => handleFooterLinkClick(e, 'o-que-fazemos')} className="text-slate-300 hover:text-white transition-all duration-200">O Que Fazemos</Link></li>
-            <li><Link to="/#destaques" onClick={(e) => handleFooterLinkClick(e, 'destaques')} className="text-slate-300 hover:text-white transition-all duration-200">Destaques</Link></li>
-            <li><Link to="/#contactos" onClick={(e) => handleFooterLinkClick(e, 'contactos')} className="text-slate-300 hover:text-white transition-all duration-200">Contactos</Link></li>
-            <li><Link to="/#localizacao" onClick={(e) => handleFooterLinkClick(e, 'localizacao')} className="text-slate-300 hover:text-white transition-all duration-200">Localizacao</Link></li>
+            <li><Link to="/inicio" className="text-slate-300 hover:text-white transition-all duration-200">Inicio</Link></li>
+            <li><Link to="/quem-somos" className="text-slate-300 hover:text-white transition-all duration-200">Quem Somos</Link></li>
+            <li><Link to="/o-que-fazemos" className="text-slate-300 hover:text-white transition-all duration-200">O Que Fazemos</Link></li>
+            <li><Link to="/destaques" className="text-slate-300 hover:text-white transition-all duration-200">Destaques</Link></li>
+            <li><Link to="/contactos" className="text-slate-300 hover:text-white transition-all duration-200">Contactos</Link></li>
+            <li><Link to="/localizacao" className="text-slate-300 hover:text-white transition-all duration-200">Localizacao</Link></li>
             <li><Link to="/doar" className="text-slate-300 hover:text-white transition-all duration-200">Fazer Doacao</Link></li>
           </ul>
         </div>

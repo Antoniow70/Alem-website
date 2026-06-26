@@ -1,4 +1,4 @@
-import { AdminModal } from '../../admin';
+import AdminModal from '../../admin/components/AdminModal';
 
 /**
  * Volunteer details and status management modal.

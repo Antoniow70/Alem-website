@@ -12,7 +12,8 @@ import {
   BookOpen,
   Handshake,
   Users,
-  Heart
+  Heart,
+  FileText
 } from 'lucide-react';
 
 import axiosClient from '../../../shared/lib/axiosClient';
@@ -29,9 +30,20 @@ import { getBeneficiaryStories, saveBeneficiary as saveBeneficiaryService, delet
 import { getPartners, addPartner as addPartnerService, deletePartner as deletePartnerService } from '../../parceiros/services/parceirosApi';
 import { getTeam, addOrUpdateTeamMember as addOrUpdateTeamMemberService, deleteTeamMember as deleteTeamMemberService } from '../../equipa/services/equipaApi';
 import { getDonations, updateDonationStatus as updateDonationStatusService } from '../../doacoes/services/doacoesApi';
+import { getDocuments, saveDocument, deleteDocument as deleteDocumentService, uploadFileToStorage as uploadDocumentFileService } from '../../equipa/services/documentosApi';
 
 // fetchAllAdminData local implementation
 async function fetchAllAdminData() {
+  const safeFetch = async (promise, fallback) => {
+    try {
+      const res = await promise;
+      return res;
+    } catch (err) {
+      console.error('Dashboard domain load failure:', err);
+      return fallback;
+    }
+  };
+
   const [
     projects,
     volunteersRes,
@@ -39,15 +51,17 @@ async function fetchAllAdminData() {
     beneficiaries,
     team,
     partners,
-    donationsRes
+    donationsRes,
+    documents
   ] = await Promise.all([
-    getProjects(),
-    getVolunteers(),
-    getMessages(),
-    getBeneficiaryStories(),
-    getTeam(),
-    getPartners(),
-    getDonations()
+    safeFetch(getProjects(), []),
+    safeFetch(getVolunteers(), { data: [], count: 0 }),
+    safeFetch(getMessages(), { data: [], count: 0 }),
+    safeFetch(getBeneficiaryStories(), []),
+    safeFetch(getTeam(), []),
+    safeFetch(getPartners(), []),
+    safeFetch(getDonations(), { data: [], count: 0 }),
+    safeFetch(getDocuments(), [])
   ]);
   
   return {
@@ -57,7 +71,8 @@ async function fetchAllAdminData() {
     beneficiaries: beneficiaries || [],
     team: team || [],
     partners: partners || [],
-    donations: donationsRes?.data || []
+    donations: donationsRes?.data || [],
+    documents: documents || []
   };
 }
 
@@ -78,6 +93,8 @@ import PartnerModal from '../../parceiros/components/PartnerModal';
 import TeamTab from '../../equipa/components/TeamTab';
 import TeamModal from '../../equipa/components/TeamModal';
 import DonationsTab from '../../doacoes/components/DonationsTab';
+import DocumentTab from '../../equipa/components/DocumentTab';
+import DocumentModal from '../../equipa/components/DocumentModal';
 
 const projectSchema = z.object({
   name: z.string().min(3, 'Nome obrigatorio'),
@@ -152,10 +169,18 @@ export default function Admin() {
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [team, setTeam] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [documents, setDocuments] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('projects');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Document management states
+  const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+  const [editingDocument, setEditingDocument] = useState(null);
+  const [newDocument, setNewDocument] = useState({ title: '', description: '', file_url: '', file_data: '' });
+  const [selectedDocumentFile, setSelectedDocumentFile] = useState(null);
+  const [isDocumentUploading, setIsDocumentUploading] = useState(false);
 
   // Filters & Search
   const [donationFilterStart, setDonationFilterStart] = useState('');
@@ -266,9 +291,19 @@ export default function Admin() {
   async function fetchData() {
     try {
       setLoading(true);
+      const safeFetch = async (promise, fallback) => {
+        try {
+          const res = await promise;
+          return res;
+        } catch (err) {
+          console.error('Activities load failure:', err);
+          return fallback;
+        }
+      };
+
       const [data, allActivities] = await Promise.all([
         fetchAllAdminData(),
-        getAllActivities()
+        safeFetch(getAllActivities(), [])
       ]);
       setProjects(data.projects);
       setVolunteers(data.volunteers);
@@ -277,6 +312,7 @@ export default function Admin() {
       setTeam(data.team);
       setPartners(data.partners);
       setDonations(data.donations);
+      setDocuments(data.documents);
       setActivities(allActivities || []);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -387,6 +423,78 @@ export default function Admin() {
     setEditingTeamMember(member);
     setNewTeamMember(member);
     setIsTeamModalOpen(true);
+  };
+
+  // Documents CRUD
+  const handleAddOrUpdateDocument = async () => {
+    if (!newDocument.title?.trim()) {
+      alert('O titulo do documento e obrigatorio.');
+      return;
+    }
+    setIsDocumentUploading(true);
+    try {
+      let finalFileUrl = newDocument.file_url || '';
+
+      if (selectedDocumentFile) {
+        const { error, publicUrl } = await uploadDocumentFileService(selectedDocumentFile, 'documents');
+        if (error) {
+          console.warn('Storage upload failed, fallback to base64:', error);
+          const reader = new FileReader();
+          const base64Promise = new Promise((res, rej) => {
+            reader.onload = () => res(reader.result);
+            reader.onerror = (e) => rej(e);
+            reader.readAsDataURL(selectedDocumentFile);
+          });
+          finalFileUrl = await base64Promise;
+        } else {
+          finalFileUrl = publicUrl;
+        }
+      }
+
+      const payload = {
+        title: newDocument.title,
+        description: newDocument.description || '',
+        file_url: finalFileUrl,
+        file_data: finalFileUrl.startsWith('data:') ? finalFileUrl : ''
+      };
+
+      await saveDocument(payload, editingDocument?.id);
+      setNewDocument({ title: '', description: '', file_url: '', file_data: '' });
+      setSelectedDocumentFile(null);
+      setEditingDocument(null);
+      setIsDocumentModalOpen(false);
+      fetchData();
+    } catch (err) {
+      console.error('Error saving document:', err);
+      alert('Erro ao guardar documento.');
+    } finally {
+      setIsDocumentUploading(false);
+    }
+  };
+
+  const handleDeleteDocument = (id) => {
+    openConfirm({
+      title: 'Remover Documento',
+      message: 'Tem a certeza que deseja eliminar este documento? Esta acao e irreversivel.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteDocumentService(id);
+          fetchData();
+        } catch (err) {
+          console.error('Error deleting document:', err);
+        }
+      }
+    });
+  };
+
+  const openEditDocument = (doc) => {
+    setEditingDocument(doc);
+    setNewDocument(doc);
+    setSelectedDocumentFile(null);
+    setIsDocumentModalOpen(true);
   };
 
   // Project Submit CRUD
@@ -914,6 +1022,7 @@ export default function Admin() {
     { id: 'beneficiaries', label: 'Historias', icon: <BookOpen size={18} /> },
     { id: 'partners', label: 'Parceiros', icon: <Handshake size={18} /> },
     { id: 'team', label: 'Equipa', icon: <Users size={18} /> },
+    { id: 'documents', label: 'Documentos', icon: <FileText size={18} /> },
     { id: 'donations', label: 'Nossos Doadores', icon: <Heart size={18} /> },
   ];
 
@@ -938,7 +1047,8 @@ export default function Admin() {
                     activeTab === 'support' ? 'Pedidos de Apoio' :
                       activeTab === 'partners' ? 'Gestao de Parceiros' :
                         activeTab === 'team' ? 'Gestao da Equipa' :
-                          activeTab === 'donations' ? 'Nossos Doadores' : ''}
+                          activeTab === 'documents' ? 'Gestao de Documentos' :
+                            activeTab === 'donations' ? 'Nossos Doadores' : ''}
             </h1>
             <p className="text-sm text-brand-eastBay dark:text-dark-muted mt-0.5">
               {activeTab === 'projects'
@@ -953,9 +1063,11 @@ export default function Admin() {
                         ? `${partners.length} parceiros registados`
                         : activeTab === 'team'
                           ? `${team.length} membros registados`
-                          : activeTab === 'donations'
-                            ? `${donations.length} doadores registados`
-                            : ''
+                          : activeTab === 'documents'
+                            ? `${documents.length} documentos registados`
+                            : activeTab === 'donations'
+                              ? `${donations.length} doadores registados`
+                              : ''
               }
             </p>
           </div>
@@ -987,11 +1099,16 @@ export default function Admin() {
                     setEditingTeamMember(null);
                     setNewTeamMember({ name: '', role: '', bio: '', photo_data: '', photo_url: '' });
                     setIsTeamModalOpen(true);
+                  } else if (activeTab === 'documents') {
+                    setEditingDocument(null);
+                    setNewDocument({ title: '', description: '', file_url: '', file_data: '' });
+                    setSelectedDocumentFile(null);
+                    setIsDocumentModalOpen(true);
                   }
                 }}
                 className="btn-primary flex items-center gap-1.5"
               >
-                <Plus size={18} /> {activeTab === 'projects' ? 'Novo Projeto' : activeTab === 'partners' ? 'Novo Parceiro' : 'Novo Membro'}
+                <Plus size={18} /> {activeTab === 'projects' ? 'Novo Projeto' : activeTab === 'partners' ? 'Novo Parceiro' : activeTab === 'documents' ? 'Novo Documento' : 'Novo Membro'}
               </button>
             )}
           </div>
@@ -1090,6 +1207,12 @@ export default function Admin() {
               setIsBeneficiaryModalOpen(true);
             }}
           />
+        ) : activeTab === 'documents' ? (
+          <DocumentTab
+            documents={documents}
+            openEditDocument={openEditDocument}
+            deleteDocument={handleDeleteDocument}
+          />
         ) : null}
       </main>
 
@@ -1157,6 +1280,18 @@ export default function Admin() {
         newTeamMember={newTeamMember}
         setNewTeamMember={setNewTeamMember}
         addOrUpdateTeamMember={handleAddOrUpdateTeamMember}
+      />
+
+      <DocumentModal
+        isOpen={isDocumentModalOpen}
+        onClose={() => { setIsDocumentModalOpen(false); setSelectedDocumentFile(null); }}
+        editingDocument={editingDocument}
+        newDocument={newDocument}
+        setNewDocument={setNewDocument}
+        selectedFile={selectedDocumentFile}
+        setSelectedFile={setSelectedDocumentFile}
+        addOrUpdateDocument={handleAddOrUpdateDocument}
+        isUploading={isDocumentUploading}
       />
 
       <ConfirmModal

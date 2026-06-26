@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Send, MessageSquare, Loader2, CheckCircle2, Heart,
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useSearchParams } from 'react-router-dom';
 import { getAllActivities } from '../domains/projetos';
 import { submitMessage } from '../domains/suporte';
 import { submitVolunteer } from '../domains/voluntarios';
@@ -30,7 +31,9 @@ const volunteerSchema = z.object({
   message: z.string().optional(),
 });
 
-export default function Contactos({ isSection = false }) {
+export default function Contactos() {
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('contact');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -47,7 +50,12 @@ export default function Contactos({ isSection = false }) {
 
   useEffect(() => {
     fetchActivities();
-  }, []);
+    if (tabParam === 'volunteer') {
+      setActiveTab('volunteer');
+    } else if (tabParam === 'contact' || tabParam === 'support') {
+      setActiveTab('contact');
+    }
+  }, [tabParam]);
 
   async function fetchActivities() {
     try {
@@ -108,32 +116,30 @@ export default function Contactos({ isSection = false }) {
   };
 
   return (
-    <div className={isSection ? "" : "bg-transparent min-h-screen pb-24"}>
-      {!isSection && (
-        /* Header */
-        <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
-          {/* Background Image and Overlays */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/contactos.jpg"
-              alt="Contactos"
-              className="w-full h-full object-cover opacity-60"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
-          </div>
+    <div className="bg-transparent min-h-screen pb-24">
+      {/* Header */}
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
+        {/* Background Image and Overlays */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/contactos.jpg"
+            alt="Contactos"
+            className="w-full h-full object-cover opacity-60"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
+        </div>
 
-          <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
-            <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-              Fale Connosco
-            </span>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contactos</h1>
-            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Estamos aqui para ouvir. Seja para pedir apoio, tornar-se parceiro ou simplesmente dizer ola.
-            </p>
-          </div>
-        </section>
-      )}
+        <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
+          <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+            Fale Connosco
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contactos</h1>
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Estamos aqui para ouvir. Seja para pedir apoio, tornar-se parceiro ou simplesmente dizer ola.
+          </p>
+        </div>
+      </section>
 
       <section className="py-16 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
