@@ -42,6 +42,14 @@ app.use(logger);
 app.use(rateLimiter);
 
 // ─── Health Check ────────────────────────────────────────
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API ALEM a funcionar',
+    version: '1.0.0'
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
