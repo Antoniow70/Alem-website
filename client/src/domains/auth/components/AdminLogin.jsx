@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { LayoutDashboard, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Loader2, Eye, EyeOff } from 'lucide-react';
 
 /**
  * Admin login screen with Supabase auth integration.
  */
 export default function AdminLogin({ email, setEmail, password, setPassword, handleLogin, loginError, loginLoading }) {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-brand-poloBlue/15 via-brand-poloBlue/20 to-slate-200 dark:from-dark-bg dark:via-dark-surface dark:to-dark-bg p-4">
       <motion.div
@@ -45,15 +47,25 @@ export default function AdminLogin({ email, setEmail, password, setPassword, han
           </div>
           <div className="space-y-1">
             <label className="form-label">Palavra-passe</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
-              placeholder="••••••••"
-              required
-              disabled={loginLoading}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input pr-10"
+                placeholder="••••••••"
+                required
+                disabled={loginLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-horizon dark:text-dark-muted dark:hover:text-white transition-colors cursor-pointer"
+                tabIndex="-1"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
           <button
             className="w-full btn-primary py-3 mt-2 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"

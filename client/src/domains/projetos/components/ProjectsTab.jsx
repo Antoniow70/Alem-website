@@ -32,10 +32,14 @@ export default function ProjectsTab({ projects, statusSelectClasses, updateProje
                   {project.name}
                 </h3>
                 
-                {project.activities?.name && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-muted border border-brand-poloBlue/10 whitespace-nowrap">
-                    {project.activities.name}
-                  </span>
+                {project.activities && project.activities.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.activities.map((act) => (
+                      <span key={act.id || act.name} className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-brand-poloBlue/15 text-brand-eastBay dark:text-dark-muted border border-brand-poloBlue/10 whitespace-nowrap">
+                        {act.name}
+                      </span>
+                    ))}
+                  </div>
                 )}
 
                 {/* Styled status select with custom dot indicator */}

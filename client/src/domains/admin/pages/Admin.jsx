@@ -23,7 +23,7 @@ import { compressImage } from '../../../shared/utils/imageUtils';
 
 // Services from Domain API files
 import { loginAdmin, logoutAdmin, getCurrentSession } from '../../auth/services/authApi';
-import { getProjects, saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage, getAllActivities } from '../../projetos/services/projetosApi';
+import { getProjects, saveProject, deleteProject as deleteProjectService, updateProjectStatus as updateProjectStatusService, uploadFileToStorage, getAllActivities, getPillars } from '../../projetos/services/projetosApi';
 import { getVolunteers, deleteVolunteer as deleteVolunteerService, updateVolunteerStatus as updateVolunteerStatusService, updateVolunteerReadStatus as updateVolunteerReadStatusService, bulkUpdateVolunteerStatus as bulkUpdateVolunteerStatusService } from '../../voluntarios/services/voluntariosApi';
 import { getMessages, deleteMessage as deleteMessageService, updateMessageStatus as updateMessageStatusService, updateMessageReadStatus as updateMessageReadStatusService, bulkUpdateMessageStatus as bulkUpdateMessageStatusService } from '../../suporte/services/suporteApi';
 import { getBeneficiaryStories, saveBeneficiary as saveBeneficiaryService, deleteBeneficiary as deleteBeneficiaryService } from '../../beneficiarios/services/beneficiariosApi';
@@ -107,7 +107,8 @@ const projectSchema = z.object({
     description: z.string().optional(),
   })).optional(),
   equipa_responsavel: z.array(z.string()).optional(),
-  activity_id: z.string().nullable().optional(),
+  pillar_id: z.string().min(1, 'Pilar obrigatorio'),
+  associated_activities: z.array(z.string()).optional(),
 });
 
 const volunteerSchema = z.object({
@@ -169,6 +170,7 @@ export default function Admin() {
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [team, setTeam] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [pillars, setPillars] = useState([]);
   const [documents, setDocuments] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -248,7 +250,8 @@ export default function Admin() {
       status: 'Planeamento',
       gallery: [],
       equipa_responsavel: [],
-      activity_id: ''
+      pillar_id: '',
+      associated_activities: []
     }
   });
 
@@ -301,9 +304,10 @@ export default function Admin() {
         }
       };
 
-      const [data, allActivities] = await Promise.all([
+      const [data, allActivities, allPillars] = await Promise.all([
         fetchAllAdminData(),
-        safeFetch(getAllActivities(), [])
+        safeFetch(getAllActivities(), []),
+        safeFetch(getPillars(), [])
       ]);
       setProjects(data.projects);
       setVolunteers(data.volunteers);
@@ -314,6 +318,7 @@ export default function Admin() {
       setDonations(data.donations);
       setDocuments(data.documents);
       setActivities(allActivities || []);
+      setPillars(allPillars || []);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -530,7 +535,8 @@ export default function Admin() {
         capa_url: finalMediaUrl,
         gallery: data.gallery || [],
         equipa_responsavel: data.equipa_responsavel || [],
-        activity_id: data.activity_id || null,
+        pillar_id: data.pillar_id || null,
+        activities: data.associated_activities || []
       };
 
       await saveProject(payload, editingProject?.id);
@@ -628,7 +634,8 @@ export default function Admin() {
     projectForm.setValue('capa_url', project._original_capa_url || project.capa_url || '');
     projectForm.setValue('gallery', project.gallery?.map(g => ({ ...g, url: g._original_url || g.url })) || []);
     projectForm.setValue('equipa_responsavel', project.equipa_responsavel || []);
-    projectForm.setValue('activity_id', project.activity_id || '');
+    projectForm.setValue('pillar_id', project.pillar_id || '');
+    projectForm.setValue('associated_activities', project.activities?.map(a => a.id) || []);
     setUploadPreview(project.capa_url || null);
     setIsModalOpen(true);
   };
@@ -1233,6 +1240,7 @@ export default function Admin() {
         handleGalleryFiles={handleGalleryFiles}
         team={team}
         activities={activities}
+        pillars={pillars}
         onSubmit={handleProjectSubmit}
       />
 

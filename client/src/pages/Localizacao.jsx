@@ -20,7 +20,7 @@ export default function Localizacao() {
   const beiraCoords = { lat: -19.8333, lng: 34.85 };
   const googleMapsUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119776.43823458695!2d34.8048698!3d-19.833333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1f2a3f7f7f7f7f7f%3A0x7f7f7f7f7f7f7f7f!2sBeira%2C%20Mo%C3%A7ambique!5e0!3m2!1spt-PT!2smz!4v1711880000000!5m2!1spt-PT!2smz`;
   
-  const fullAddress = "Bairro de Macuti, Rua das Flores, nº 123, Beira, Sofala, Moçambique";
+  const fullAddress = "Bairro de Macuti, Rua das Flores, nº 123, Beira, Sofala, Mocambique";
   const contactEmail = "info@alem.mz";
   const contactPhone = "+258 84 000 0000";
 
@@ -36,12 +36,12 @@ export default function Localizacao() {
 
       if (day >= 1 && day <= 5) { // Mon-Fri
         if (hour >= 8 && hour < 17) {
-          setStatus({ open: true, text: 'Aberto agora (Encerra às 17h00)' });
+          setStatus({ open: true, text: 'Aberto agora (Encerra as 17h00)' });
         } else {
-          setStatus({ open: false, text: 'Fechado agora (Abre às 08h00)' });
+          setStatus({ open: false, text: 'Fechado agora (Abre as 08h00)' });
         }
       } else { // Sat-Sun
-        setStatus({ open: false, text: 'Fechado (Abre Segunda às 08h00)' });
+        setStatus({ open: false, text: 'Fechado (Abre Segunda as 08h00)' });
       }
     }
     
@@ -60,8 +60,8 @@ export default function Localizacao() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Sede da ALEM - Moçambique',
-          text: 'Localização da Associação Laços Especiais de Moçambique',
+          title: 'Sede da ALEM - Mocambique',
+          text: 'Localizacao da Associacao Lacos Especiais de Mocambique',
           url: window.location.href,
         });
       } catch (err) {
@@ -97,7 +97,7 @@ export default function Localizacao() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 rounded-full bg-brand-poloBlue/15 border border-brand-horizon/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-horizon dark:text-white"
           >
-            <Compass size={12} className="animate-spin-slow" /> PRESENÇA NACIONAL
+            <Compass size={12} className="animate-spin-slow" /> PRESENCA NACIONAL
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -113,7 +113,7 @@ export default function Localizacao() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-base md:text-lg text-slate-350 max-w-xl mx-auto leading-relaxed font-light"
           >
-            Visite as nossas instalações centrais na Beira ou utilize as vias de suporte dedicadas.
+            Visite as nossas instalacoes centrais na Beira ou utilize as vias de suporte dedicadas.
           </motion.p>
         </div>
       </section>
@@ -160,7 +160,7 @@ export default function Localizacao() {
                 <p className="text-brand-eastBay dark:text-dark-muted text-sm leading-relaxed font-medium">
                   Bairro de Macuti, Rua das Flores, nº 123<br />
                   Beira, Sofala<br />
-                  Moçambique
+                  Mocambique
                 </p>
               </div>
 
@@ -173,12 +173,12 @@ export default function Localizacao() {
                     rel="noopener noreferrer"
                     className="flex-1 bg-brand-horizon text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-brand-eastBay hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-md shadow-brand-horizon/10"
                   >
-                    <Navigation size={14} /> Traçar Rota GPS
+                    <Navigation size={14} /> Tracar Rota GPS
                   </a>
                   <button
                     onClick={() => handleCopy(fullAddress, 'address')}
                     className="bg-slate-50 dark:bg-dark-accent/10 text-brand-bigStone dark:text-white border border-brand-poloBlue/20 dark:border-dark-muted/20 hover:bg-slate-100 dark:hover:bg-dark-accent/20 p-3 rounded-xl transition-all relative flex items-center justify-center shrink-0"
-                    title="Copiar Endereço"
+                    title="Copiar Endereco"
                   >
                     <AnimatePresence mode="wait">
                       {copiedText === 'address' ? (
@@ -193,7 +193,7 @@ export default function Localizacao() {
                   onClick={handleShare}
                   className="w-full bg-slate-50 dark:bg-dark-accent/10 text-brand-eastBay dark:text-dark-muted border border-brand-poloBlue/20 dark:border-dark-muted/20 hover:bg-slate-100 dark:hover:bg-dark-accent/20 py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all"
                 >
-                  <Share2 size={13} /> {copiedText === 'share' ? 'Link Copiado!' : 'Partilhar Localização'}
+                  <Share2 size={13} /> {copiedText === 'share' ? 'Link Copiado!' : 'Partilhar Localizacao'}
                 </button>
               </div>
             </motion.div>
@@ -207,7 +207,7 @@ export default function Localizacao() {
               className="bg-white dark:bg-dark-surface p-8 rounded-3xl shadow-xl border border-brand-poloBlue/20 dark:border-dark-muted/10 space-y-5"
             >
               <h3 className="text-sm font-bold text-brand-bigStone dark:text-dark-text uppercase tracking-widest flex items-center gap-2">
-                <Clock size={14} className="text-brand-horizon" /> Horários e Canais
+                <Clock size={14} className="text-brand-horizon" /> Horarios e Canais
               </h3>
               
               <div className="space-y-4">
@@ -215,7 +215,7 @@ export default function Localizacao() {
                 <div className="flex items-start gap-3">
                   <Clock size={16} className="text-slate-400 dark:text-dark-muted shrink-0 mt-0.5" />
                   <div className="text-xs">
-                    <p className="font-bold text-brand-bigStone dark:text-dark-text">Horário Administrativo</p>
+                    <p className="font-bold text-brand-bigStone dark:text-dark-text">Horario Administrativo</p>
                     <p className="text-brand-eastBay dark:text-dark-muted mt-0.5">Segunda a Sexta: 08h00 - 17h00</p>
                     <p className="text-slate-400 dark:text-dark-muted/65 text-[10px] mt-0.5">{status.text}</p>
                   </div>
@@ -264,20 +264,20 @@ export default function Localizacao() {
               className="bg-brand-bigStone dark:bg-dark-accent/10 border border-transparent dark:border-dark-muted/10 text-white dark:text-dark-text p-8 rounded-3xl shadow-xl space-y-4"
             >
               <h4 className="font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                <Compass size={16} className="text-brand-horizon" /> Instruções de Acesso
+                <Compass size={16} className="text-brand-horizon" /> Instrucoes de Acesso
               </h4>
               <ul className="space-y-3.5 text-xs text-slate-300 dark:text-dark-muted font-light leading-relaxed">
                 <li className="flex items-start gap-2.5">
                   <School size={16} className="text-brand-horizon shrink-0 mt-0.5" />
-                  <span>Localizados nas proximidades da **Escola Secundária de Macuti**.</span>
+                  <span>Localizados nas proximidades da **Escola Secundaria de Macuti**.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <Navigation size={16} className="text-brand-horizon shrink-0 mt-0.5" />
-                  <span>De transporte público, peça para descer no **Mercado de Macuti** (5 min a pé).</span>
+                  <span>De transporte publico, peca para descer no **Mercado de Macuti** (5 min a pe).</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <Car size={16} className="text-brand-horizon shrink-0 mt-0.5" />
-                  <span>Acesso facilitado para automóveis com parqueamento livre reservado no exterior.</span>
+                  <span>Acesso facilitado para automoveis com parqueamento livre reservado no exterior.</span>
                 </li>
               </ul>
             </motion.div>
@@ -326,7 +326,7 @@ export default function Localizacao() {
                 {/* Floating GPS coordinates overlay on map */}
                 <div className="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3 shadow-lg z-10">
                   <div className="text-left font-mono">
-                    <span className="text-[9px] uppercase tracking-widest text-slate-400 block font-bold">SOFALA - MOÇAMBIQUE</span>
+                    <span className="text-[9px] uppercase tracking-widest text-slate-400 block font-bold">SOFALA - MOCAMBIQUE</span>
                     <span className="text-[11px] text-white font-bold">19.8333° Sul, 34.8500° Este</span>
                   </div>
                   <a

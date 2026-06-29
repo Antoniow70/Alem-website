@@ -7,7 +7,7 @@ import AdminModal from '../../admin/components/AdminModal';
 export default function ProjectModal({
   isOpen, onClose, editingProject, projectForm, galleryFields, appendGallery, removeGallery,
   selectedFile, setSelectedFile, uploadPreview, setUploadPreview,
-  isUploading, isGalleryUploading, handleGalleryFiles, team, activities = [], onSubmit
+  isUploading, isGalleryUploading, handleGalleryFiles, team, activities = [], pillars = [], onSubmit
 }) {
   return (
     <AdminModal
@@ -76,21 +76,49 @@ export default function ProjectModal({
         </div>
 
         <div className="space-y-1">
-          <label className="form-label">Atividade Associada</label>
+          <label className="form-label">Pilar Associado</label>
           <select
-            {...projectForm.register('activity_id')}
+            {...projectForm.register('pillar_id')}
             className="form-input cursor-pointer font-semibold text-brand-bigStone dark:text-dark-text"
           >
-            <option value="">Selecionar uma atividade...</option>
-            {activities.map((act) => (
-              <option key={act.id} value={act.id}>
-                {act.name}
+            <option value="">Selecionar um pilar...</option>
+            {pillars.map((pillar) => (
+              <option key={pillar.id} value={pillar.id}>
+                {pillar.name}
               </option>
             ))}
           </select>
-          {projectForm.formState.errors.activity_id && (
+          {projectForm.formState.errors.pillar_id && (
             <p className="text-feedback-error text-xs mt-1">
-              {projectForm.formState.errors.activity_id.message}
+              {projectForm.formState.errors.pillar_id.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1">
+          <label className="form-label">Atividades Associadas</label>
+          <div className="relative group cursor-pointer border border-slate-200 rounded-xl bg-brand-poloBlue/15 max-h-32 overflow-y-auto p-3.5 custom-scrollbar">
+            {activities.length === 0 ? (
+              <p className="text-xs text-slate-400">Nenhuma atividade cadastrada.</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {activities.map(act => (
+                  <label key={act.id} className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value={act.id}
+                      {...projectForm.register('associated_activities')}
+                      className="w-4 h-4 rounded border-slate-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
+                    />
+                    <span className="text-xs font-semibold text-brand-eastBay dark:text-dark-text">{act.name}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+          {projectForm.formState.errors.associated_activities && (
+            <p className="text-feedback-error text-xs mt-1">
+              {projectForm.formState.errors.associated_activities.message}
             </p>
           )}
         </div>

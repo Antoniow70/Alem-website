@@ -47,9 +47,9 @@ export default function ProjectCard({ project, onClick }) {
       {/* Card Content Overlay */}
       <div className="absolute bottom-0 left-0 right-0 p-6 z-10 translate-y-3.5 group-hover:translate-y-0 transition-transform duration-500 ease-out">
         {/* Category / Pillar Tag */}
-        {project.activities?.name && (
-          <span className="text-[10px] text-brand-poloBlue font-black tracking-widest uppercase mb-1.5 block">
-            {project.activities.name}
+        {project.activities && project.activities.length > 0 && (
+          <span className="text-[10px] text-brand-poloBlue font-black tracking-widest uppercase mb-1.5 block truncate">
+            {project.activities.map(a => a.name).join(', ')}
           </span>
         )}
 

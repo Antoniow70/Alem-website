@@ -9,7 +9,7 @@ export const submitVolunteerSchema = z.object({
     endereco: z.string().optional().nullable(),
     area_interesse: z.string().optional().nullable(),
     message: z.string().optional().nullable(),
-    activity_id: z.string().uuid('ID da atividade inválido')
+    activity_id: z.string().regex(/^[0-9a-fA-F-]{36}$/, 'ID da atividade inválido')
   })
 });
 

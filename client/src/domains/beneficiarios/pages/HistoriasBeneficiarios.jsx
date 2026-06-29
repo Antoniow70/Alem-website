@@ -62,7 +62,7 @@ export default function HistoriasBeneficiarios() {
         <div className="absolute inset-0 z-0">
           <img
             src="/images/membrosAlem.jpg"
-            alt="Hero Beneficiários"
+            alt="Hero Beneficiarios"
             className="w-full h-full object-cover opacity-60"
             referrerPolicy="no-referrer"
           />

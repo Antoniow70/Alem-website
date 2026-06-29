@@ -5,22 +5,13 @@ import { getPillars, getActivities, getProjects } from '../services/projetosApi'
 import ProjectCard from '../cards/ProjectCard';
 import { useNavigate } from 'react-router-dom';
 
-const exactPillarTitles = [
-  "Rastreamento e insercao das pessoas com necessidades especiais em diferentes subsistemas.",
-  "Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.",
-  "Promover a insercao no mercado de trabalho a pessoas com necessidades especiais."
-];
-
 export default function OQueFazemos() {
   const navigate = useNavigate();
   const [pillars, setPillars] = useState([]);
   const [activePillar, setActivePillar] = useState(null);
-  const [activities, setActivities] = useState([]);
-  const [activeActivity, setActiveActivity] = useState(null);
   const [projects, setProjects] = useState([]);
   
   const [loadingPillars, setLoadingPillars] = useState(true);
-  const [loadingActivities, setLoadingActivities] = useState(false);
   const [loadingProjects, setLoadingProjects] = useState(false);
 
   useEffect(() => {
@@ -43,33 +34,11 @@ export default function OQueFazemos() {
 
   useEffect(() => {
     if (!activePillar) return;
-    async function loadActivities() {
-      try {
-        setLoadingActivities(true);
-        setActivities([]);
-        setActiveActivity(null);
-        setProjects([]);
-        const data = await getActivities(activePillar.id);
-        setActivities(data || []);
-        if (data && data.length > 0) {
-          setActiveActivity(data[0]);
-        }
-      } catch (err) {
-        console.error('Error loading activities:', err);
-      } finally {
-        setLoadingActivities(false);
-      }
-    }
-    loadActivities();
-  }, [activePillar]);
-
-  useEffect(() => {
-    if (!activeActivity) return;
     async function loadProjects() {
       try {
         setLoadingProjects(true);
         setProjects([]);
-        const data = await getProjects({ activityId: activeActivity.id });
+        const data = await getProjects({ pillarId: activePillar.id });
         setProjects(data || []);
       } catch (err) {
         console.error('Error loading projects:', err);
@@ -78,7 +47,7 @@ export default function OQueFazemos() {
       }
     }
     loadProjects();
-  }, [activeActivity]);
+  }, [activePillar]);
 
   return (
     <div className="bg-transparent min-h-screen">
@@ -120,7 +89,7 @@ export default function OQueFazemos() {
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <span className="text-[10px] font-bold text-brand-horizon uppercase tracking-[0.3em] block">
-              Estrutura de Ação
+              Estrutura de Acao
             </span>
             <h2 className="text-2xl md:text-3xl font-black text-brand-bigStone dark:text-white tracking-tight">
               Pilares Fundamentais da ALEM
@@ -148,9 +117,9 @@ export default function OQueFazemos() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Identificação e Triagem</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Acesso e Inclusão</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
-                    Rastreamento e inserção das pessoas com necessidades especiais em diferentes subsistemas.
+                    Rastreamento e inserção das Pessoas com Necessidades Especiais em diferentes subsistemas de ensino
                   </p>
                 </div>
               </div>
@@ -175,9 +144,9 @@ export default function OQueFazemos() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-success">Ensino de Qualidade</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-success">Acompanhamento e Qualidade</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
-                    Garantir o acompanhamento e a qualidade de ensino para pessoas com necessidades especiais.
+                    Garantir o Acompanhamento e a Qualidade de Ensino para Pessoas com Necessidades Especiais
                   </p>
                 </div>
               </div>
@@ -202,9 +171,9 @@ export default function OQueFazemos() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-warning">Inclusão Profissional</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-warning">Inserção e Oportunidade</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
-                    Promover a inserção no mercado de trabalho a pessoas com necessidades especiais.
+                    Promover a Inserção no Mercado de Trabalho a Pessoas com Necessidades Especiais
                   </p>
                 </div>
               </div>
@@ -229,7 +198,7 @@ export default function OQueFazemos() {
                 {pillars.map((pillar, i) => {
                   const icons = [<GraduationCap size={24} />, <BookOpen size={24} />, <Users size={24} />];
                   const isActive = activePillar?.id === pillar.id;
-                  const displayTitle = exactPillarTitles[i] || pillar.name;
+                  const displayTitle = pillar.name;
 
                   return (
                     <motion.button
@@ -257,45 +226,11 @@ export default function OQueFazemos() {
                 })}
               </div>
 
-              {/* Activities Bar under selected Pilar */}
-              <div className="pt-6 border-t border-brand-poloBlue/20">
-                <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
-                  Areas de Atividade do Pilar Selecionado
-                </h4>
-                {loadingActivities ? (
-                  <div className="flex items-center gap-2 py-4">
-                    <Loader2 className="animate-spin text-brand-horizon" size={16} />
-                    <span className="text-brand-eastBay dark:text-dark-muted text-xs">A carregar atividades...</span>
-                  </div>
-                ) : activities.length > 0 ? (
-                  <div className="flex flex-wrap gap-2.5">
-                    {activities.map((act) => {
-                      const isActive = activeActivity?.id === act.id;
-                      return (
-                        <button
-                          key={act.id}
-                          onClick={() => setActiveActivity(act)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                            isActive
-                              ? 'bg-brand-horizon text-white shadow-sm'
-                              : 'bg-transparent hover:bg-brand-poloBlue/20 text-brand-eastBay dark:text-dark-muted hover:text-brand-bigStone dark:text-dark-text border border-brand-poloBlue/20'
-                          }`}
-                        >
-                          {act.name}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p className="text-slate-400 text-xs">Sem atividades registadas para este pilar.</p>
-                )}
-              </div>
-
-              {/* Projects Grid for selected Activity */}
+              {/* Projects Grid for selected Pilar */}
               <div className="pt-6 border-t border-brand-poloBlue/20">
                 <div className="flex items-center justify-between mb-6">
                   <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-                    Projetos em "{activeActivity?.name || 'Selecione uma atividade'}"
+                    Projetos Estrategicos deste Pilar
                   </h4>
                 </div>
                 {loadingProjects ? (

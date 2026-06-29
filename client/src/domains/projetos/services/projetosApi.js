@@ -10,12 +10,13 @@ export async function getPillars() {
 }
 
 /**
- * Gets activities for a specific pillar or all if pillarId is null
- * @param {string} pillarId
+ * Gets activities for a specific project or pillar, or all if empty
+ * @param {string|object} params
  * @returns {Promise<object[]>} Activities
  */
-export async function getActivities(pillarId) {
-  const response = await axiosClient.get('/projetos/activities', { params: { pillarId } });
+export async function getActivities(params) {
+  const queryParams = typeof params === 'string' ? { projectId: params } : params;
+  const response = await axiosClient.get('/projetos/activities', { params: queryParams });
   return response.data.data;
 }
 

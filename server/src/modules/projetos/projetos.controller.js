@@ -11,8 +11,8 @@ export async function getPillars(req, res, next) {
 
 export async function getActivities(req, res, next) {
   try {
-    const { pillarId } = req.query;
-    const data = await projetosService.getActivities(pillarId);
+    const { pillarId, projectId } = req.query;
+    const data = await projetosService.getActivities({ pillarId, projectId });
     res.json({ success: true, data });
   } catch (error) {
     next(error);
@@ -30,8 +30,8 @@ export async function getAllActivities(req, res, next) {
 
 export async function getProjects(req, res, next) {
   try {
-    const { activityId, status, search } = req.query;
-    const data = await projetosService.getProjects({ activityId, status, search });
+    const { activityId, pillarId, status, search } = req.query;
+    const data = await projetosService.getProjects({ activityId, pillarId, status, search });
     res.json({ success: true, data });
   } catch (error) {
     next(error);

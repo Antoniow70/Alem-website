@@ -10,11 +10,12 @@ export const createProjectSchema = z.object({
   body: z.object({
     name: z.string().min(1, 'Nome do projeto é obrigatório'),
     objetivos_especificos: z.string().min(1, 'Objetivos específicos são obrigatórios'),
-    activity_id: z.string().nullable().optional(),
+    pillar_id: z.string().regex(/^[0-9a-fA-F-]{36}$/, 'Pilar inválido').nullable().optional(),
     status: z.enum(['Planeamento', 'Em Curso', 'Concluido']).optional(),
     capa_url: z.string().optional().nullable(),
     gallery: z.array(galleryItemSchema).optional(),
-    equipa_responsavel: z.array(z.any()).optional()
+    equipa_responsavel: z.array(z.any()).optional(),
+    activities: z.array(z.string().regex(/^[0-9a-fA-F-]{36}$/, 'ID de atividade inválido')).optional()
   })
 });
 
@@ -25,11 +26,12 @@ export const updateProjectSchema = z.object({
   body: z.object({
     name: z.string().min(1, 'Nome do projeto é obrigatório').optional(),
     objetivos_especificos: z.string().min(1, 'Objetivos específicos são obrigatórios').optional(),
-    activity_id: z.string().nullable().optional(),
+    pillar_id: z.string().regex(/^[0-9a-fA-F-]{36}$/, 'Pilar inválido').nullable().optional(),
     status: z.enum(['Planeamento', 'Em Curso', 'Concluido']).optional(),
     capa_url: z.string().optional().nullable(),
     gallery: z.array(galleryItemSchema).optional(),
-    equipa_responsavel: z.array(z.any()).optional()
+    equipa_responsavel: z.array(z.any()).optional(),
+    activities: z.array(z.string().regex(/^[0-9a-fA-F-]{36}$/, 'ID de atividade inválido')).optional()
   })
 });
 

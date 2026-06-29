@@ -10,7 +10,7 @@ export default function Inicio() {
       <section className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6 md:px-12 lg:px-16 bg-brand-bigStone text-white">
         <div className="absolute inset-0 z-0">
           <img
-            src="/public/images/ImagemDaTelaInicio.png"
+            src="/images/ImagemDaTelaInicio.png"
             alt="Criancas em Mocambique"
             className="w-full h-full object-cover opacity-[0.62] dark:opacity-[0.84]"
             referrerPolicy="no-referrer"
