@@ -22,15 +22,22 @@ const app = express();
 // ─── Global Middlewares ──────────────────────────────────
 const allowedOrigins = [
   ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : []),
+  'https://alem-eight.vercel.app',
   'http://localhost:3000',
   'http://localhost:5173'
-].map(origin => origin.trim()).filter(Boolean);
+]
+  .map(origin => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error('A política CORS não permite acesso desta origem.'), false);
+    
+    // Normalize request origin by removing trailing slash if present
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    
+    if (allowedOrigins.indexOf(normalizedOrigin) === -1) {
+      return callback(new Error(`A política CORS não permite acesso desta origem: ${origin}`), false);
     }
     return callback(null, true);
   },
