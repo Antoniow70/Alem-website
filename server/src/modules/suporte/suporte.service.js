@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '../../infra/supabaseAdmin.js';
 import { sendEmail } from '../../infra/emailService.js';
-import { getSupportEmailHtml } from '../../../../client/src/shared/utils/template/supportEmailTemplate.js';
+import { getSupportEmailHtml } from '../../shared/utils/template/supportEmailTemplate.js';
 
 export async function getMessages(filters = {}) {
   let query = supabaseAdmin.from('messages').select('*', { count: 'exact' });

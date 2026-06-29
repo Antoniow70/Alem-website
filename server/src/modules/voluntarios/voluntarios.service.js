@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '../../infra/supabaseAdmin.js';
 import { sendEmail } from '../../infra/emailService.js';
-import { getVolunteerEmailHtml } from '../../../../client/src/shared/utils/template/volunteerEmailTemplate.js';
+import { getVolunteerEmailHtml } from '../../shared/utils/template/volunteerEmailTemplate.js';
 
 export async function getVolunteers(filters = {}) {
   let query = supabaseAdmin.from('volunteers').select('*', { count: 'exact' });
