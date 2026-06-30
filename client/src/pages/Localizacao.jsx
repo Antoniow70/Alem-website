@@ -75,46 +75,36 @@ export default function Localizacao() {
   return (
     <div className="bg-transparent min-h-screen pb-24">
       
-      {/* Header Banner - Enterprise Style */}
-      <section className="relative text-white py-32 px-4 overflow-hidden bg-brand-bigStone dark:bg-dark-surface border-b border-brand-poloBlue/15 dark:border-dark-muted/10">
-        {/* Background Image and Professional Gradient Overlays */}
+      {/* Header Banner */}
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
+        {/* Background Image and Overlays */}
         <div className="absolute inset-0 z-0">
           <img
             src="/images/localizacao.jpg"
             alt="Sede ALEM"
-            className="w-full h-full object-cover scale-105 filter brightness-75 select-none"
+            className="w-full h-full object-cover opacity-60"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-bigStone/95 via-brand-bigStone/85 to-[#0F1D30]/95" />
-          {/* Cyber grid aesthetic pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black_70%,transparent_100%)] opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
         </div>
 
-        <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full bg-brand-poloBlue/15 border border-brand-horizon/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-horizon dark:text-white"
+            className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white"
           >
-            <Compass size={12} className="animate-spin-slow" /> PRESENCA NACIONAL
+            Localizacao
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-4xl md:text-6xl font-black tracking-tight text-white drop-shadow-md"
+            className="text-3xl md:text-5xl font-extrabold tracking-tight text-white"
           >
-            Sede e <span className="text-brand-horizon">Canais de Contacto</span>
+            Sede e <span className="text-white">Canais de Contacto</span>
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-base md:text-lg text-slate-350 max-w-xl mx-auto leading-relaxed font-light"
-          >
-            Visite as nossas instalacoes centrais na Beira ou utilize as vias de suporte dedicadas.
-          </motion.p>
         </div>
       </section>
 

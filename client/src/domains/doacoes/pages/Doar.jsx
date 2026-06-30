@@ -126,9 +126,6 @@ export default function Doar() {
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
             Cada doacao e uma vida transformada
           </h1>
-          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            A sua contribuicao e o motor que nos permite continuar a apoiar centenas de criancas. Junte-se a nos nesta causa.
-          </p>
         </div>
       </section>
 

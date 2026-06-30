@@ -20,7 +20,7 @@ export default function Partners() {
   if (partners.length === 0) return null;
 
   return (
-    <div className="w-full py-10 bg-white/40 dark:bg-dark-surface/40 rounded-3xl border border-brand-poloBlue/20 dark:border-dark-muted/10 px-6 backdrop-blur-sm">
+    <div className="w-full py-10 px-6 bg-transparent">
       <div className="text-center mb-8 space-y-2">
         <span className="text-[10px] font-bold text-brand-horizon uppercase tracking-[0.3em] block">
           Parcerias de Confianca
@@ -28,7 +28,7 @@ export default function Partners() {
         <h3 className="text-lg font-bold text-brand-bigStone dark:text-white tracking-tight">
           Instituicoes que Apoiam a Nossa Causa
         </h3>
-        <div className="w-12 h-1 bg-gradient-to-r from-brand-horizon to-feedback-success mx-auto rounded-full mt-3" />
+        <div className="w-12 h-1 bg-brand-horizon mx-auto rounded-full mt-3" />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6 items-center justify-items-center">
@@ -39,18 +39,13 @@ export default function Partners() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            whileHover={{ 
-              scale: 1.05,
-              y: -4,
-              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
-            }}
-            className="w-full max-w-[170px] bg-white/60 dark:bg-dark-surface/60 hover:bg-white/90 dark:hover:bg-dark-surface/90 border border-brand-poloBlue/20 dark:border-dark-muted/20 hover:border-brand-horizon/40 dark:hover:border-brand-horizon/40 rounded-2xl p-4 flex items-center justify-center transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md"
+            className="w-full max-w-[170px] flex items-center justify-center p-2"
           >
             {partner.logo_data || partner.logo_url ? (
               <img
                 src={partner.logo_data || partner.logo_url}
                 alt={partner.name}
-                className="max-h-16 max-w-full object-contain filter grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100 transition-all duration-300 rounded-lg"
+                className="max-h-16 max-w-full object-contain"
                 referrerPolicy="no-referrer"
               />
             ) : (

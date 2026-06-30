@@ -3,59 +3,7 @@ import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react'
 import { useEffect, useState } from 'react';
 import { getPartners } from '../../domains/parceiros';
 
-function PartnerLogosStrip() {
-  const [partners, setPartners] = useState([]);
 
-  useEffect(() => {
-    async function fetchPartners() {
-      try {
-        const data = await getPartners();
-        setPartners(data || []);
-      } catch (err) {
-        console.error('Error fetching partners:', err);
-      }
-    }
-    fetchPartners();
-  }, []);
-
-  if (partners.length === 0) return null;
-
-  return (
-    <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 dark:border-dark-muted/10 flex flex-col md:flex-row items-center gap-6">
-      <p className="text-[10px] font-bold text-brand-poloBlue dark:text-dark-muted uppercase tracking-[0.3em] shrink-0">
-        Parceiros:
-      </p>
-      <div className="flex flex-wrap items-center gap-8 justify-center md:justify-start">
-        {partners.map((partner) => (
-          <div
-            key={partner.id}
-            className="flex items-center filter grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-            title={partner.name}
-          >
-            {partner.logo_data ? (
-              <img
-                src={partner.logo_data}
-                alt={partner.name}
-                className="h-8 max-w-[130px] object-contain"
-              />
-            ) : partner.logo_url ? (
-              <img
-                src={partner.logo_url}
-                alt={partner.name}
-                className="h-8 max-w-[130px] object-contain"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <span className="text-slate-300 hover:text-white text-xs font-bold uppercase tracking-widest">
-                {partner.name}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function Footer() {
   return (
@@ -105,15 +53,15 @@ export default function Footer() {
           <h3 className="text-white font-bold mb-6 text-xs uppercase tracking-wider">Contactos</h3>
           <ul className="space-y-4 text-sm">
             <li className="flex items-start gap-3 group">
-              <MapPin size={16} className="text-feedback-success shrink-0 mt-0.5" />
+              <MapPin size={16} className="text-brand-horizon shrink-0 mt-0.5" />
               <span className="text-slate-300 dark:text-dark-muted">Beira, Mocambique</span>
             </li>
             <li className="flex items-center gap-3 group">
-              <Phone size={16} className="text-feedback-success shrink-0" />
+              <Phone size={16} className="text-brand-horizon shrink-0" />
               <span className="text-slate-300 dark:text-dark-muted">+258 84 000 0000</span>
             </li>
             <li className="flex items-center gap-3 group">
-              <Mail size={16} className="text-feedback-success shrink-0" />
+              <Mail size={16} className="text-brand-horizon shrink-0" />
               <span className="text-slate-300 dark:text-dark-muted">info@alem.mz</span>
             </li>
           </ul>
@@ -135,7 +83,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <PartnerLogosStrip />
+
 
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-white/10 dark:border-dark-muted/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-poloBlue/60 dark:text-dark-muted">
         <p>© 2026 ALEM - Associacao Lacos Especiais de Mocambique. Todos os direitos reservados.</p>

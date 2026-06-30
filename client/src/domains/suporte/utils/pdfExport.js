@@ -296,8 +296,10 @@ export function exportVolunteersPDF(filteredVolunteers, { readFilter = 'Todos', 
     { header: 'Contacto',          dataKey: 'contacto' },
     { header: 'Endereco',          dataKey: 'endereco' },
     { header: 'Area de Interesse',  dataKey: 'interesse' },
+    { header: 'Motivacao',         dataKey: 'message' },
     { header: 'Data de Submissao', dataKey: 'data' },
     { header: 'Estado',            dataKey: 'status' },
+    { header: 'Resposta',          dataKey: 'resposta' },
   ];
 
   const rows = filteredVolunteers.map((vol, idx) => ({
@@ -307,8 +309,10 @@ export function exportVolunteersPDF(filteredVolunteers, { readFilter = 'Todos', 
     contacto:  [vol.phone, vol.email].filter(Boolean).join('\n') || '—',
     endereco:  vol.endereco || '—',
     interesse: vol.area_interesse || '—',
+    message:   vol.message || '—',
     data:      vol.created_at ? formatDate(vol.created_at) : '—',
     status:    vol.status || '—',
+    resposta:  ' '.repeat(20),
   }));
 
   autoTable(doc, {
@@ -335,13 +339,15 @@ export function exportVolunteersPDF(filteredVolunteers, { readFilter = 'Todos', 
     },
     columnStyles: {
       idx:       { halign: 'center', cellWidth: 8, fontStyle: 'bold' },
-      nome:      { cellWidth: 42, fontStyle: 'bold', textColor: COLORS.slate900 },
-      genero:    { cellWidth: 15, halign: 'center' },
-      contacto:  { cellWidth: 45 },
-      endereco:  { cellWidth: 42 },
-      interesse: { cellWidth: 42 },
-      data:      { cellWidth: 26, halign: 'center' },
-      status:    { cellWidth: 22, halign: 'center', fontStyle: 'bold' },
+      nome:      { cellWidth: 32, fontStyle: 'bold', textColor: COLORS.slate900 },
+      genero:    { cellWidth: 12, halign: 'center' },
+      contacto:  { cellWidth: 32 },
+      endereco:  { cellWidth: 30 },
+      interesse: { cellWidth: 30 },
+      message:   { cellWidth: 45 },
+      data:      { cellWidth: 22, halign: 'center' },
+      status:    { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+      resposta:  { cellWidth: 40 },
     },
     didParseCell: (hookData) => {
       if (hookData.section === 'body' && hookData.column.dataKey === 'status') {

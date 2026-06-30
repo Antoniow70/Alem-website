@@ -13,7 +13,12 @@ import {
   Handshake,
   Users,
   Heart,
-  FileText
+  FileText,
+  Newspaper,
+  Trash2,
+  Pencil,
+  Calendar,
+  Save
 } from 'lucide-react';
 
 import axiosClient from '../../../shared/lib/axiosClient';
@@ -31,6 +36,7 @@ import { getPartners, addPartner as addPartnerService, deletePartner as deletePa
 import { getTeam, addOrUpdateTeamMember as addOrUpdateTeamMemberService, deleteTeamMember as deleteTeamMemberService } from '../../equipa/services/equipaApi';
 import { getDonations, updateDonationStatus as updateDonationStatusService } from '../../doacoes/services/doacoesApi';
 import { getDocuments, saveDocument, deleteDocument as deleteDocumentService, uploadFileToStorage as uploadDocumentFileService } from '../../equipa/services/documentosApi';
+import { getNews, saveNews, deleteNewsItem } from '../../noticias/services/noticiasApi';
 
 // fetchAllAdminData local implementation
 async function fetchAllAdminData() {
@@ -52,7 +58,8 @@ async function fetchAllAdminData() {
     team,
     partners,
     donationsRes,
-    documents
+    documents,
+    newsData
   ] = await Promise.all([
     safeFetch(getProjects(), []),
     safeFetch(getVolunteers(), { data: [], count: 0 }),
@@ -61,7 +68,8 @@ async function fetchAllAdminData() {
     safeFetch(getTeam(), []),
     safeFetch(getPartners(), []),
     safeFetch(getDonations(), { data: [], count: 0 }),
-    safeFetch(getDocuments(), [])
+    safeFetch(getDocuments(), []),
+    safeFetch(getNews(), [])
   ]);
   
   return {
@@ -72,7 +80,8 @@ async function fetchAllAdminData() {
     team: team || [],
     partners: partners || [],
     donations: donationsRes?.data || [],
-    documents: documents || []
+    documents: documents || [],
+    news: newsData || []
   };
 }
 
@@ -109,6 +118,13 @@ const projectSchema = z.object({
   equipa_responsavel: z.array(z.string()).optional(),
   pillar_id: z.string().min(1, 'Pilar obrigatorio'),
   associated_activities: z.array(z.string()).optional(),
+  num_beneficiarios: z.preprocess((val) => {
+    if (val === '' || val === undefined || val === null) return 0;
+    const num = Number(val);
+    return isNaN(num) ? 0 : num;
+  }, z.number().int().nonnegative().optional().default(0)),
+  objetivo_geral: z.string().optional(),
+  principais_atividades: z.string().optional()
 });
 
 const volunteerSchema = z.object({
@@ -143,6 +159,251 @@ const statusSelectClasses = (status) => {
   return `${base} bg-feedback-errorLight text-feedback-error border-feedback-errorBorder hover:bg-feedback-errorBorder`;
 };
 
+// ─── Inline News Tab ─────────────────────────────────────
+function NewsTabInline({ newsList, fetchData, openConfirm }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [form, setForm] = useState({ title: '', description: '', news_date: '', capa_url: '', capa_data: '' });
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [preview, setPreview] = useState(null);
+
+  const resetForm = () => {
+    setForm({ title: '', description: '', news_date: '', capa_url: '', capa_data: '' });
+    setEditing(null);
+    setSelectedFile(null);
+    setPreview(null);
+  };
+
+  const openNew = () => {
+    resetForm();
+    setIsModalOpen(true);
+  };
+
+  const openEdit = (item) => {
+    setEditing(item);
+    setForm({
+      title: item.title || '',
+      description: item.description || '',
+      news_date: item.news_date ? item.news_date.split('T')[0] : '',
+      capa_url: item.capa_url || '',
+      capa_data: item.capa_data || ''
+    });
+    setPreview(item.capa_data || item.capa_url || null);
+    setIsModalOpen(true);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async () => {
+    if (!form.title || !form.description || !form.news_date) {
+      alert('Preencha todos os campos obrigatorios.');
+      return;
+    }
+    try {
+      setUploading(true);
+      let payload = { ...form };
+
+      if (selectedFile) {
+        // Compress and convert to base64
+        const { compressImage } = await import('../../../shared/utils/imageUtils');
+        const compressed = await compressImage(selectedFile);
+        payload.capa_data = compressed;
+        payload.capa_url = '';
+      }
+
+      await saveNews(payload, editing?.id || null);
+      setIsModalOpen(false);
+      resetForm();
+      await fetchData();
+    } catch (err) {
+      console.error('Erro ao salvar noticia:', err);
+      alert('Erro ao salvar noticia.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDelete = (item) => {
+    openConfirm({
+      title: 'Eliminar Noticia',
+      message: `Deseja eliminar a noticia "${item.title}"?`,
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteNewsItem(item.id);
+          await fetchData();
+        } catch (err) {
+          console.error('Erro ao eliminar noticia:', err);
+        }
+      }
+    });
+  };
+
+  const fmtDate = (d) => {
+    if (!d) return '—';
+    const dt = new Date(d);
+    if (isNaN(dt.getTime())) return '—';
+    return dt.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  return (
+    <>
+      {/* Add button */}
+      <div className="flex justify-end mb-6">
+        <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
+          <Plus size={18} /> Nova Noticia
+        </button>
+      </div>
+
+      {/* Cards Grid */}
+      {newsList.length === 0 ? (
+        <div className="text-center py-20 text-brand-eastBay dark:text-dark-muted">
+          <Newspaper className="mx-auto mb-4 opacity-30" size={48} />
+          <p className="text-sm">Nenhuma noticia registada.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {newsList.map((item) => (
+            <div key={item.id} className="bg-white dark:bg-dark-surface rounded-2xl shadow-sm border border-brand-poloBlue/10 dark:border-dark-muted/10 overflow-hidden hover:shadow-md transition-shadow">
+              {(item.capa_url || item.capa_data) && (
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={item.capa_data || item.capa_url}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+              )}
+              <div className="p-5 space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-brand-eastBay dark:text-dark-muted">
+                  <Calendar size={12} className="text-brand-horizon" />
+                  {fmtDate(item.news_date)}
+                </div>
+                <h3 className="font-bold text-sm text-brand-bigStone dark:text-dark-text line-clamp-2">{item.title}</h3>
+                <p className="text-xs text-brand-eastBay dark:text-dark-muted line-clamp-3">{item.description}</p>
+                <div className="flex items-center gap-2 pt-2 border-t border-brand-poloBlue/10 dark:border-dark-muted/10">
+                  <button
+                    onClick={() => openEdit(item)}
+                    className="flex items-center gap-1 text-xs font-medium text-brand-horizon hover:text-brand-bigStone transition-colors"
+                  >
+                    <Pencil size={13} /> Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item)}
+                    className="flex items-center gap-1 text-xs font-medium text-feedback-error hover:text-red-700 transition-colors ml-auto"
+                  >
+                    <Trash2 size={13} /> Eliminar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-dark-surface rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-brand-poloBlue/10 dark:border-dark-muted/10">
+              <h2 className="text-lg font-bold text-brand-bigStone dark:text-dark-text">
+                {editing ? 'Editar Noticia' : 'Nova Noticia'}
+              </h2>
+            </div>
+            <div className="p-6 space-y-5">
+              {/* Title */}
+              <div>
+                <label className="block text-xs font-semibold text-brand-eastBay dark:text-dark-muted mb-1.5">
+                  Titulo *
+                </label>
+                <input
+                  type="text"
+                  value={form.title}
+                  onChange={(e) => setForm(p => ({ ...p, title: e.target.value }))}
+                  className="w-full px-3 py-2.5 rounded-xl border border-brand-poloBlue/30 dark:border-dark-muted/30 bg-white dark:bg-dark-bg text-brand-bigStone dark:text-dark-text text-sm focus:ring-2 focus:ring-brand-horizon outline-none"
+                  placeholder="Titulo da noticia"
+                />
+              </div>
+
+              {/* Date */}
+              <div>
+                <label className="block text-xs font-semibold text-brand-eastBay dark:text-dark-muted mb-1.5">
+                  Data *
+                </label>
+                <input
+                  type="date"
+                  value={form.news_date}
+                  onChange={(e) => setForm(p => ({ ...p, news_date: e.target.value }))}
+                  className="w-full px-3 py-2.5 rounded-xl border border-brand-poloBlue/30 dark:border-dark-muted/30 bg-white dark:bg-dark-bg text-brand-bigStone dark:text-dark-text text-sm focus:ring-2 focus:ring-brand-horizon outline-none"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-xs font-semibold text-brand-eastBay dark:text-dark-muted mb-1.5">
+                  Descricao *
+                </label>
+                <textarea
+                  rows={5}
+                  value={form.description}
+                  onChange={(e) => setForm(p => ({ ...p, description: e.target.value }))}
+                  className="w-full px-3 py-2.5 rounded-xl border border-brand-poloBlue/30 dark:border-dark-muted/30 bg-white dark:bg-dark-bg text-brand-bigStone dark:text-dark-text text-sm focus:ring-2 focus:ring-brand-horizon outline-none resize-none"
+                  placeholder="Conteudo da noticia..."
+                />
+              </div>
+
+              {/* Cover Image */}
+              <div>
+                <label className="block text-xs font-semibold text-brand-eastBay dark:text-dark-muted mb-1.5">
+                  Imagem de Capa
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-full text-xs text-brand-eastBay dark:text-dark-muted file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-horizon/10 file:text-brand-horizon hover:file:bg-brand-horizon/20 cursor-pointer"
+                />
+                {preview && (
+                  <div className="mt-3 rounded-xl overflow-hidden border border-brand-poloBlue/10 dark:border-dark-muted/10">
+                    <img src={preview} alt="Preview" className="w-full h-40 object-cover" />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="p-6 border-t border-brand-poloBlue/10 dark:border-dark-muted/10 flex items-center justify-end gap-3">
+              <button
+                onClick={() => { setIsModalOpen(false); resetForm(); }}
+                className="btn-secondary text-sm"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={uploading}
+                className="btn-primary flex items-center gap-1.5 text-sm"
+              >
+                {uploading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                {editing ? 'Guardar' : 'Publicar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function Admin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
@@ -172,6 +433,7 @@ export default function Admin() {
   const [activities, setActivities] = useState([]);
   const [pillars, setPillars] = useState([]);
   const [documents, setDocuments] = useState([]);
+  const [newsList, setNewsList] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('projects');
@@ -251,7 +513,10 @@ export default function Admin() {
       gallery: [],
       equipa_responsavel: [],
       pillar_id: '',
-      associated_activities: []
+      associated_activities: [],
+      num_beneficiarios: 0,
+      objetivo_geral: '',
+      principais_atividades: ''
     }
   });
 
@@ -317,6 +582,7 @@ export default function Admin() {
       setPartners(data.partners);
       setDonations(data.donations);
       setDocuments(data.documents);
+      setNewsList(data.news || []);
       setActivities(allActivities || []);
       setPillars(allPillars || []);
     } catch (error) {
@@ -536,7 +802,10 @@ export default function Admin() {
         gallery: data.gallery || [],
         equipa_responsavel: data.equipa_responsavel || [],
         pillar_id: data.pillar_id || null,
-        activities: data.associated_activities || []
+        activities: data.associated_activities || [],
+        num_beneficiarios: data.num_beneficiarios || 0,
+        objetivo_geral: data.objetivo_geral || null,
+        principais_atividades: data.principais_atividades || null
       };
 
       await saveProject(payload, editingProject?.id);
@@ -636,6 +905,9 @@ export default function Admin() {
     projectForm.setValue('equipa_responsavel', project.equipa_responsavel || []);
     projectForm.setValue('pillar_id', project.pillar_id || '');
     projectForm.setValue('associated_activities', project.activities?.map(a => a.id) || []);
+    projectForm.setValue('num_beneficiarios', project.num_beneficiarios || 0);
+    projectForm.setValue('objetivo_geral', project.objetivo_geral || '');
+    projectForm.setValue('principais_atividades', project.principais_atividades || '');
     setUploadPreview(project.capa_url || null);
     setIsModalOpen(true);
   };
@@ -1031,6 +1303,7 @@ export default function Admin() {
     { id: 'team', label: 'Equipa', icon: <Users size={18} /> },
     { id: 'documents', label: 'Documentos', icon: <FileText size={18} /> },
     { id: 'donations', label: 'Nossos Doadores', icon: <Heart size={18} /> },
+    { id: 'news', label: 'Noticias', icon: <Newspaper size={18} /> },
   ];
 
   return (
@@ -1055,7 +1328,8 @@ export default function Admin() {
                       activeTab === 'partners' ? 'Gestao de Parceiros' :
                         activeTab === 'team' ? 'Gestao da Equipa' :
                           activeTab === 'documents' ? 'Gestao de Documentos' :
-                            activeTab === 'donations' ? 'Nossos Doadores' : ''}
+                            activeTab === 'donations' ? 'Nossos Doadores' :
+                              activeTab === 'news' ? 'Gestao de Noticias' : ''}
             </h1>
             <p className="text-sm text-brand-eastBay dark:text-dark-muted mt-0.5">
               {activeTab === 'projects'
@@ -1074,7 +1348,9 @@ export default function Admin() {
                             ? `${documents.length} documentos registados`
                             : activeTab === 'donations'
                               ? `${donations.length} doadores registados`
-                              : ''
+                              : activeTab === 'news'
+                                ? `${newsList.length} noticias registadas`
+                                : ''
               }
             </p>
           </div>
@@ -1087,7 +1363,7 @@ export default function Admin() {
                 <Download size={18} /> Exportar PDF
               </button>
             )}
-            {activeTab !== 'support' && activeTab !== 'donations' && activeTab !== 'beneficiaries' && activeTab !== 'volunteers' && (
+            {activeTab !== 'support' && activeTab !== 'donations' && activeTab !== 'beneficiaries' && activeTab !== 'volunteers' && activeTab !== 'news' && (
               <button
                 onClick={() => {
                   if (activeTab === 'projects') {
@@ -1220,6 +1496,8 @@ export default function Admin() {
             openEditDocument={openEditDocument}
             deleteDocument={handleDeleteDocument}
           />
+        ) : activeTab === 'news' ? (
+          <NewsTabInline newsList={newsList} fetchData={fetchData} openConfirm={openConfirm} />
         ) : null}
       </main>
 

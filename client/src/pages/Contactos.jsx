@@ -11,7 +11,7 @@ import { submitVolunteer } from '../domains/voluntarios';
 
 const contactSchema = z.object({
   name: z.string().min(3, 'Nome completo obrigatorio'),
-  email: z.string().email('Email invalido'),
+  email: z.string().email('Email invalido').optional().or(z.literal('')),
   phone: z.string().min(9, 'Contacto invalido'),
   gender: z.string().min(1, 'Genero obrigatorio'),
   birthDate: z.string().min(1, 'Data de nascimento obrigatoria'),
@@ -71,7 +71,7 @@ export default function Contactos() {
     try {
       await submitMessage({
         name: data.name,
-        email: data.email,
+        email: data.email || null,
         phone: data.phone,
         genero: data.gender,
         data_nascimento: data.birthDate,
@@ -273,7 +273,7 @@ export default function Contactos() {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <label className="form-label">Email *</label>
+                          <label className="form-label">Email (Opcional)</label>
                           <input
                             {...register('email')}
                             type="email"
@@ -304,7 +304,6 @@ export default function Contactos() {
                               <option value="">Selecionar...</option>
                               <option value="Masculino">Masculino</option>
                               <option value="Feminino">Feminino</option>
-                              <option value="Outro">Outro</option>
                             </select>
                             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
@@ -334,11 +333,11 @@ export default function Contactos() {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="form-label">Tipo de Necessidade / Apoio *</label>
+                        <label className="form-label">Tipo de necessidade especial/ Deficiencia *</label>
                         <input
                           {...register('subject')}
                           className="form-input"
-                          placeholder="Ex: Apoio Alimentar, Material Escolar, Saude..."
+                          placeholder="Ex: Deficiencia motora, visual, auditiva, etc."
                         />
                         {errors.subject && <p className="text-feedback-error text-[11px] mt-1">{errors.subject.message}</p>}
                       </div>
@@ -418,7 +417,6 @@ export default function Contactos() {
                             <option value="">Selecionar...</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Feminino">Feminino</option>
-                            <option value="Outro">Outro</option>
                           </select>
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>

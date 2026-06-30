@@ -171,8 +171,10 @@ function drawTable(doc, y, data) {
     { header: 'Endereco',       dataKey: 'endereco' },
     { header: 'Necessidade',    dataKey: 'necessidade' },
     { header: 'Assunto / Apoio', dataKey: 'subject' },
+    { header: 'Descricao',       dataKey: 'message' },
     { header: 'Data',            dataKey: 'data' },
     { header: 'Estado',          dataKey: 'status' },
+    { header: 'Resposta',        dataKey: 'resposta' },
   ];
 
   const rows = data.map((msg, i) => {
@@ -187,8 +189,10 @@ function drawTable(doc, y, data) {
       endereco:    msg.endereco || '—',
       necessidade: msg.tipo_necessidade || '—',
       subject:     msg.subject || '—',
+      message:     msg.message || '—',
       data:        formatDateTime(msg.created_at),
       status:      msg.status || '—',
+      resposta:    ' '.repeat(20),
       isUnread:    isUnread
     };
   });
@@ -197,7 +201,7 @@ function drawTable(doc, y, data) {
     columns,
     body: rows,
     startY: y,
-    theme: 'row', // Apenas linhas horizontais para estilo editorial limpo
+    theme: 'row',
     styles: {
       fontSize: 7,
       cellPadding: { top: 4, right: 3, bottom: 4, left: 3 },
@@ -208,7 +212,7 @@ function drawTable(doc, y, data) {
       font: 'helvetica',
     },
     headStyles: {
-      fillColor: COLORS.slate50, // Fundo cinza ultra-claro para a cabeceira
+      fillColor: COLORS.slate50,
       textColor: COLORS.slate900,
       fontStyle: 'bold',
       fontSize: 7.2,
@@ -217,15 +221,17 @@ function drawTable(doc, y, data) {
     },
     columnStyles: {
       idx:         { halign: 'center', cellWidth: 8, fontStyle: 'bold' },
-      name:        { cellWidth: 32, fontStyle: 'bold', textColor: COLORS.slate900 },
-      genero:      { cellWidth: 12, halign: 'center' },
-      idade:       { cellWidth: 12, halign: 'center' },
-      contacto:    { cellWidth: 32 },
-      endereco:    { cellWidth: 28 },
+      name:        { cellWidth: 28, fontStyle: 'bold', textColor: COLORS.slate900 },
+      genero:      { cellWidth: 10, halign: 'center' },
+      idade:       { cellWidth: 10, halign: 'center' },
+      contacto:    { cellWidth: 26 },
+      endereco:    { cellWidth: 24 },
       necessidade: { cellWidth: 24 },
-      subject:     { cellWidth: 38 },
-      data:        { cellWidth: 24, halign: 'center' },
-      status:      { cellWidth: 22, halign: 'center', fontStyle: 'bold' },
+      subject:     { cellWidth: 26 },
+      message:     { cellWidth: 45 },
+      data:        { cellWidth: 22, halign: 'center' },
+      status:      { cellWidth: 16, halign: 'center', fontStyle: 'bold' },
+      resposta:    { cellWidth: 30 },
     },
     didParseCell: (hookData) => {
       // Formatacao condicional minimalista do status

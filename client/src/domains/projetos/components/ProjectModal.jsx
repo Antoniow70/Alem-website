@@ -27,14 +27,35 @@ export default function ProjectModal({
         </div>
 
         <div className="space-y-1">
+          <label className="form-label">Objetivo Geral</label>
+          <input
+            {...projectForm.register('objetivo_geral')}
+            className="form-input"
+            placeholder="Ex: Promover a inclusao atraves de..."
+          />
+          {projectForm.formState.errors.objetivo_geral && <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.objetivo_geral.message}</p>}
+        </div>
+
+        <div className="space-y-1">
           <label className="form-label">Objetivos Especificos</label>
           <textarea
             {...projectForm.register('objetivos_especificos')}
             rows={4}
             className="form-input resize-y min-h-[100px] leading-relaxed"
-            placeholder="Detalhes dos objetivos..."
+            placeholder="Detalhes dos objetivos especificos..."
           />
           {projectForm.formState.errors.objetivos_especificos && <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.objetivos_especificos.message}</p>}
+        </div>
+
+        <div className="space-y-1">
+          <label className="form-label">Principais Atividades</label>
+          <textarea
+            {...projectForm.register('principais_atividades')}
+            rows={5}
+            className="form-input resize-y min-h-[120px] leading-relaxed"
+            placeholder="Descreva as atividades principais (uma em cada paragrafo)..."
+          />
+          {projectForm.formState.errors.principais_atividades && <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.principais_atividades.message}</p>}
         </div>
 
         <div className="space-y-1">
@@ -73,6 +94,20 @@ export default function ProjectModal({
             <option value="Em Curso">Em Curso</option>
             <option value="Concluido">Concluido</option>
           </select>
+        </div>
+
+        <div className="space-y-1">
+          <label className="form-label">Numero de Beneficiarios</label>
+          <input
+            type="number"
+            {...projectForm.register('num_beneficiarios')}
+            className="form-input"
+            placeholder="Ex: 120"
+            min={0}
+          />
+          {projectForm.formState.errors.num_beneficiarios && (
+            <p className="text-feedback-error text-xs mt-1">{projectForm.formState.errors.num_beneficiarios.message}</p>
+          )}
         </div>
 
         <div className="space-y-1">

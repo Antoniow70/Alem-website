@@ -9,6 +9,7 @@ const navLinks = [
   { name: 'Quem Somos', path: '/quem-somos' },
   { name: 'O Que Fazemos', path: '/o-que-fazemos' },
   { name: 'Destaques', path: '/destaques' },
+  { name: 'Historias', path: '/historias-beneficiarios' },
   { name: 'Contactos', path: '/contactos' },
   { name: 'Localizacao', path: '/localizacao' },
   { name: 'Doar', path: '/doar' },

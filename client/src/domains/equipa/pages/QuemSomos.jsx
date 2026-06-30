@@ -26,20 +26,39 @@ export default function QuemSomos() {
     loadData();
   }, []);
 
+  const handleDownload = async (e, url, title) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = title.endsWith('.pdf') ? title : `${title}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      console.error('Error downloading document:', err);
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <div className="bg-transparent min-h-screen">
       
       {/* Header */}
-      <section className="relative pt-32 pb-16 px-6 overflow-hidden text-brand-bigStone dark:text-dark-text bg-transparent">
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         {/* Background Image and Overlays */}
         <div className="absolute inset-0 z-0">
           <img
             src="/images/quem somos nos.jpg"
             alt="Quem Somos"
-            className="w-full h-full object-cover opacity-20 dark:opacity-40"
+            className="w-full h-full object-cover opacity-60"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-poloBlue/10 via-transparent to-brand-poloBlue/15 dark:from-dark-bg/85 dark:via-dark-bg/70 dark:to-dark-bg" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
         </div>
 
         <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
@@ -48,15 +67,12 @@ export default function QuemSomos() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-horizon dark:text-white">
+            <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               Quem Somos
             </span>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-brand-bigStone dark:text-white">
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
               Nossa Historia e Valores
             </h1>
-            <p className="text-base md:text-lg text-brand-eastBay dark:text-dark-muted max-w-2xl mx-auto leading-relaxed">
-              Uma associacao sem fins lucrativos comprometida com o futuro das criancas mocambicanas, focada na inclusao e no direito a educacao de qualidade para todos.
-            </p>
           </motion.div>
         </div>
       </section>
@@ -103,12 +119,12 @@ export default function QuemSomos() {
             {
               title: 'Visao',
               desc: 'Estabelecer uma plataforma funcional e de referencia nacional, especializada em servicos sociais de rastreio, inclusao escolar e laboral para as pessoas com necessidades especiais.',
-              icon: <Award className="text-feedback-success w-8 h-8" />
+              icon: <Award className="text-brand-horizon w-8 h-8" />
             },
             {
               title: 'Valores',
               desc: 'Unidade, Respeito pelos Direitos Humanos, Compaixao, Comprometimento, Responsabilidade, Honestidade, Justica Social, Solidariedade, Transparencia, Equidade e Universalidade.',
-              icon: <Users className="text-brand-eastBay w-8 h-8" />
+              icon: <Users className="text-brand-horizon w-8 h-8" />
             }
           ].map((item, i) => (
             <motion.div
@@ -156,14 +172,12 @@ export default function QuemSomos() {
                   </div>
                   {(doc.file_url || doc.file_data) && (
                     <div className="mt-6 pt-4 border-t border-slate-100 flex justify-end">
-                      <a
-                        href={doc.file_data || doc.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-horizon hover:underline"
+                      <button
+                        onClick={(e) => handleDownload(e, doc.file_data || doc.file_url, doc.title)}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-horizon hover:underline bg-transparent border-none cursor-pointer"
                       >
                         Descarregar Documento <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>

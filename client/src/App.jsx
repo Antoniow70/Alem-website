@@ -16,6 +16,7 @@ import { Admin } from './domains/admin';
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
 import TermosUso from './pages/TermosUso';
 import HistoriasBeneficiarios from './domains/beneficiarios/pages/HistoriasBeneficiarios';
+import NoticiaDetalhes from './domains/noticias/pages/NoticiaDetalhes';
 import ErrorBoundary from './shared/common/ErrorBoundary';
 import { getCurrentSession } from './domains/auth/services/authApi';
 
@@ -77,6 +78,7 @@ function AppLayout() {
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosUso />} />
           <Route path="/historias-beneficiarios" element={<HistoriasBeneficiarios />} />
+          <Route path="/noticias/:id" element={<NoticiaDetalhes />} />
           
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/*" element={

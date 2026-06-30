@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { BookOpen, Users, GraduationCap, Loader2, Compass } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, Loader2, Compass, Heart, Quote } from 'lucide-react';
 import { getPillars, getActivities, getProjects } from '../services/projetosApi';
+import { getBeneficiaryStories } from '../../beneficiarios/services/beneficiariosApi';
 import ProjectCard from '../cards/ProjectCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function OQueFazemos() {
   const navigate = useNavigate();
   const [pillars, setPillars] = useState([]);
   const [activePillar, setActivePillar] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [stories, setStories] = useState([]);
   
   const [loadingPillars, setLoadingPillars] = useState(true);
   const [loadingProjects, setLoadingProjects] = useState(false);
+  const [loadingStories, setLoadingStories] = useState(true);
 
   useEffect(() => {
     async function loadPillars() {
@@ -30,6 +33,20 @@ export default function OQueFazemos() {
       }
     }
     loadPillars();
+
+    async function loadStories() {
+      try {
+        setLoadingStories(true);
+        const data = await getBeneficiaryStories();
+        // Limit to 4 for clean presentation on this page
+        setStories((data || []).slice(0, 4));
+      } catch (err) {
+        console.error('Error loading beneficiary stories:', err);
+      } finally {
+        setLoadingStories(false);
+      }
+    }
+    loadStories();
   }, []);
 
   useEffect(() => {
@@ -77,9 +94,6 @@ export default function OQueFazemos() {
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
               Nossos Programas
             </h1>
-            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Desenvolvemos programas integrados que abrangem a crianca, a escola, a familia e a sociedade.
-            </p>
           </motion.div>
         </div>
       </section>
@@ -94,7 +108,7 @@ export default function OQueFazemos() {
             <h2 className="text-2xl md:text-3xl font-black text-brand-bigStone dark:text-white tracking-tight">
               Pilares Fundamentais da ALEM
             </h2>
-            <div className="w-12 h-1 bg-gradient-to-r from-brand-horizon to-feedback-success mx-auto rounded-full mt-2" />
+            <div className="w-12 h-1 bg-brand-horizon mx-auto rounded-full mt-2" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -117,9 +131,9 @@ export default function OQueFazemos() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Acesso e Inclusão</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Acesso e Inclusao</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
-                    Rastreamento e inserção das Pessoas com Necessidades Especiais em diferentes subsistemas de ensino
+                    Rastreamento e insercao das Pessoas com Necessidades Especiais em diferentes subsistemas de ensino
                   </p>
                 </div>
               </div>
@@ -128,56 +142,56 @@ export default function OQueFazemos() {
 
             {/* Pillar Card 2 */}
             <motion.div
-              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(34, 197, 94, 0.15)' }}
+              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(37, 99, 235, 0.15)' }}
               transition={{ duration: 0.3 }}
               className="bg-white dark:bg-dark-surface border border-brand-poloBlue/15 dark:border-dark-muted/10 rounded-[28px] p-8 space-y-6 relative overflow-hidden group shadow-sm flex flex-col justify-between"
             >
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-feedback-success/5 rounded-full blur-2xl group-hover:bg-feedback-success/10 transition-colors" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-horizon/5 rounded-full blur-2xl group-hover:bg-brand-horizon/10 transition-colors" />
 
               <div className="space-y-6 flex-grow">
                 <div className="flex justify-between items-center">
-                  <div className="w-12 h-12 rounded-2xl bg-feedback-success/10 text-feedback-success flex items-center justify-center font-bold">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-horizon/10 text-brand-horizon flex items-center justify-center font-bold">
                     <GraduationCap size={22} className="group-hover:-translate-y-1 transition-transform duration-300" />
                   </div>
-                  <span className="font-mono text-3xl font-black text-feedback-success/10 group-hover:text-feedback-success/25 transition-colors">
+                  <span className="font-mono text-3xl font-black text-brand-horizon/10 group-hover:text-brand-horizon/25 transition-colors">
                     02
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-success">Acompanhamento e Qualidade</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Acompanhamento e Qualidade</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
                     Garantir o Acompanhamento e a Qualidade de Ensino para Pessoas com Necessidades Especiais
                   </p>
                 </div>
               </div>
-              <div className="w-8 h-1 bg-feedback-success/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
+              <div className="w-8 h-1 bg-brand-horizon/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
             </motion.div>
 
             {/* Pillar Card 3 */}
             <motion.div
-              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(245, 158, 11, 0.15)' }}
+              whileHover={{ y: -6, boxShadow: '0 20px 40px -15px rgba(37, 99, 235, 0.15)' }}
               transition={{ duration: 0.3 }}
               className="bg-white dark:bg-dark-surface border border-brand-poloBlue/15 dark:border-dark-muted/10 rounded-[28px] p-8 space-y-6 relative overflow-hidden group shadow-sm flex flex-col justify-between"
             >
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-feedback-warning/5 rounded-full blur-2xl group-hover:bg-feedback-warning/10 transition-colors" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-horizon/5 rounded-full blur-2xl group-hover:bg-brand-horizon/10 transition-colors" />
 
               <div className="space-y-6 flex-grow">
                 <div className="flex justify-between items-center">
-                  <div className="w-12 h-12 rounded-2xl bg-feedback-warning/10 text-feedback-warning flex items-center justify-center font-bold">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-horizon/10 text-brand-horizon flex items-center justify-center font-bold">
                     <Users size={22} className="group-hover:scale-105 transition-transform duration-300" />
                   </div>
-                  <span className="font-mono text-3xl font-black text-feedback-warning/10 group-hover:text-feedback-warning/25 transition-colors">
+                  <span className="font-mono text-3xl font-black text-brand-horizon/10 group-hover:text-brand-horizon/25 transition-colors">
                     03
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-feedback-warning">Inserção e Oportunidade</h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-horizon">Insercao e Oportunidade</h4>
                   <p className="text-sm leading-relaxed text-brand-bigStone dark:text-dark-text font-medium">
-                    Promover a Inserção no Mercado de Trabalho a Pessoas com Necessidades Especiais
+                    Promover a Insercao no Mercado de Trabalho a Pessoas com Necessidades Especiais
                   </p>
                 </div>
               </div>
-              <div className="w-8 h-1 bg-feedback-warning/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
+              <div className="w-8 h-1 bg-brand-horizon/20 group-hover:w-full transition-all duration-500 rounded-full mt-4" />
             </motion.div>
           </div>
         </div>
@@ -205,7 +219,7 @@ export default function OQueFazemos() {
                       key={pillar.id}
                       onClick={() => setActivePillar(pillar)}
                       whileHover={{ y: -2 }}
-                      className={`p-6 rounded-2xl border text-left transition-all relative ${
+                      className={`p-6 rounded-2xl border text-left transition-all relative cursor-pointer ${
                         isActive
                           ? 'border-brand-horizon bg-brand-poloBlue/20 shadow-md shadow-brand-horizon/5'
                           : 'border-brand-poloBlue/20 bg-transparent hover:border-slate-200 shadow-sm'
@@ -256,6 +270,75 @@ export default function OQueFazemos() {
                 )}
               </div>
             </>
+          )}
+        </div>
+      </section>
+
+      {/* New Section: Historias de Beneficiarios */}
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-brand-poloBlue/5 dark:bg-dark-surface/10 border-b border-brand-poloBlue/20">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-3">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">
+              Testemunhos Reais
+            </span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-white">
+              Historias de Beneficiarios
+            </h3>
+            <p className="text-brand-eastBay dark:text-dark-muted text-sm max-w-xl mx-auto">
+              A verdadeira medida da nossa missao e expressada nas conquistas daqueles que apoiamos todos os dias.
+            </p>
+          </div>
+
+          {loadingStories ? (
+            <div className="flex justify-center py-10">
+              <Loader2 className="animate-spin text-brand-horizon" size={36} />
+            </div>
+          ) : stories.length === 0 ? (
+            <div className="text-center py-12 text-slate-400 text-sm">
+              Nenhuma historia registada de momento.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {stories.map((story) => (
+                <div
+                  key={story.id}
+                  className="bg-white dark:bg-dark-surface rounded-3xl border border-brand-poloBlue/15 dark:border-dark-muted/10 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden"
+                >
+                  <Quote className="absolute top-4 right-4 text-brand-poloBlue/20 w-8 h-8 pointer-events-none" />
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      {story.image_url || story.image_data ? (
+                        <img
+                          src={story.image_data || story.image_url}
+                          alt={story.full_name}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-brand-horizon"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-brand-horizon/10 text-brand-horizon flex items-center justify-center font-bold">
+                          {story.full_name.slice(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="font-extrabold text-brand-bigStone dark:text-white text-sm line-clamp-1">{story.full_name}</h4>
+                        <span className="text-[9px] uppercase tracking-wider text-brand-horizon font-bold">Beneficiario</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-brand-eastBay dark:text-dark-muted leading-relaxed line-clamp-4 italic">
+                      "{story.story}"
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-brand-poloBlue/10 mt-4 flex justify-between items-center">
+                    <Link
+                      to="/historias-beneficiarios"
+                      className="text-xs font-bold text-brand-horizon hover:text-brand-bigStone transition-colors flex items-center gap-1"
+                    >
+                      Ler mais testemunhos <Quote size={10} />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </section>

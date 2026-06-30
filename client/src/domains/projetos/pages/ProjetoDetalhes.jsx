@@ -144,11 +144,51 @@ export default function ProjetoDetalhes() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-horizon/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Text side – General & Specific objectives */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <h3 className="text-3xl font-bold text-black drop-shadow-xl">{project.name}</h3>
-                <p className="text-lg text-black leading-relaxed whitespace-pre-wrap">{project.objetivos_especificos}</p>
+
+                {/* Objetivo Geral */}
+                {project.objetivo_geral && (
+                  <div className="space-y-2">
+                    <span className="inline-flex items-center rounded-lg bg-brand-horizon/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                      Objetivo Geral
+                    </span>
+                    <p className="text-base text-brand-bigStone leading-relaxed">
+                      {project.objetivo_geral}
+                    </p>
+                  </div>
+                )}
+
+                {/* Objetivos Especificos */}
+                {project.objetivos_especificos && (
+                  <div className="space-y-2">
+                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                      Objetivos Especificos
+                    </span>
+                    <p className="text-sm text-brand-eastBay leading-relaxed whitespace-pre-wrap">
+                      {project.objetivos_especificos}
+                    </p>
+                  </div>
+                )}
+
+                {/* Principais Atividades */}
+                {project.principais_atividades && (
+                  <div className="space-y-3">
+                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                      Principais Atividades
+                    </span>
+                    <div className="space-y-3">
+                      {project.principais_atividades.split('\n').filter(line => line.trim()).map((activity, idx) => (
+                        <div key={idx} className="flex gap-3 items-start">
+                          <span className="mt-1.5 w-2 h-2 rounded-full bg-brand-horizon shrink-0" />
+                          <p className="text-sm text-brand-eastBay leading-relaxed">{activity.trim()}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Media side */}

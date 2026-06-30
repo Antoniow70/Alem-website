@@ -16,6 +16,7 @@ import { suporteRouter } from './modules/suporte/index.js';
 import { uploadRouter } from './modules/upload/index.js';
 import { reportsRouter } from './modules/reports/index.js';
 import { documentosRouter } from './modules/documentos/index.js';
+import { noticiasRouter } from './modules/noticias/index.js';
 
 const app = express();
 
@@ -77,6 +78,7 @@ app.use('/api/suporte', suporteRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/reports', reportsRouter);
 app.use('/api/documentos', documentosRouter);
+app.use('/api/noticias', noticiasRouter);
 
 // ─── 404 Handler ─────────────────────────────────────────
 app.use((req, res) => {

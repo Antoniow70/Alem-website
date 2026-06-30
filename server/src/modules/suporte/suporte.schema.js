@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const submitMessageSchema = z.object({
   body: z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
-    email: z.string().email('Email inválido').optional().nullable(),
+    email: z.preprocess((val) => (val === '' ? null : val), z.string().email('Email inválido').optional().nullable()),
     phone: z.string().optional().nullable(),
     genero: z.string().optional().nullable(),
     data_nascimento: z.string().optional().nullable(),
