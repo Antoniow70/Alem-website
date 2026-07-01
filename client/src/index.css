@@ -27,8 +27,12 @@
     min-height: 100vh;
     background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%) no-repeat fixed;
     color: var(--color-brand-big-stone);
-    font-family: "Roboto", sans-serif;
+    font-family: "Nunito", sans-serif;
     transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif !important;
   }
 }
 

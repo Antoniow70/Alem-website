@@ -42,7 +42,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ["Roboto", "sans-serif"],
+        sans: ["Nunito", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
       }
     }
   },
