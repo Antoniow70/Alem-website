@@ -65,7 +65,7 @@ export default function ProjetosSociais() {
   });
 
   return (
-    <div className="bg-transparent min-h-screen pb-24">
+    <div className="bg-white dark:bg-dark-bg min-h-screen pb-24">
       {/* Header */}
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         {/* Background Image and Overlays */}

@@ -71,9 +71,6 @@ export default function HistoriasBeneficiarios() {
 
         <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
           <h1 className="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Historias de Impacto</h1>
-          <p className="text-xl text-brand-poloBlue/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-            Conheca as trajetorias de superacao e inclusao das vidas transformadas atraves do apoio da ALEM.
-          </p>
         </div>
       </section>
 

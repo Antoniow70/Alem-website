@@ -84,9 +84,9 @@ export default function ProjetoDetalhes() {
   }
 
   return (
-    <div className="overflow-hidden bg-brand-poloBlue/15 min-h-screen pb-24">
+    <div className="overflow-hidden bg-white dark:bg-dark-bg min-h-screen pb-24">
       {/* Hero Section */}
-      <section className="relative min-h-[75vh] flex items-center justify-center pt-16 px-6 md:px-12 lg:px-16">
+      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         <div className="absolute top-4 left-4 md:left-8 z-30">
           <button
             onClick={() => navigate(-1)}
@@ -95,24 +95,24 @@ export default function ProjetoDetalhes() {
             <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Voltar
           </button>
         </div>
-        <div className="absolute inset-0 z-0 bg-brand-bigStone dark:text-dark-text">
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-slate-950/20 z-10" />
+        <div className="absolute inset-0 z-0">
           <img
             src={project.capa_url || 'https://via.placeholder.com/1920x1080?text=Sem+Capa'}
             alt={project.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-60"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
         </div>
 
-        <div className="max-w-4xl mx-auto w-full relative z-20 text-white text-center">
+        <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <span className="inline-flex items-center px-4 py-1 bg-brand-poloBlue/90 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest text-brand-horizon shadow-lg">
+            <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-lg">
               Projeto {project.status === 'Em Curso' ? 'em Curso' : project.status}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-xl">
@@ -131,31 +131,26 @@ export default function ProjetoDetalhes() {
         </div>
       </section>
 
-      {/* Glass Card Section – Objectives & Media */}
-      <section className="pt-24 pb-6 px-4 -mt-20 relative z-30">
+      {/* Objectives & Media Section */}
+      <section className="py-16 px-4 relative z-30">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white rounded-[40px] shadow-2xl border border-white/50 p-8 md:p-12 overflow-hidden relative"
           >
-            {/* Decorative circles */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-horizon/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Text side – General & Specific objectives */}
               <div className="space-y-8">
-                <h3 className="text-3xl font-bold text-black drop-shadow-xl">{project.name}</h3>
+                <h3 className="text-3xl font-bold text-brand-bigStone dark:text-white">{project.name}</h3>
 
                 {/* Objetivo Geral */}
                 {project.objetivo_geral && (
                   <div className="space-y-2">
-                    <span className="inline-flex items-center rounded-lg bg-brand-horizon/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                       Objetivo Geral
                     </span>
-                    <p className="text-base text-brand-bigStone leading-relaxed">
+                    <p className="text-base text-brand-bigStone dark:text-dark-text leading-relaxed">
                       {project.objetivo_geral}
                     </p>
                   </div>
@@ -164,10 +159,10 @@ export default function ProjetoDetalhes() {
                 {/* Objetivos Especificos */}
                 {project.objetivos_especificos && (
                   <div className="space-y-2">
-                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                       Objetivos Especificos
                     </span>
-                    <p className="text-sm text-brand-eastBay leading-relaxed whitespace-pre-wrap">
+                    <p className="text-sm text-brand-eastBay dark:text-dark-muted leading-relaxed whitespace-pre-wrap">
                       {project.objetivos_especificos}
                     </p>
                   </div>
@@ -176,14 +171,14 @@ export default function ProjetoDetalhes() {
                 {/* Principais Atividades */}
                 {project.principais_atividades && (
                   <div className="space-y-3">
-                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+                    <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                       Principais Atividades
                     </span>
                     <div className="space-y-3">
                       {project.principais_atividades.split('\n').filter(line => line.trim()).map((activity, idx) => (
                         <div key={idx} className="flex gap-3 items-start">
                           <span className="mt-1.5 w-2 h-2 rounded-full bg-brand-horizon shrink-0" />
-                          <p className="text-sm text-brand-eastBay leading-relaxed">{activity.trim()}</p>
+                          <p className="text-sm text-brand-eastBay dark:text-dark-muted leading-relaxed">{activity.trim()}</p>
                         </div>
                       ))}
                     </div>
@@ -192,7 +187,7 @@ export default function ProjetoDetalhes() {
               </div>
 
               {/* Media side */}
-              <div className="rounded-[32px] overflow-hidden shadow-2xl aspect-[4/3] bg-brand-poloBlue/20 relative group">
+              <div className="rounded-2xl overflow-hidden shadow-md border border-brand-poloBlue/20 aspect-[4/3] bg-brand-poloBlue/20 relative group">
                 {(() => {
                   const mediaItems = [];
                   if (project.gallery && project.gallery.length > 0) {
@@ -256,10 +251,10 @@ export default function ProjetoDetalhes() {
       </section>
 
       {/* Equipe Responsavel */}
-      <section className="py-16 px-6 md:px-12 lg:px-16 bg-white border-t border-brand-poloBlue/20">
+      <section className="py-16 px-6 md:px-12 lg:px-16 bg-transparent border-t border-brand-poloBlue/20 dark:border-dark-muted/10">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">A Nossa Equipa</span>
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">A Nossa Equipa</span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Equipa Responsavel</h3>
           </div>
 
@@ -276,9 +271,9 @@ export default function ProjetoDetalhes() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-white rounded-2xl border border-brand-poloBlue/20 max-w-2xl mx-auto">
+            <div className="text-center py-12 bg-white dark:bg-dark-surface rounded-2xl border border-brand-poloBlue/20 dark:border-dark-muted/10 max-w-2xl mx-auto">
               <p className="text-brand-eastBay dark:text-dark-muted text-base font-semibold">Ainda nao foi atribuida nenhuma equipa a este projeto.</p>
-              <p className="text-slate-400 text-xs mt-1">Esta informacao pode ser adicionada pelo administrador no painel de gestao.</p>
+              <p className="text-slate-400 dark:text-dark-muted text-xs mt-1">Esta informacao pode ser adicionada pelo administrador no painel de gestao.</p>
             </div>
           )}
         </div>

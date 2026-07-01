@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Image as ImageIcon, ExternalLink, Users, Heart } from 'lucide-react';
+import { ExternalLink, Users, Heart } from 'lucide-react';
 
 export default function ProjectCard({ project, onClick }) {
   const statusColors = {
@@ -68,11 +68,7 @@ export default function ProjectCard({ project, onClick }) {
               </span>
             </>
           )}
-          <span className="w-1 h-1 rounded-full bg-white/20" />
-          <span className="flex items-center gap-1.5">
-            <ImageIcon size={12} className="text-brand-poloBlue" />
-            {project.gallery?.length || 0} ficheiros
-          </span>
+
         </div>
 
         {/* Read More Link */}

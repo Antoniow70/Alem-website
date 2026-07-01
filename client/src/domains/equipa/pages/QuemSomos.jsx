@@ -46,7 +46,7 @@ export default function QuemSomos() {
   };
 
   return (
-    <div className="bg-transparent min-h-screen">
+    <div className="bg-white dark:bg-dark-bg min-h-screen">
       
       {/* Header */}
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
@@ -81,7 +81,7 @@ export default function QuemSomos() {
       <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent border-b border-brand-poloBlue/20 dark:border-dark-muted/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-white/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon dark:text-white">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
               A Nossa Historia
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text leading-tight">
@@ -143,10 +143,10 @@ export default function QuemSomos() {
       </section>
 
       {/* Documentos Institucionais Section */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-brand-poloBlue/15 border-b border-brand-poloBlue/20">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-white dark:bg-dark-bg border-b border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-left space-y-3">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-white/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon dark:text-white">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
               Transparencia
             </span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Documentos Institucionais</h3>
@@ -192,7 +192,7 @@ export default function QuemSomos() {
         <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto space-y-12">
             <div className="text-left space-y-3">
-              <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-white/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon dark:text-white">
+              <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                 A Nossa Equipa
               </span>
               <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-dark-text">Membros</h3>

@@ -67,7 +67,7 @@ export default function OQueFazemos() {
   }, [activePillar]);
 
   return (
-    <div className="bg-transparent min-h-screen">
+    <div className="bg-white dark:bg-dark-bg min-h-screen">
       
       {/* Header */}
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
@@ -275,10 +275,10 @@ export default function OQueFazemos() {
       </section>
 
       {/* New Section: Historias de Beneficiarios */}
-      <section className="py-20 px-6 md:px-12 lg:px-16 bg-brand-poloBlue/5 dark:bg-dark-surface/10 border-b border-brand-poloBlue/20">
+      <section className="py-20 px-6 md:px-12 lg:px-16 bg-white dark:bg-dark-bg border-b border-brand-poloBlue/20">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
               Testemunhos Reais
             </span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-white">
@@ -347,7 +347,7 @@ export default function OQueFazemos() {
       <section className="py-20 px-6 md:px-12 lg:px-16 bg-transparent text-brand-bigStone dark:text-dark-text overflow-hidden relative border-t border-brand-poloBlue/20 dark:border-dark-muted/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon">
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
               O Nosso Impacto
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold leading-tight text-brand-bigStone dark:text-white">

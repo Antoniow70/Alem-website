@@ -147,7 +147,7 @@ export default function PoliticaPrivacidade() {
                 <h2 className="text-xl font-bold text-brand-bigStone dark:text-dark-text">2. Dados Recolhidos</h2>
               </div>
               <p className="text-brand-eastBay dark:text-dark-muted leading-relaxed text-sm md:text-base">
-                Dependendo da forma como interage connosco (por exemplo, ao fazer uma doacao, ao preencher o formulario de contacto ou ao inscrever-se na nossa newsletter), podemos recolher os seguintes tipos de informacoes:
+                Dependendo da forma como interage connosco (por exemplo, ao fazer uma doacao ou ao preencher o formulario de contacto), podemos recolher os seguintes tipos de informacoes:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="p-5 border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-xl bg-brand-poloBlue/10 dark:bg-dark-bg/60">

@@ -116,7 +116,7 @@ export default function Contactos() {
   };
 
   return (
-    <div className="bg-transparent min-h-screen pb-24">
+    <div className="bg-white dark:bg-dark-bg min-h-screen pb-24">
       {/* Header */}
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         {/* Background Image and Overlays */}
@@ -135,9 +135,6 @@ export default function Contactos() {
             Fale Connosco
           </span>
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contactos</h1>
-          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Estamos aqui para ouvir. Seja para pedir apoio, tornar-se parceiro ou simplesmente dizer ola.
-          </p>
         </div>
       </section>
 

@@ -14,7 +14,7 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
       <div className={`relative w-full aspect-[4/5] transition-transform duration-700 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}>
 
         {/* Front of card */}
-        <div className="absolute inset-0 [backface-visibility:hidden] overflow-hidden rounded-3xl shadow-lg border border-brand-poloBlue/15 dark:border-dark-muted/10 group-hover:shadow-2xl transition-all duration-500 bg-brand-bigStone">
+        <div className="absolute inset-0 [backface-visibility:hidden] overflow-hidden rounded-3xl shadow-lg group-hover:shadow-2xl transition-all duration-500 bg-brand-bigStone">
           <img
             src={person.photo_data || person.photo_url || 'https://via.placeholder.com/300?text=Foto'}
             alt={person.name}
@@ -35,7 +35,7 @@ export default function TeamMemberCard({ person, isFlipped, onToggle, index }) {
         </div>
 
         {/* Back of card */}
-        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-white dark:bg-dark-surface border border-brand-poloBlue/20 dark:border-dark-muted/10 rounded-3xl shadow-xl p-6 overflow-hidden flex flex-col text-left transition-all duration-300">
+        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-white dark:bg-dark-surface rounded-3xl shadow-xl p-6 overflow-hidden flex flex-col text-left transition-all duration-300">
           
           {/* Header row with profile pic, name and role */}
           <div className="flex items-center gap-4 mb-4 pb-4 border-b border-brand-poloBlue/10 dark:border-dark-muted/10 w-full shrink-0">

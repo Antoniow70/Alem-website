@@ -107,7 +107,7 @@ export default function Doar() {
   };
 
   return (
-    <div className="bg-brand-poloBlue/15 min-h-screen pb-24">
+    <div className="bg-white dark:bg-dark-bg min-h-screen pb-24">
       <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
         <div className="absolute inset-0 z-0">
           <img

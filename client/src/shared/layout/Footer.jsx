@@ -8,7 +8,7 @@ import { getPartners } from '../../domains/parceiros';
 export default function Footer() {
   return (
     <footer className="bg-brand-bigStone dark:bg-dark-bg text-white pt-16 pb-8 px-6 border-t border-white/10 dark:border-dark-accent/10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
         <div className="space-y-6">
           <Link
             to="/inicio"
@@ -39,13 +39,13 @@ export default function Footer() {
         <div>
           <h3 className="text-white font-bold mb-6 text-xs uppercase tracking-wider">Links Rapidos</h3>
           <ul className="space-y-3 text-sm">
-            <li><Link to="/inicio" className="text-slate-300 hover:text-white transition-all duration-200">Inicio</Link></li>
-            <li><Link to="/quem-somos" className="text-slate-300 hover:text-white transition-all duration-200">Quem Somos</Link></li>
-            <li><Link to="/o-que-fazemos" className="text-slate-300 hover:text-white transition-all duration-200">O Que Fazemos</Link></li>
-            <li><Link to="/destaques" className="text-slate-300 hover:text-white transition-all duration-200">Destaques</Link></li>
-            <li><Link to="/contactos" className="text-slate-300 hover:text-white transition-all duration-200">Contactos</Link></li>
-            <li><Link to="/localizacao" className="text-slate-300 hover:text-white transition-all duration-200">Localizacao</Link></li>
-            <li><Link to="/doar" className="text-slate-300 hover:text-white transition-all duration-200">Fazer Doacao</Link></li>
+            <li><Link to="/inicio" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Inicio</Link></li>
+            <li><Link to="/quem-somos" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Quem Somos</Link></li>
+            <li><Link to="/o-que-fazemos" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">O Que Fazemos</Link></li>
+            <li><Link to="/destaques" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Destaques</Link></li>
+            <li><Link to="/contactos" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Contactos</Link></li>
+            <li><Link to="/localizacao" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Localizacao</Link></li>
+            <li><Link to="/doar" className="text-slate-300 hover:text-brand-horizon transition-all duration-200">Fazer Doacao</Link></li>
           </ul>
         </div>
 
@@ -66,30 +66,15 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-
-        <div>
-          <h3 className="text-white font-bold mb-6 text-xs uppercase tracking-wider">Newsletter</h3>
-          <p className="text-sm mb-4 text-slate-300 dark:text-dark-muted">Receba atualizacoes sobre os nossos projetos e eventos.</p>
-          <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Seu email"
-              className="bg-white/10 text-white border border-white/20 rounded-xl px-4 py-2.5 text-sm w-full placeholder-brand-poloBlue focus:outline-none focus:border-brand-poloBlue focus:ring-2 focus:ring-brand-horizon/20 transition-all"
-            />
-            <button className="bg-brand-horizon text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-eastBay active:scale-95 transition-all">
-              Ok
-            </button>
-          </form>
-        </div>
       </div>
 
 
 
-      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-white/10 dark:border-dark-muted/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-poloBlue/60 dark:text-dark-muted">
+      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-white/10 dark:border-dark-muted/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white">
         <p>© 2026 ALEM - Associacao Lacos Especiais de Mocambique. Todos os direitos reservados.</p>
         <div className="flex gap-6">
-          <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">Politica de Privacidade</Link>
-          <Link to="/termos-de-uso" className="hover:text-white transition-colors">Termos de Uso</Link>
+          <Link to="/politica-de-privacidade" className="text-white hover:text-brand-horizon transition-colors">Politica de Privacidade</Link>
+          <Link to="/termos-de-uso" className="text-white hover:text-brand-horizon transition-colors">Termos de Uso</Link>
         </div>
       </div>
     </footer>

@@ -58,7 +58,7 @@ export default function Inicio() {
   }, []);
 
   return (
-    <div className="overflow-hidden bg-transparent space-y-24 pb-24">
+    <div className="overflow-hidden bg-white dark:bg-dark-bg space-y-24 pb-24">
       {/* 1. Hero Section */}
       <section className="relative min-h-[85vh] flex items-center justify-center pt-20 px-6 md:px-12 lg:px-16 bg-brand-bigStone text-white">
         <div className="absolute inset-0 z-0">
@@ -88,18 +88,10 @@ export default function Inicio() {
           >
             Construindo <span className="text-brand-horizon drop-shadow-md">Lacos de Inclusao</span> em Mocambique
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-base md:text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto"
-          >
-            Promovemos a insercao das pessoas com necessidades especiais no acesso aos subsistemas de ensino e aprendizagem.
-          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
           >
             <Link
@@ -185,7 +177,7 @@ export default function Inicio() {
       </section>
 
       {/* 4. Missao, Visao e Valores */}
-      <section className="px-6 md:px-12 lg:px-16 bg-brand-poloBlue/5 dark:bg-dark-surface/10 py-16">
+      <section className="px-6 md:px-12 lg:px-16 bg-white dark:bg-dark-bg py-16">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <span className="text-[10px] font-bold text-brand-horizon uppercase tracking-[0.3em] block">
@@ -282,7 +274,7 @@ export default function Inicio() {
               <Newspaper size={12} /> Noticias Recentes
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-white tracking-tight">
-              Acompanhe as nossas novidades
+              Noticias e Eventos
             </h2>
             <div className="w-12 h-1 bg-brand-horizon mx-auto rounded-full mt-2" />
           </div>
@@ -341,8 +333,8 @@ export default function Inicio() {
       {team.length > 0 && (
         <section className="px-6 md:px-12 lg:px-16 max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 dark:bg-white/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-horizon dark:text-white">
-              Quem faz acontecer
+            <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
+              A Nossa Equipa
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-bigStone dark:text-white tracking-tight">
               Membros da Equipa
