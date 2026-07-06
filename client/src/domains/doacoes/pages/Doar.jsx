@@ -71,7 +71,7 @@ export default function Doar() {
     else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Email invalido';
     if (!formData.telefone.trim()) newErrors.telefone = 'Contacto telefonico e obrigatorio';
     if (!formData.causa) newErrors.causa = 'Selecione uma causa a apoiar';
-    if (!formData.valor.trim() || isNaN(formData.valor) || Number(formData.valor) <= 0) newErrors.valor = 'Insira um valor valido';
+    if (!formData.valor.trim() || isNaN(formData.valor) || Number(formData.valor) <= 0) newErrors.valor = 'O valor não pode ser negativo ou zero';
     if (!formData.metodoPagamento) newErrors.metodoPagamento = 'Selecione um metodo de pagamento';
 
     setErrors(newErrors);
@@ -107,31 +107,30 @@ export default function Doar() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-bg min-h-screen pb-24">
-      <section className="relative text-white pt-32 pb-16 px-6 overflow-hidden bg-brand-bigStone dark:text-dark-text">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/images/Doar.jpg"
-            alt="Doacao"
-            className="w-full h-full object-cover opacity-60"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20" />
-        </div>
+    <div className="relative min-h-screen pb-24 bg-brand-bigStone">
+      {/* Blurred Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src="/images/Doar.jpg"
+          alt="Background"
+          className="w-full h-full object-cover opacity-80 blur-sm scale-105"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-slate-950/50" />
+      </div>
 
-        <div className="max-w-7xl mx-auto text-center space-y-4 relative z-10">
-          <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-            Apoie a Nossa Missao
-          </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-            Cada doacao e uma vida transformada
-          </h1>
-        </div>
-      </section>
+      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-16 mb-4 text-left space-y-3">
+        <span className="inline-flex items-center rounded-lg bg-brand-horizon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+          Apoie a Nossa Missão
+        </span>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+          Cada doação é uma vida transformada
+        </h1>
+      </div>
 
       {/* Form Section */}
-      <section className="max-w-3xl mx-auto px-6 -mt-10 relative z-20">
-        <div className="bg-white rounded-2xl shadow-sm p-8 md:p-10 border border-brand-poloBlue/20">
+      <section className="max-w-2xl mx-auto px-6 relative z-20">
+        <div className="bg-white dark:bg-dark-surface rounded-md shadow-sm p-8 md:p-10 border border-brand-poloBlue/20 dark:border-dark-muted/10 transition-colors">
 
           <AnimatePresence mode="wait">
             {isSubmitted ? (
@@ -143,8 +142,8 @@ export default function Doar() {
                 <div className="w-20 h-20 bg-feedback-successLight text-feedback-success rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle size={40} />
                 </div>
-                <h2 className="text-2xl font-bold text-brand-bigStone">Obrigado pela sua Doacao!</h2>
-                <p className="text-brand-bigStone max-w-md mx-auto leading-relaxed text-sm">
+                <h2 className="text-2xl font-bold text-brand-bigStone dark:text-dark-text">Obrigado pela sua Doacao!</h2>
+                <p className="text-brand-bigStone dark:text-dark-muted max-w-md mx-auto leading-relaxed text-sm">
                   A sua generosidade fara a diferenca na vida de muitas criancas. Recebera um email com os detalhes e o recibo da sua contribuicao.
                 </p>
                 <button
@@ -166,14 +165,14 @@ export default function Doar() {
                 className="space-y-6"
               >
                 <div className="text-center mb-8">
-                  <h2 className="text-xl font-bold text-brand-bigStone">Preencha o Formulario</h2>
-                  <p className="text-brand-bigStone text-xs mt-1">Os seus dados estao seguros e encriptados.</p>
+                  <h2 className="text-xl font-bold text-brand-bigStone dark:text-dark-text">Formulario de Doação</h2>
+                  <p className="text-brand-bigStone dark:text-dark-muted text-xs mt-1">Os dados estao seguros e encriptados (Não preencha se a doação for anonima)</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Nome Completo */}
                   <div className="space-y-1">
-                    <label className="form-label !text-brand-bigStone">Nome Completo *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Nome Completo *</label>
                     <input
                       type="text"
                       name="nome"
@@ -187,7 +186,7 @@ export default function Doar() {
 
                   {/* Email */}
                   <div className="space-y-1">
-                    <label className="form-label !text-brand-bigStone">Email *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Email *</label>
                     <input
                       type="email"
                       name="email"
@@ -201,7 +200,7 @@ export default function Doar() {
 
                   {/* Contacto Telefonico */}
                   <div className="space-y-1">
-                    <label className="form-label !text-brand-bigStone">Contacto Telefonico *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Contacto Telefonico *</label>
                     <input
                       type="tel"
                       name="telefone"
@@ -215,7 +214,7 @@ export default function Doar() {
 
                   {/* Causa a Apoiar */}
                   <div className="space-y-1">
-                    <label className="form-label !text-brand-bigStone">Causa a Apoiar *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Causa a Apoiar *</label>
                     <div className="relative">
                       <select
                         name="causa"
@@ -235,7 +234,7 @@ export default function Doar() {
 
                   {/* Valor da Doacao */}
                   <div className="space-y-1 md:col-span-2">
-                    <label className="form-label !text-brand-bigStone">Valor da Doacao (MZN) *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Valor da Doacao (MZN) *</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">MT</span>
                       <input
@@ -243,6 +242,7 @@ export default function Doar() {
                         name="valor"
                         value={formData.valor}
                         onChange={handleChange}
+                        min="0"
                         className={`form-input pl-12 text-base font-bold text-brand-bigStone dark:text-dark-text ${errors.valor ? 'border-feedback-error focus:ring-feedback-error/10 focus:border-feedback-error' : ''}`}
                         placeholder="0.00"
                       />
@@ -252,7 +252,7 @@ export default function Doar() {
 
                   {/* Metodo de Pagamento */}
                   <div className="space-y-3 md:col-span-2 mt-2">
-                    <label className="form-label !text-brand-bigStone">Metodo de Pagamento *</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-white">Meio de Contribuição (Selecione uma das opções abaixo) *</label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {Object.entries(paymentDetails).map(([key, details]) => (
                         <div
@@ -263,15 +263,15 @@ export default function Doar() {
                           }}
                           className={`relative flex flex-col p-4 cursor-pointer rounded-xl border transition-all ${
                             formData.metodoPagamento === key
-                              ? 'border-brand-primary bg-brand-poloBlue/20 ring-2 ring-brand-primary/10 shadow-sm'
-                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-brand-poloBlue/15'
+                              ? 'border-brand-primary bg-brand-poloBlue/20 ring-2 ring-brand-primary/10 shadow-sm dark:bg-brand-horizon/20 dark:border-brand-horizon dark:ring-brand-horizon/30'
+                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-brand-poloBlue/15 dark:bg-dark-bg/50 dark:border-dark-muted/20 dark:hover:bg-dark-bg dark:hover:border-dark-muted/40'
                           }`}
                         >
                           <div className="flex items-center gap-3 mb-1">
-                            <div className="p-1.5 bg-brand-poloBlue/15 rounded-lg border border-brand-poloBlue/20">
+                            <div className="p-1.5 bg-brand-poloBlue/15 dark:bg-dark-surface rounded-lg border border-brand-poloBlue/20 dark:border-dark-muted/10">
                               {details.icon}
                             </div>
-                            <span className="font-bold text-brand-bigStone text-xs">{details.title}</span>
+                            <span className="font-bold text-brand-bigStone dark:text-white text-xs">{details.title}</span>
                           </div>
 
                           {/* Expanded Details when selected */}
@@ -284,9 +284,9 @@ export default function Doar() {
                                 className="overflow-hidden"
                               >
                                 <div className="pt-3 mt-3 border-t border-slate-200/60 text-left">
-                                  <p className="text-[9px] text-brand-bigStone uppercase tracking-wider font-semibold mb-0.5 opacity-70">Dados da Conta</p>
-                                  <p className="font-bold text-brand-bigStone text-xs break-all leading-tight">{details.number}</p>
-                                  <p className="text-[10px] text-brand-bigStone mt-1.5 leading-snug opacity-80">{details.instruction}</p>
+                                  <p className="text-[9px] text-brand-bigStone dark:text-dark-muted uppercase tracking-wider font-semibold mb-0.5 opacity-70">Dados da Conta</p>
+                                  <p className="font-bold text-brand-bigStone dark:text-white text-xs break-all leading-tight">{details.number}</p>
+                                  <p className="text-[10px] text-brand-bigStone dark:text-dark-muted mt-1.5 leading-snug opacity-80">{details.instruction}</p>
                                 </div>
                               </motion.div>
                             )}
@@ -299,7 +299,7 @@ export default function Doar() {
 
                   {/* Mensagem Opcional */}
                   <div className="space-y-1 md:col-span-2 mt-2">
-                    <label className="form-label !text-brand-bigStone">Mensagem (Opcional)</label>
+                    <label className="form-label !text-brand-bigStone dark:!text-dark-text">Mensagem (Opcional)</label>
                     <textarea
                       name="mensagem"
                       value={formData.mensagem}
@@ -312,8 +312,8 @@ export default function Doar() {
 
                 </div>
 
-                <div className="pt-6 border-t border-brand-poloBlue/20 flex items-center justify-between flex-wrap gap-4 mt-6">
-                  <p className="text-xs text-brand-bigStone leading-normal max-w-sm">
+                <div className="pt-6 border-t border-brand-poloBlue/20 dark:border-dark-muted/10 flex items-center justify-between flex-wrap gap-4 mt-6">
+                  <p className="text-xs text-brand-bigStone dark:text-dark-muted leading-normal max-w-sm">
                     Ao confirmar, aceita os nossos <a href="#" className="text-brand-horizon hover:underline">Termos de Doacao</a>.
                   </p>
                   <button

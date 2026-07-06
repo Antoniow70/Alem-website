@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { getProjectById } from '../services/projetosApi';
 import { getTeam, TeamMemberCard } from '../../equipa';
-import { ArrowRight, Heart, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Heart, X, Play, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
 export default function ProjetoDetalhes() {
   const { id } = useParams();
@@ -139,10 +139,10 @@ export default function ProjetoDetalhes() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start lg:items-stretch">
               {/* Text side – General & Specific objectives */}
               <div className="space-y-8">
-                <h3 className="text-3xl font-bold text-brand-bigStone dark:text-white">{project.name}</h3>
+                <h3 className="text-3xl font-bold text-black dark:text-white">{project.name}</h3>
 
                 {/* Objetivo Geral */}
                 {project.objetivo_geral && (
@@ -150,7 +150,7 @@ export default function ProjetoDetalhes() {
                     <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                       Objetivo Geral
                     </span>
-                    <p className="text-base text-brand-bigStone dark:text-dark-text leading-relaxed">
+                    <p className="text-base text-black dark:text-dark-text leading-relaxed">
                       {project.objetivo_geral}
                     </p>
                   </div>
@@ -158,13 +158,18 @@ export default function ProjetoDetalhes() {
 
                 {/* Objetivos Especificos */}
                 {project.objetivos_especificos && (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <span className="inline-flex items-center rounded-lg bg-brand-poloBlue/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-horizon">
                       Objetivos Especificos
                     </span>
-                    <p className="text-sm text-brand-eastBay dark:text-dark-muted leading-relaxed whitespace-pre-wrap">
-                      {project.objetivos_especificos}
-                    </p>
+                    <div className="space-y-3">
+                      {project.objetivos_especificos.split('\n').filter(line => line.trim()).map((obj, idx) => (
+                        <div key={idx} className="flex gap-3 items-start">
+                          <span className="mt-1.5 w-2 h-2 rounded-full bg-blue-500 shrink-0" />
+                          <p className="text-base text-black dark:text-dark-text leading-relaxed">{obj.trim()}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
@@ -177,8 +182,8 @@ export default function ProjetoDetalhes() {
                     <div className="space-y-3">
                       {project.principais_atividades.split('\n').filter(line => line.trim()).map((activity, idx) => (
                         <div key={idx} className="flex gap-3 items-start">
-                          <span className="mt-1.5 w-2 h-2 rounded-full bg-brand-horizon shrink-0" />
-                          <p className="text-sm text-brand-eastBay dark:text-dark-muted leading-relaxed">{activity.trim()}</p>
+                          <Check className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                          <p className="text-base text-black dark:text-dark-text leading-relaxed">{activity.trim()}</p>
                         </div>
                       ))}
                     </div>
@@ -187,7 +192,7 @@ export default function ProjetoDetalhes() {
               </div>
 
               {/* Media side */}
-              <div className="rounded-2xl overflow-hidden shadow-md border border-brand-poloBlue/20 aspect-[4/3] bg-brand-poloBlue/20 relative group">
+              <div className="rounded-2xl overflow-hidden shadow-md border border-brand-poloBlue/20 aspect-[4/3] lg:aspect-auto lg:h-full bg-brand-poloBlue/20 relative group">
                 {(() => {
                   const mediaItems = [];
                   if (project.gallery && project.gallery.length > 0) {
