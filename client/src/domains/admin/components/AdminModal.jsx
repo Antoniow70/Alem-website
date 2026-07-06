@@ -15,7 +15,7 @@ export default function AdminModal({ isOpen, onClose, title, subtitle, maxWidth 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-brand-bigStone dark:text-dark-text/40 backdrop-blur-xs"
+            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
